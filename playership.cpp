@@ -2,6 +2,10 @@
 #include <QPainter>
 #include <iostream>
 
+extern QBrush peaGreen;
+
+std::vector<Bullet*> PlayerShip::playerBullets;
+
 PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
 {
@@ -25,7 +29,7 @@ void PlayerShip::interpretInput()
         else
             positionX += 4;
     }
-    //if either UP or DOWN (but not both) are pressed
+    //Vertical movement
     if(upPressed != downPressed)
     {
         if(upPressed)
@@ -35,7 +39,39 @@ void PlayerShip::interpretInput()
     }
 
     if(shootTapped)
-        std::cout << "pew!";
-    std::cout << std::endl;
+        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 6, 0, 3, peaGreen));
     shootTapped = false;
+}
+
+void PlayerShip::moveBullets()
+{
+    std::vector<Bullet*>::iterator previousBullet, currentBullet = playerBullets.begin();
+    while(currentBullet != playerBullets.end())
+    {
+        if((*currentBullet)->move())
+        {
+            delete *currentBullet;
+            if(currentBullet == playerBullets.begin())
+            {
+                playerBullets.erase(currentBullet);
+                currentBullet = playerBullets.begin();
+                continue;
+            }
+            playerBullets.erase(currentBullet);
+            currentBullet = previousBullet;
+        }
+        else
+            previousBullet = currentBullet;
+        currentBullet++;
+    }
+}
+
+void PlayerShip::drawBullets(QPainter * painter)
+{
+    std::vector<Bullet*>::iterator currentBullet = playerBullets.begin();
+    while(currentBullet != playerBullets.end())
+    {
+        (*currentBullet)->draw(painter);
+        currentBullet++;
+    }
 }

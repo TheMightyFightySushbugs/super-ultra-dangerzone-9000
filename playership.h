@@ -3,15 +3,12 @@
 
 #include <vector>
 #include "enemyship.h"
-#include "bullet.h"
-
-enum inputField {UP_PRESSED, DOWN_PRESSED, LEFT_PRESSED, RIGHT_PRESSED,
-                 SHOOT_PRESSED, SHOOT_TAPPED};
+#include "linearbullet.h"
 
 class PlayerShip : public GameObject
 {
     private:
-        static std::vector<Bullet> playerBullets;
+        static std::vector<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
         bool shootPressed, shootTapped;
     public:
@@ -29,6 +26,8 @@ class PlayerShip : public GameObject
         void releaseShoot() {shootPressed = false;}
         void interpretInput();
         static int shot(GameObject & target);
+        static void moveBullets();
+        static void drawBullets(QPainter *painter);
 };
 
 #endif // PLAYERSHIP_H

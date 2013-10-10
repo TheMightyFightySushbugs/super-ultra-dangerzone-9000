@@ -19,6 +19,7 @@ Game::Game() : player1(0, 0, QBrush(QColor(225, 128, 162)))
 void Game::gameLoop()
 {
     player1.interpretInput();
+    PlayerShip::moveBullets();
 }
 
 void Game::render(QPainter *painter, QPaintEvent *event)
@@ -28,9 +29,9 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     painter->setWindow(cameraX - width/2, cameraY - granularity/2, width, granularity);
     painter->save();
     player1.draw(painter);
+    PlayerShip::drawBullets(painter);
     painter->restore();
 }
-
 
 void Game::handleKeyPressEvent(int key)
 {

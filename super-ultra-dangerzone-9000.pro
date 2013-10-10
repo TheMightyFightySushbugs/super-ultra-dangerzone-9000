@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     playership.cpp \
     enemyship.cpp \
     bullet.cpp \
-    gameobject.cpp
+    gameobject.cpp \
+    linearbullet.cpp
 
 HEADERS  += mainwindow.h \
     game.h \
     gameobject.h \
     playership.h \
     enemyship.h \
-    bullet.h
+    bullet.h \
+    linearbullet.h
 
 FORMS    +=
