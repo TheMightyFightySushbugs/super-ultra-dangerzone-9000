@@ -5,7 +5,8 @@
 #include <QFont>
 #include <QPen>
 #include <QWidget>
-#include <character.h>
+#include <playership.h>
+#include <enemyship.h>
 
 class Game
 {
@@ -21,11 +22,8 @@ class Game
 
     private:
         QBrush background;
-        QBrush spaceship;
         int cameraX, cameraY;
         int granularity;
-        bool upPressed, downPressed, leftPressed, rightPressed;
-        bool shootPressed, shootClicked;
         double aspectRatio;
         PlayerShip player1;
         //PlayerShip player2;

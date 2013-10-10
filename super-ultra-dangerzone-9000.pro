@@ -13,15 +13,18 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     game.cpp \
-    linesegment.cpp \
-    playership.cpp
+    playership.cpp \
+    enemyship.cpp \
+    bullet.cpp \
+    gameobject.cpp
 
 HEADERS  += mainwindow.h \
     game.h \
-    linesegment.h \
     gameobject.h \
-    playership.h
+    playership.h \
+    enemyship.h \
+    bullet.h
 
 FORMS    +=

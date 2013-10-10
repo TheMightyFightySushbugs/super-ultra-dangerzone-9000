@@ -7,7 +7,7 @@
 
 MainWindow::MainWindow():QWidget(NULL)
 {
-    setWindowTitle(tr("Test, test, 1 2 3 ..."));
+    setWindowTitle(tr("super-ultra-dangerzone-9000"));
     setBaseSize(320, 240);
     grabKeyboard();
 
