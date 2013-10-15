@@ -18,8 +18,43 @@ Game::Game() : player1(0, 0, QBrush(QColor(225, 128, 162)))
 
 void Game::gameLoop()
 {
+    //Let player 1 do whatever it has to do (move/shoot/etc)
     player1.interpretInput();
     PlayerShip::moveBullets();
+
+    //For every enemy ship...
+    std::vector<EnemyShip*>::iterator previousEnemy, currentEnemy = enemies.begin();
+    while(currentEnemy != enemies.end())
+    {
+        //Let the ship do whatever it has to do (move/shoot/etc)
+        (*currentEnemy)->move();
+
+        //[to-do: check when enemies go out of bounds. delete them when they do]
+
+        //Check to see if any of the player's bullets hit the ship
+        unsigned int damage = PlayerShip::shot();
+
+        //If any bullets did hit, and they inflicted enough damage to destroy the ship...
+        if(damage && (*currentEnemy)->inflictDamage(damage))
+        {
+            //[to-do: add explosion. Right now the enemy just disappears, which isn't very
+            //satisfying for the player]
+
+            //...then go ahead and destroy the ship
+            delete *currentEnemy;
+            if(currentEnemy == enemies.begin())
+            {
+                enemies.erase(currentEnemy);
+                currentEnemy = enemies.begin();
+                continue;
+            }
+            enemies.erase(currentEnemy);
+            currentEnemy = previousEnemy;
+        }
+        else
+            previousEnemy = currentEnemy;
+        currentEnemy++;
+    }
 }
 
 void Game::render(QPainter *painter, QPaintEvent *event)

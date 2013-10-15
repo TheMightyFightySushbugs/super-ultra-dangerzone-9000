@@ -25,8 +25,8 @@ class Game
         int cameraX, cameraY;
         int granularity;
         double aspectRatio;
-        PlayerShip player1;
-        //PlayerShip player2;
+        PlayerShip player1; //<-- I'll eventually make this into an array of ships;
+        static std::vector<EnemyShip*> enemies;
 };
 
 #endif // GAME_H

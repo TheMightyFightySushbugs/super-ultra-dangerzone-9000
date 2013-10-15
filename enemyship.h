@@ -3,10 +3,15 @@
 
 #include "gameobject.h"
 
-class EnemyShip : public GameObject
+class EnemyShip : public Bullet;
 {
+    private:
+        static std::vector<Bullet*> enemyBullets;
     public:
         EnemyShip(int _positionX, int _positionY, QBrush _color);
+        static int shot(GameObject & target);
+        static void moveBullets();
+        static void drawBullets(QPainter *painter);
 };
 
 #endif // ENEMYSHIP_H

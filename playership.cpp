@@ -43,6 +43,33 @@ void PlayerShip::interpretInput()
     shootTapped = false;
 }
 
+int PlayerShip::shot(GameObject &target)
+{
+    int damage = 0;
+    std::vector<Bullet*>::iterator previousBullet, currentBullet = playerBullets.begin();
+    while(currentBullet != playerBullets.end())
+    {
+        if((*currentBullet)->collidesWith(target))
+        {
+            damage += (*currentBullet)->getDamage();
+            delete *currentBullet;
+            if(currentBullet == playerBullets.begin())
+            {
+                playerBullets.erase(currentBullet);
+                currentBullet = playerBullets.begin();
+                continue;
+            }
+            playerBullets.erase(currentBullet);
+            currentBullet = previousBullet;
+        }
+        else
+            previousBullet = currentBullet;
+        currentBullet++;
+    }
+
+    return damage;
+}
+
 void PlayerShip::moveBullets()
 {
     std::vector<Bullet*>::iterator previousBullet, currentBullet = playerBullets.begin();
