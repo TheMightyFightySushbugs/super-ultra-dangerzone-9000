@@ -8,6 +8,7 @@
 class PlayerShip : public GameObject
 {
     private:
+        int health;
         static std::vector<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
         bool shootPressed, shootTapped;
@@ -25,6 +26,7 @@ class PlayerShip : public GameObject
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
         void interpretInput();
+        bool inflictDamage(int damage);
         static int shot(GameObject & target);
         static void moveBullets();
         static void drawBullets(QPainter *painter);

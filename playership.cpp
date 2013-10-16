@@ -9,6 +9,7 @@ std::vector<Bullet*> PlayerShip::playerBullets;
 PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
 {
+    health = 100;
     upPressed = downPressed = leftPressed = rightPressed = false;
     shootPressed = shootTapped = false;
 }
@@ -43,6 +44,15 @@ void PlayerShip::interpretInput()
     shootTapped = false;
 }
 
+bool PlayerShip::inflictDamage(int damage)
+{
+    //[to-do: add hit flashes]
+
+    health -= damage;
+    if(health <= 0)
+        return true;
+    return false;
+}
 int PlayerShip::shot(GameObject &target)
 {
     int damage = 0;

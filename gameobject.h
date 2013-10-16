@@ -6,10 +6,11 @@
 class GameObject
 {
     protected:
-        int positionX, positionY;
+        int positionX, positionY, width, height;
         QBrush color;
     public:
         virtual void draw(QPainter *painter)=0;
+        bool collidesWith(GameObject &target);
         GameObject(int _positionX, int _positionY, QBrush _color);
 };
 

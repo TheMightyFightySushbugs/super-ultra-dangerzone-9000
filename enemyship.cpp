@@ -7,6 +7,16 @@ EnemyShip::EnemyShip(int _positionX, int _positionY, QBrush _color)
 {
 }
 
+bool EnemyShip::inflictDamage(int damage)
+{
+    //[to-do: add hit flashes]
+
+    health -= damage;
+    if(health <= 0)
+        return true;
+    return false;
+}
+
 int EnemyShip::shot(GameObject & target)
 {
     int damage = 0;

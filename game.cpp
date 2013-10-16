@@ -6,7 +6,6 @@
 #include <QTimer>
 
 #include <iostream>
-using namespace std;
 
 Game::Game() : player1(0, 0, QBrush(QColor(225, 128, 162)))
 {
@@ -23,6 +22,7 @@ void Game::gameLoop()
     PlayerShip::moveBullets();
 
     //For every enemy ship...
+    unsigned int damage;
     std::vector<EnemyShip*>::iterator previousEnemy, currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
     {
@@ -32,7 +32,7 @@ void Game::gameLoop()
         //[to-do: check when enemies go out of bounds. delete them when they do]
 
         //Check to see if any of the player's bullets hit the ship
-        unsigned int damage = PlayerShip::shot();
+        damage = PlayerShip::shot(**currentEnemy);
 
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
         if(damage && (*currentEnemy)->inflictDamage(damage))
@@ -54,6 +54,16 @@ void Game::gameLoop()
         else
             previousEnemy = currentEnemy;
         currentEnemy++;
+
+        //Check to see if any enemy bullets hit player 1
+        damage = EnemyShip::shot(player1);
+
+        //If any bullets did hit, and they inflicted enough damage to destroy the ship...
+        if(damage && player1.inflictDamage(damage))
+        {
+            //[to-do: set up lives/respawning/etc]
+            std::cout << "Player 1 died!\n";
+        }
     }
 }
 
