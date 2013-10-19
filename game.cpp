@@ -13,6 +13,10 @@ Game::Game() : player1(0, 0, QBrush(QColor(225, 128, 162)))
     cameraX = cameraY = 0;
     granularity = 320;
     background = QBrush(QColor(14, 32, 24));
+
+    //Populate the enemies vector with some arbitrary enemies for testing purposes
+    for(int i = 0; i < 10; i++)
+        enemies.push_back(new DummyShip(240, -25*i+100));
 }
 
 void Game::gameLoop()
@@ -35,7 +39,7 @@ void Game::gameLoop()
         damage = PlayerShip::shot(**currentEnemy);
 
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-        if(damage && (*currentEnemy)->inflictDamage(damage))
+        if(damage > 0 && (*currentEnemy)->inflictDamage(damage))
         {
             //[to-do: add explosion. Right now the enemy just disappears, which isn't very
             //satisfying for the player]
@@ -75,6 +79,9 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     painter->save();
     player1.draw(painter);
     PlayerShip::drawBullets(painter);
+    std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
+    while(currentEnemy != enemies.end())
+        (*currentEnemy++)->draw(painter);
     painter->restore();
 }
 

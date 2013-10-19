@@ -2,12 +2,13 @@
 #include <QPainter>
 
 LinearBullet::LinearBullet(int _positionX, int _positionY, int _velocityX, int _velocityY,
-                           int _radius, QBrush _color)
-    : Bullet(_positionX, _positionY, _color)
+                           int _radius, QBrush &_color)
+    : Bullet(_positionX, _positionY, 1, _color)
 {
     velocityX = _velocityX;
     velocityY = _velocityY;
     radius = _radius;
+    width = height = _radius*2;
 }
 
 bool LinearBullet::move()

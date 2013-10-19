@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     enemyship.cpp \
     bullet.cpp \
     gameobject.cpp \
-    linearbullet.cpp
+    linearbullet.cpp \
+    dummyship.cpp
 
 HEADERS  += mainwindow.h \
     game.h \

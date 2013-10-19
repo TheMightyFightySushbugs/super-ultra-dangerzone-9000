@@ -40,7 +40,7 @@ void PlayerShip::interpretInput()
     }
 
     if(shootTapped)
-        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 6, 0, 3, peaGreen));
+        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 7, 0, 3, peaGreen));
     shootTapped = false;
 }
 

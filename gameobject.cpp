@@ -1,6 +1,6 @@
 #include "gameobject.h"
 
-GameObject::GameObject(int _positionX, int _positionY, QBrush _color)
+GameObject::GameObject(int _positionX, int _positionY, QBrush &_color)
 {
     positionX = _positionX;
     positionY = _positionY;

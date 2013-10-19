@@ -8,7 +8,7 @@ class Bullet : public GameObject
     private:
         int damage;
     public:
-        Bullet(int _positionX, int _positionY, QBrush _color);
+        Bullet(int _positionX, int _positionY, int _damage, QBrush &_color);
         int getDamage() {return damage;}
         virtual bool move()=0;
         virtual ~Bullet() {};

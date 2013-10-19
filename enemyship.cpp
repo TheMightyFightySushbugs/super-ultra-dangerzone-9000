@@ -2,16 +2,17 @@
 
 std::vector<Bullet*> EnemyShip::enemyBullets;
 
-EnemyShip::EnemyShip(int _positionX, int _positionY, QBrush _color)
+EnemyShip::EnemyShip(int _positionX, int _positionY, int _health, QBrush &_color)
     : GameObject(_positionX, _positionY, _color)
 {
+    health = _health;
 }
 
-bool EnemyShip::inflictDamage(int damage)
+bool EnemyShip::inflictDamage(int _damage)
 {
     //[to-do: add hit flashes]
 
-    health -= damage;
+    health -= _damage;
     if(health <= 0)
         return true;
     return false;
@@ -19,13 +20,13 @@ bool EnemyShip::inflictDamage(int damage)
 
 int EnemyShip::shot(GameObject & target)
 {
-    int damage = 0;
+    int _damage = 0;
     std::vector<Bullet*>::iterator previousBullet, currentBullet = enemyBullets.begin();
     while(currentBullet != enemyBullets.end())
     {
         if((*currentBullet)->collidesWith(target))
         {
-            damage += (*currentBullet)->getDamage();
+            _damage += (*currentBullet)->getDamage();
             delete *currentBullet;
             if(currentBullet == enemyBullets.begin())
             {
@@ -41,7 +42,7 @@ int EnemyShip::shot(GameObject & target)
         currentBullet++;
     }
 
-    return damage;
+    return _damage;
 }
 
 void EnemyShip::moveBullets()

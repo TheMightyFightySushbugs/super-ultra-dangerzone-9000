@@ -9,7 +9,7 @@ class LinearBullet : public Bullet
         int velocityX, velocityY, radius;
     public:
         LinearBullet(int _positionX, int _positionY, int _velocityX, int _velocityY,
-                     int _radius, QBrush _color);
+                     int _radius, QBrush &_color);
         bool move();
         void draw(QPainter *painter);
         ~LinearBullet() {};
