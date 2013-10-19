@@ -7,9 +7,10 @@
 
 class EnemyShip : public GameObject
 {
+    private:
+        static std::vector<Bullet*> enemyBullets;
     protected:
         int health;
-        static std::vector<Bullet*> enemyBullets;
     public:
         EnemyShip(int _positionX, int _positionY, int _health, QBrush &_color);
         static int shot(GameObject & target);
