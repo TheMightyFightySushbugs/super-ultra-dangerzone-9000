@@ -18,13 +18,12 @@ class Game
         void render(QPainter *painter, QPaintEvent *event);
         void handleKeyPressEvent(int key);
         void handleKeyReleaseEvent(int key);
-        void setAspectRatio(double newRatio);
+        void setAspectRatio(double newAspectRatio);
 
     private:
         QBrush background;
         int cameraX, cameraY;
-        int granularity;
-        double aspectRatio;
+        int windowHeight, windowWidth;
         PlayerShip player1; //<-- I'll eventually make this into an array of ships;
         std::vector<EnemyShip*> enemies;
 };

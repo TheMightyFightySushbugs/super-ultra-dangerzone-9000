@@ -9,38 +9,60 @@ std::vector<Bullet*> PlayerShip::playerBullets;
 PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
 {
-    health = 100;
+    health = lives = 1;
+    visible = true;
+    state = SPAWNING;
+    spawnX = _positionX;
+    positionY = spawnY = _positionY;
+    positionX = spawnX - 81;
     upPressed = downPressed = leftPressed = rightPressed = false;
     shootPressed = shootTapped = false;
 }
 
 void PlayerShip::draw(QPainter *painter)
 {
-    painter->setBrush(color);
-    painter->drawRect(positionX-16, positionY-8, 32, 16);
+    if(visible)
+        painter->fillRect(positionX-16, positionY-8, 32, 16, color);
 }
 
 void PlayerShip::interpretInput()
 {
+    if(state == SPAWNING)
+    {
+        if((positionX += 3) < spawnX)
+        {
+            visible = !visible;
+            return;
+        }
+        visible = true;
+        state = ALIVE;
+    }
+
     //Horizontal movement
     if(leftPressed != rightPressed)
     {
         if(leftPressed)
-            positionX -= 4;
-        else
-            positionX += 4;
+        {
+            if(positionX > -140)
+                positionX -= 3;
+        }
+        else if(positionX < 140)
+            positionX += 3;
     }
     //Vertical movement
     if(upPressed != downPressed)
     {
         if(upPressed)
-            positionY -= 4;
-        else
-            positionY += 4;
+        {
+            if(positionY > -105)
+                positionY -= 3;
+        }
+        else if(positionY < 105)
+            positionY += 3;
     }
 
     if(shootTapped)
-        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 7, 0, 3, peaGreen));
+        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 8, 0, 3, peaGreen));
     shootTapped = false;
 }
 

@@ -18,7 +18,7 @@ class EnemyShip : public GameObject
         virtual bool inflictDamage(int _damage);
         static void moveBullets();
         static void drawBullets(QPainter *painter);
-        virtual ~EnemyShip() {};
+        virtual ~EnemyShip() {}
 };
 
 class DummyShip : public EnemyShip

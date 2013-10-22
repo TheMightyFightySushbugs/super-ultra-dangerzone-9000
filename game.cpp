@@ -7,16 +7,19 @@
 
 #include <iostream>
 
-Game::Game() : player1(0, 0, QBrush(QColor(225, 128, 162)))
+Game::Game() : player1(-111, 0, QBrush(QColor(225, 128, 162)))
 {
-    aspectRatio = 4.0/3;
+    //aspectRatio = 4.0/3;
     cameraX = cameraY = 0;
-    granularity = 320;
+    windowHeight = 120;
+    windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
 
     //Populate the enemies vector with some arbitrary enemies for testing purposes
-    for(int i = 0; i < 10; i++)
-        enemies.push_back(new DummyShip(240, -25*i+100));
+    for(int i = 0; i < 4; i++)
+        enemies.push_back(new DummyShip(200, -23*i+35));
+    for(int i = 0; i < 5; i++)
+        enemies.push_back(new DummyShip(220, -23*i+40));
 }
 
 void Game::gameLoop()
@@ -58,25 +61,29 @@ void Game::gameLoop()
         else
             previousEnemy = currentEnemy;
         currentEnemy++;
+    }
 
-        //Check to see if any enemy bullets hit player 1
-        damage = EnemyShip::shot(player1);
+    //Don't bother checking for collisions in player isn't currently alive
+    if(player1.getState() != ALIVE)
+        return;
 
-        //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-        if(damage && player1.inflictDamage(damage))
-        {
-            //[to-do: set up lives/respawning/etc]
-            std::cout << "Player 1 died!\n";
-        }
+    //Check to see if any enemy bullets hit player 1
+    damage = EnemyShip::shot(player1);
+
+    //If any bullets did hit, and they inflicted enough damage to destroy the ship...
+    if(damage && player1.inflictDamage(damage))
+    {
+        //[to-do: set up lives/respawning/etc]
+        std::cout << "Player 1 died!\n";
     }
 }
 
 void Game::render(QPainter *painter, QPaintEvent *event)
 {
     painter->fillRect(event->rect(), background);
-    int width = (int)(granularity*aspectRatio);
-    painter->setWindow(cameraX - width/2, cameraY - granularity/2, width, granularity);
+    painter->setWindow(cameraX-windowWidth, cameraY-windowHeight, windowWidth*2, windowHeight*2);
     painter->save();
+    painter->fillRect(-160, -120, 320, 240, Qt::yellow);
     player1.draw(painter);
     PlayerShip::drawBullets(painter);
     std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
@@ -129,7 +136,7 @@ void Game::handleKeyReleaseEvent(int key)
     }
 }
 
-void Game::setAspectRatio(double newRatio)
+void Game::setAspectRatio(double newAspectRatio)
 {
-    aspectRatio = newRatio;
+    windowWidth = (int)(windowHeight*newAspectRatio);
 }

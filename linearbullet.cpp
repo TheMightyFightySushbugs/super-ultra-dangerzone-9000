@@ -22,10 +22,9 @@ bool LinearBullet::move()
     return false;
 }
 
-QBrush peaGreen = QBrush(QColor(155, 255, 155));
+QBrush peaGreen = QBrush(QColor(105, 200, 105));
 
 void LinearBullet::draw(QPainter *painter)
 {
-    painter->setBrush(peaGreen);
-    painter->drawRect(positionX-radius, positionY-radius, radius*2, radius*2);
+    painter->fillRect(positionX-radius, positionY-radius, radius*2, radius*2, peaGreen);
 }

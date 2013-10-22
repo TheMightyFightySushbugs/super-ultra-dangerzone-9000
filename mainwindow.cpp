@@ -28,7 +28,7 @@ void MainWindow::paintEvent(QPaintEvent* event)
 {
     QPainter painter;
     painter.begin(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    //painter.setRenderHint(QPainter::Antialiasing);
     gameInstance->render(&painter, event);
     painter.end();
 }

@@ -5,10 +5,14 @@
 #include "enemyship.h"
 #include "linearbullet.h"
 
+enum PlayerShipState { SPAWNING, ALIVE, DEAD };
+
 class PlayerShip : public GameObject
 {
     private:
-        int health;
+        int health, lives, spawnX, spawnY;
+        bool visible;
+        PlayerShipState state;
         static std::vector<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
         bool shootPressed, shootTapped;
@@ -27,6 +31,9 @@ class PlayerShip : public GameObject
         void releaseShoot() {shootPressed = false;}
         void interpretInput();
         bool inflictDamage(int damage);
+        void kill();
+        int howMuchLivesLeft();
+        PlayerShipState getState() {return state;}
         static int shot(GameObject & target);
         static void moveBullets();
         static void drawBullets(QPainter *painter);
