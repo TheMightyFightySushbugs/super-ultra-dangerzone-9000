@@ -9,13 +9,13 @@ MainWindow::MainWindow():QWidget(NULL)
 {
     setWindowTitle(tr("super-ultra-dangerzone-9000"));
     setBaseSize(320, 240);
-    grabKeyboard();
+    //grabKeyboard();
 
     gameInstance = new Game();
 
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(gameLoop()));
-    timer->start(50);
+    timer->start(25);
 }
 
 void MainWindow::gameLoop()
