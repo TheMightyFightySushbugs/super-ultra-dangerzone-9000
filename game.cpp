@@ -5,8 +5,6 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-#include <iostream>
-
 Game::Game() : player1(-111, 0, QBrush(QColor(225, 128, 162)))
 {
     //aspectRatio = 4.0/3;
@@ -30,7 +28,7 @@ void Game::gameLoop()
 
     //For every enemy ship...
     unsigned int damage;
-    std::vector<EnemyShip*>::iterator previousEnemy, currentEnemy = enemies.begin();
+    std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
     {
         //Let the ship do whatever it has to do (move/shoot/etc)
@@ -44,23 +42,12 @@ void Game::gameLoop()
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
         if(damage > 0 && (*currentEnemy)->inflictDamage(damage))
         {
-            //[to-do: add explosion. Right now the enemy just disappears, which isn't very
-            //satisfying for the player]
-
             //...then go ahead and destroy the ship
             delete *currentEnemy;
-            if(currentEnemy == enemies.begin())
-            {
-                enemies.erase(currentEnemy);
-                currentEnemy = enemies.begin();
-                continue;
-            }
             enemies.erase(currentEnemy);
-            currentEnemy = previousEnemy;
         }
-        else
-            previousEnemy = currentEnemy;
-        currentEnemy++;
+        else //Otherwise, move onto the next one
+            currentEnemy++;
     }
 
     //Don't bother checking for collisions in player isn't currently alive

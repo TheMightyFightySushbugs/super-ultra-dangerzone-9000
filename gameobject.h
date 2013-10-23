@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H
 
 #include <QBrush>
+#include <iostream> //in case I need to hack together some quick & dirty print-statement debugging
 
 class GameObject
 {

@@ -1,6 +1,5 @@
 #include "explosion.h"
 #include <QPainter>
-#include <iostream>
 
 std::vector<Explosion*> Explosion::explosions;
 
