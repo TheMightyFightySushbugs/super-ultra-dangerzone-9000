@@ -3,6 +3,7 @@
 
 #include "gameobject.h"
 #include "bullet.h"
+#include "explosion.h"
 #include <QPainter>
 
 class EnemyShip : public GameObject

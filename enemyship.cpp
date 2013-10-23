@@ -12,10 +12,12 @@ bool EnemyShip::inflictDamage(int _damage)
 {
     //[to-do: add hit flashes]
 
-    health -= _damage;
-    if(health <= 0)
-        return true;
-    return false;
+    if((health -= _damage) > 0)
+        return false;
+
+    QBrush expColor = QBrush(Qt::red); //This is a quick fix... I'll improve it later
+    Explosion::addExplosion(positionX, positionY, width, 15, expColor);
+    return true;
 }
 
 int EnemyShip::shot(GameObject & target)

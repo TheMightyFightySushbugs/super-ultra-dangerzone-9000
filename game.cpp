@@ -89,6 +89,7 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
         (*currentEnemy++)->draw(painter);
+    Explosion::drawAllExplosions(painter);
     painter->restore();
 }
 

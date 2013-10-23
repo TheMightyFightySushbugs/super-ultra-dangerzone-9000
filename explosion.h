@@ -5,10 +5,16 @@
 
 class Explosion : public GameObject
 {
+    private:
+        static  std::vector<Explosion*> explosions;
+        int timeRemaining;
+        Explosion(int _positionX, int _positionY, int _radius, int _time, QBrush &_color);
     public:
-        Explosion(int _positionX, int _positionY, int _radius, QBrush &_color);
         void draw(QPainter *painter);
-        ~Explosion() {};
+        static void drawAllExplosions(QPainter *painter);
+        static void addExplosion(int _positionX, int _positionY, int _radius,
+                                 int _time, QBrush &_color);
+        virtual ~Explosion() {}
 };
 
 #endif // EXPLOSION_H
