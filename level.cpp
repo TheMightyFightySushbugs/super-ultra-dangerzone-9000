@@ -1,14 +1,15 @@
 #include "level.h"
-#include <string>
 #include <iostream>
 #include <fstream>
 
-level::level(String file)
+level::level(std::string &file)
 {
-    ifstream myfile (file);
+    std::ifstream myfile (file.c_str());
       if (myfile.is_open())
       {
-        while ( getline (myfile,line) )  //parsing lines
+        /*** this currently doesn't compile correctly.
+         *** EnemyShip doesn't have an operator_>>() function yet.
+        while ( std::getline (myfile,line) )  //parsing lines
         {
           cout << line << endl;
 
@@ -31,11 +32,11 @@ level::level(String file)
           enemy_iss >> enType;
 
           level::addEvent(sec, qtEnemy, enType);
-        }
+        }*/
         myfile.close();
       }
 
-      else cout << "Unable to open file";
+      else std::cout << "Unable to open file";
 }
 
 level::level()
@@ -43,7 +44,7 @@ level::level()
     //create an empty list of events
 }
 
-void level::addEvent(int sec, int numEnemy, EnemyShip enemy)
+void level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
 {
 
 }
