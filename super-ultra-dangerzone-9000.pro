@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     gameobject.cpp \
     linearbullet.cpp \
     dummyship.cpp \
-    explosion.cpp
+    explosion.cpp\
+    level.cpp
+
 
 HEADERS  += mainwindow.h \
     game.h \
@@ -30,6 +32,7 @@ HEADERS  += mainwindow.h \
     enemyship.h \
     bullet.h \
     linearbullet.h \
-    explosion.h
+    explosion.h\
+    level.h
 
 FORMS    +=

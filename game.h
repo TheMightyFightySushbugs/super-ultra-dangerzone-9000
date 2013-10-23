@@ -5,8 +5,8 @@
 #include <QFont>
 #include <QPen>
 #include <QWidget>
-#include <playership.h>
-#include <enemyship.h>
+#include "playership.h"
+#include "enemyship.h"
 
 class Game
 {
