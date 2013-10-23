@@ -1,7 +1,7 @@
 #ifndef PLAYERSHIP_H
 #define PLAYERSHIP_H
 
-#include <vector>
+#include <list>
 #include "enemyship.h"
 #include "linearbullet.h"
 
@@ -13,7 +13,7 @@ class PlayerShip : public GameObject
         int health, lives, spawnX, spawnY;
         bool visible;
         PlayerShipState state;
-        static std::vector<Bullet*> playerBullets;
+        static std::list<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
         bool shootPressed, shootTapped;
     public:

@@ -6,7 +6,7 @@
 class Explosion : public GameObject
 {
     private:
-        static  std::vector<Explosion*> explosions;
+        static  std::list<Explosion*> explosions;
         int timeRemaining;
         Explosion(int _positionX, int _positionY, int _radius, int _time, QBrush &_color);
     public:

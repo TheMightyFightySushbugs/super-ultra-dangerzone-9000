@@ -3,7 +3,7 @@
 
 extern QBrush peaGreen;
 
-std::vector<Bullet*> PlayerShip::playerBullets;
+std::list<Bullet*> PlayerShip::playerBullets;
 
 PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
@@ -77,14 +77,14 @@ bool PlayerShip::inflictDamage(int damage)
 int PlayerShip::shot(GameObject &target)
 {
     int damage = 0;
-    std::vector<Bullet*>::iterator currentBullet = playerBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = playerBullets.begin();
     while(currentBullet != playerBullets.end())
     {
         if((*currentBullet)->collidesWith(target))
         {
             damage += (*currentBullet)->getDamage();
             delete *currentBullet;
-            playerBullets.erase(currentBullet);
+            currentBullet = playerBullets.erase(currentBullet);
         }
         else
             currentBullet++;
@@ -95,13 +95,13 @@ int PlayerShip::shot(GameObject &target)
 
 void PlayerShip::moveBullets()
 {
-    std::vector<Bullet*>::iterator currentBullet = playerBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = playerBullets.begin();
     while(currentBullet != playerBullets.end())
     {
         if((*currentBullet)->move())
         {
             delete *currentBullet;
-            playerBullets.erase(currentBullet);
+            currentBullet = playerBullets.erase(currentBullet);
         }
         else
             currentBullet++;
@@ -110,7 +110,7 @@ void PlayerShip::moveBullets()
 
 void PlayerShip::drawBullets(QPainter * painter)
 {
-    std::vector<Bullet*>::iterator currentBullet = playerBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = playerBullets.begin();
     while(currentBullet != playerBullets.end())
     {
         (*currentBullet)->draw(painter);

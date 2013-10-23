@@ -13,7 +13,7 @@ Game::Game() : player1(-111, 0, QBrush(QColor(225, 128, 162)))
     windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
 
-    //Populate the enemies vector with some arbitrary enemies for testing purposes
+    //Populate the enemies list with some arbitrary enemies for testing purposes
     for(int i = 0; i < 4; i++)
         enemies.push_back(new DummyShip(200, -23*i+35));
     for(int i = 0; i < 5; i++)
@@ -28,7 +28,7 @@ void Game::gameLoop()
 
     //For every enemy ship...
     unsigned int damage;
-    std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
+    std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
     {
         //Let the ship do whatever it has to do (move/shoot/etc)
@@ -44,7 +44,7 @@ void Game::gameLoop()
         {
             //...then go ahead and destroy the ship
             delete *currentEnemy;
-            enemies.erase(currentEnemy);
+            currentEnemy = enemies.erase(currentEnemy);
         }
         else //Otherwise, move onto the next one
             currentEnemy++;
@@ -73,7 +73,7 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     painter->fillRect(-160, -120, 320, 240, Qt::yellow);
     player1.draw(painter);
     PlayerShip::drawBullets(painter);
-    std::vector<EnemyShip*>::iterator currentEnemy = enemies.begin();
+    std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
         (*currentEnemy++)->draw(painter);
     Explosion::drawAllExplosions(painter);

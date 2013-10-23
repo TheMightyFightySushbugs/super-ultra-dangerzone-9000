@@ -1,7 +1,7 @@
 #include "explosion.h"
 #include <QPainter>
 
-std::vector<Explosion*> Explosion::explosions;
+std::list<Explosion*> Explosion::explosions;
 
 Explosion::Explosion(int _positionX, int _positionY, int _radius, int _time, QBrush &_color)
     : GameObject(_positionX, _positionY, _color)
@@ -17,7 +17,7 @@ void Explosion::draw(QPainter *painter)
 
 void Explosion::drawAllExplosions(QPainter *painter)
 {
-    std::vector<Explosion*>::iterator currentExplosion = explosions.begin();
+    std::list<Explosion*>::iterator currentExplosion = explosions.begin();
     while(currentExplosion != explosions.end())
     {
         if(--((*currentExplosion)->timeRemaining) >= 0)
@@ -25,7 +25,7 @@ void Explosion::drawAllExplosions(QPainter *painter)
         else
         {
             delete *currentExplosion;
-            explosions.erase(currentExplosion);
+            currentExplosion = explosions.erase(currentExplosion);
         }
     }
 }

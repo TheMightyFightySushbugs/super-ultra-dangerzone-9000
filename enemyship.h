@@ -9,7 +9,7 @@
 class EnemyShip : public GameObject
 {
     private:
-        static std::vector<Bullet*> enemyBullets;
+        static std::list<Bullet*> enemyBullets;
     protected:
         int health;
     public:

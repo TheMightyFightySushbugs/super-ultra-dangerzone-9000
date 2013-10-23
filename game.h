@@ -25,7 +25,7 @@ class Game
         int cameraX, cameraY;
         int windowHeight, windowWidth;
         PlayerShip player1; //<-- I'll eventually make this into an array of ships;
-        std::vector<EnemyShip*> enemies;
+        std::list<EnemyShip*> enemies;
 };
 
 #endif // GAME_H

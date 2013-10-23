@@ -1,6 +1,6 @@
 #include "enemyship.h"
 
-std::vector<Bullet*> EnemyShip::enemyBullets;
+std::list<Bullet*> EnemyShip::enemyBullets;
 
 EnemyShip::EnemyShip(int _positionX, int _positionY, int _health, QBrush &_color)
     : GameObject(_positionX, _positionY, _color)
@@ -23,14 +23,14 @@ bool EnemyShip::inflictDamage(int _damage)
 int EnemyShip::shot(GameObject & target)
 {
     int _damage = 0;
-    std::vector<Bullet*>::iterator currentBullet = enemyBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = enemyBullets.begin();
     while(currentBullet != enemyBullets.end())
     {
         if((*currentBullet)->collidesWith(target))
         {
             _damage += (*currentBullet)->getDamage();
             delete *currentBullet;
-            enemyBullets.erase(currentBullet);
+            currentBullet = enemyBullets.erase(currentBullet);
         }
         else
             currentBullet++;
@@ -41,13 +41,13 @@ int EnemyShip::shot(GameObject & target)
 
 void EnemyShip::moveBullets()
 {
-    std::vector<Bullet*>::iterator currentBullet = enemyBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = enemyBullets.begin();
     while(currentBullet != enemyBullets.end())
     {
         if((*currentBullet)->move())
         {
             delete *currentBullet;
-            enemyBullets.erase(currentBullet);
+            currentBullet = enemyBullets.erase(currentBullet);
         }
         else
             currentBullet++;
@@ -56,7 +56,7 @@ void EnemyShip::moveBullets()
 
 void EnemyShip::drawBullets(QPainter *painter)
 {
-    std::vector<Bullet*>::iterator currentBullet = enemyBullets.begin();
+    std::list<Bullet*>::iterator currentBullet = enemyBullets.begin();
     while(currentBullet != enemyBullets.end())
     {
         (*currentBullet)->draw(painter);
