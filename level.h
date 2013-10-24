@@ -3,6 +3,7 @@
 
 #include <string>
 #include "enemyship.h"
+#include "gameevent.h"
 
 class level
 {

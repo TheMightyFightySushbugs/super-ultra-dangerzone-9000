@@ -1,6 +1,8 @@
 #ifndef GAMEEVENT_H
 #define GAMEEVENT_H
 
+#include <list>
+
 enum EventType {TIMED_EVENT, CLEAR_EVENT}
 
 class gameEvent

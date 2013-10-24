@@ -8,6 +8,7 @@ std::list<Bullet*> PlayerShip::playerBullets;
 PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
 {
+    score = 0;
     health = lives = 1;
     visible = true;
     state = SPAWNING;
@@ -22,6 +23,13 @@ void PlayerShip::draw(QPainter *painter)
 {
     if(visible)
         painter->fillRect(positionX-16, positionY-8, 32, 16, color);
+}
+
+void PlayerShip::drawHUD(QPainter *painter)
+{
+    char score_str[32];
+    sprintf(score_str, "%i", score);
+    painter->drawText(-100, -100, score_str);
 }
 
 void PlayerShip::interpretInput()

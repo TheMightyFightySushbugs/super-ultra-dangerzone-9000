@@ -10,7 +10,7 @@ enum PlayerShipState { SPAWNING, ALIVE, DEAD };
 class PlayerShip : public GameObject
 {
     private:
-        int health, lives, spawnX, spawnY;
+        int health, lives, score, spawnX, spawnY;
         bool visible;
         PlayerShipState state;
         static std::list<Bullet*> playerBullets;
@@ -19,6 +19,7 @@ class PlayerShip : public GameObject
     public:
         PlayerShip(int _positionX, int _positionY, QBrush _color);
         void draw(QPainter *painter);
+        void drawHUD(QPainter *painter);
         void pressUp() {upPressed = true;}
         void pressDown() {downPressed = true;}
         void pressLeft() {leftPressed = true;}
