@@ -14,6 +14,7 @@ class level
         level(std::string &file);
         void addEvent(int sec, int numEnemy, EnemyShip &enemy);
         void defineLength(int length);
+        void update();
 };
 
 #endif // LEVEL_H

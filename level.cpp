@@ -44,6 +44,25 @@ level::level()
     //create an empty list of events
 }
 
+level::update(){
+    GameEvent nextEvent = new GameEvent;
+    nextEvent = eventList.front;
+    switch(nextEvent.type){
+        case TIMED_EVENT:
+            if(nextEvent.timer <= 0){
+                pop_front(eventList);
+                //store some place else
+                //add event to game
+            }
+        case CLEAR_EVENT
+    //if(nextEvent.ships.size() == 0){  reference list inside game.h
+                //same thing
+               // pop_front(eventList);
+           // }
+
+    }
+}
+
 void level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
 {
 
