@@ -6,6 +6,9 @@
 
 class level
 {
+    private:
+        std::list<GameEvent*> eventList;
+
     public:
         level();
         level(std::string &file);
