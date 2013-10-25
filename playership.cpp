@@ -1,5 +1,6 @@
 #include "playership.h"
 #include <QPainter>
+#include <stdio.h>
 
 extern QBrush peaGreen;
 

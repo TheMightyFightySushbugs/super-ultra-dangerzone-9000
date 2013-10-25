@@ -2,17 +2,20 @@
 #define GAMEEVENT_H
 
 #include <list>
+#include "enemyship.h"
 
-enum EventType {TIMED_EVENT, CLEAR_EVENT}
+enum EventType {TIMED_EVENT, CLEAR_EVENT};
 
-class gameEvent
+class GameEvent
 {
-private:
-    std::list<EnemyShip*> ships;
-    EventType type;
-    int timer;
-public:
-    gameEvent();
+    friend class Level;
+
+    private:
+        std::list<EnemyShip*> ships;
+        EventType type;
+        int timer;
+    public:
+        GameEvent();
 };
 
 #endif // GAMEEVENT_H

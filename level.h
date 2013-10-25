@@ -5,17 +5,17 @@
 #include "enemyship.h"
 #include "gameevent.h"
 
-class level
+class Level
 {
     private:
         std::list<GameEvent*> eventList;
 
     public:
-        level();
-        level(std::string &file);
+        Level();
+        Level(std::string &file);
         void addEvent(int sec, int numEnemy, EnemyShip &enemy);
         void defineLength(int length);
-        void update();
+        bool update(std::list<EnemyShip*> &enemies);
 };
 
 #endif // LEVEL_H

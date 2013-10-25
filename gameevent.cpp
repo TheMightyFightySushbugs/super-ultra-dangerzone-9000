@@ -1,5 +1,5 @@
 #include "gameevent.h"
 
-gameEvent::gameEvent()
+GameEvent::GameEvent()
 {
 }
