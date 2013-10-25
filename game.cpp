@@ -77,6 +77,7 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     while(currentEnemy != enemies.end())
         (*currentEnemy++)->draw(painter);
     Explosion::drawAllExplosions(painter);
+    player1.drawHUD(painter);
     painter->restore();
 }
 
