@@ -22,7 +22,6 @@ class Game
 
     private:
         QBrush background;
-        int cameraX, cameraY;
         int windowHeight, windowWidth;
         PlayerShip player1; //<-- I'll eventually make this into an array of ships;
         std::list<EnemyShip*> enemies;

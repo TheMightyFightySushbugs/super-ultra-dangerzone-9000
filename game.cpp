@@ -7,8 +7,6 @@
 
 Game::Game() : player1(-111, 0, QBrush(QColor(225, 128, 162)))
 {
-    //aspectRatio = 4.0/3;
-    cameraX = cameraY = 0;
     windowHeight = 120;
     windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
@@ -68,7 +66,7 @@ void Game::gameLoop()
 void Game::render(QPainter *painter, QPaintEvent *event)
 {
     painter->fillRect(event->rect(), background);
-    painter->setWindow(cameraX-windowWidth, cameraY-windowHeight, windowWidth*2, windowHeight*2);
+    painter->setWindow(-windowWidth, -windowHeight, windowWidth*2, windowHeight*2);
     painter->save();
     painter->fillRect(-160, -120, 320, 240, Qt::yellow);
     player1.draw(painter);

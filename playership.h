@@ -32,8 +32,10 @@ class PlayerShip : public GameObject
         void releaseShoot() {shootPressed = false;}
         void interpretInput();
         bool inflictDamage(int damage);
-        void kill();
-        int howMuchLivesLeft();
+        void kill(); // <-- Not yet implemented... Will create an explosion at ship's current
+                     // position, decrement 'lives' by 1, and reset ship back to its starting
+                     // position.
+        int howMuchLivesLeft() {return lives;}
         PlayerShipState getState() {return state;}
         static int shot(GameObject & target);
         static void moveBullets();
