@@ -2,22 +2,23 @@
 
 std::list<Bullet*> EnemyShip::enemyBullets;
 
-EnemyShip::EnemyShip(int _positionX, int _positionY, int _health, QBrush &_color)
+EnemyShip::EnemyShip(int _positionX, int _positionY, int _health, int _pointValue, QBrush &_color)
     : GameObject(_positionX, _positionY, _color)
 {
     health = _health;
+    pointValue = _pointValue;
 }
 
-bool EnemyShip::inflictDamage(int _damage)
+int EnemyShip::inflictDamage(int _damage)
 {
     //[to-do: add hit flashes]
 
     if((health -= _damage) > 0)
-        return false;
+        return 0;
 
     QBrush expColor = QBrush(Qt::red); //This is a quick fix... I'll improve it later
     Explosion::addExplosion(positionX, positionY, width, 15, expColor);
-    return true;
+    return pointValue;
 }
 
 int EnemyShip::shot(GameObject & target)

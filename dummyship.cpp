@@ -3,7 +3,7 @@
 QBrush DummyShip::dummyColor = QBrush(QColor(155, 155, 155));
 
 DummyShip::DummyShip(int _positionX, int _positionY)
-    : EnemyShip(_positionX, _positionY, 1, dummyColor)
+    : EnemyShip(_positionX, _positionY, 1, 10, dummyColor)
 {
     width = 7; height = 6;
 }

@@ -11,9 +11,9 @@ class EnemyShip : public GameObject
     private:
         static std::list<Bullet*> enemyBullets;
     protected:
-        int health;
+        int health, pointValue;
     public:
-        EnemyShip(int _positionX, int _positionY, int _health, QBrush &_color);
+        EnemyShip(int _positionX, int _positionY, int _health, int _pointValue, QBrush &_color);
 
         //Checks to see if any enemy bullets are colliding with 'target' and computes the
         //combined damage they inflict. This sum is the return value (If no bullets collided
@@ -28,11 +28,11 @@ class EnemyShip : public GameObject
         virtual bool move()=0;
 
         //This function inflicts '_damage' amount of damage upon the ship. If this was enough
-        //to destroy the ship, the function returns 'true', otherwise 'false'. This version of
-        //inflictDamage() is good enough for most enemies, but bosses and more complex
+        //to destroy the ship, the function returns the ship's point value, otherwise 0. This
+        //version of inflictDamage() is good enough for most enemies, but bosses and more complex
         //EnemyShips should implement their own versions (which will allow them to implement
         //periods of vulenrability/invulnerability)
-        virtual bool inflictDamage(int _damage);
+        virtual int inflictDamage(int _damage);
 
         static void moveBullets();
         static void drawBullets(QPainter *painter);

@@ -30,6 +30,7 @@ class PlayerShip : public GameObject
         void releaseLeft() {leftPressed = false;}
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
+        void incrementScore(int _increment) {score += _increment;}
         void interpretInput();
         bool inflictDamage(int damage);
         void kill(); // <-- Not yet implemented... Will create an explosion at ship's current

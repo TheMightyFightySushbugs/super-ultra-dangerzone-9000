@@ -38,11 +38,13 @@ void Game::gameLoop()
         damage = PlayerShip::shot(**currentEnemy);
 
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-        if(damage > 0 && (*currentEnemy)->inflictDamage(damage))
+        int pointsEarned;
+        if(damage > 0 && (pointsEarned = (*currentEnemy)->inflictDamage(damage)) > 0)
         {
             //...then go ahead and destroy the ship
             delete *currentEnemy;
             currentEnemy = enemies.erase(currentEnemy);
+            player1.incrementScore(pointsEarned);
         }
         else //Otherwise, move onto the next one
             currentEnemy++;
