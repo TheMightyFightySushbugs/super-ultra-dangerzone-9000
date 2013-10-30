@@ -11,14 +11,19 @@ class EnemyShip : public GameObject
     private:
         static std::list<Bullet*> enemyBullets;
     protected:
-        int health, pointValue;
+        unsigned int health, pointValue;
     public:
-        EnemyShip(int _positionX, int _positionY, int _health, int _pointValue, QBrush &_color);
+        EnemyShip(int _positionX, int _positionY, unsigned int _health,
+                  unsigned int _pointValue, QBrush &_color);
 
         //Checks to see if any enemy bullets are colliding with 'target' and computes the
-        //combined damage they inflict. This sum is the return value (If no bullets collided
-        //with 'target', then the return value is just zero).
-        static int shot(GameObject & target);
+        //combined damage they inflict. This sum makes up the return value's lower 28 bits.
+        //The upper four bits are used to indicate which players' shots caused that damage
+        //(If the nth most significant bit is 1, then player n was responsible for the
+        //damage; this way, damage from multiple bullets and from multiple players can be
+        //tracked simultaneously). If no bullets collided with 'target', then the return
+        //value is just zero.
+        static unsigned int shot(GameObject & target);
 
         //This function is called once per frame for each instance of EnemyShip. It's a purely
         //virtual function, meaning that every class of EnemyShip must define its own version
@@ -28,11 +33,12 @@ class EnemyShip : public GameObject
         virtual bool move()=0;
 
         //This function inflicts '_damage' amount of damage upon the ship. If this was enough
-        //to destroy the ship, the function returns the ship's point value, otherwise 0. This
-        //version of inflictDamage() is good enough for most enemies, but bosses and more complex
-        //EnemyShips should implement their own versions (which will allow them to implement
-        //periods of vulenrability/invulnerability)
-        virtual int inflictDamage(int _damage);
+        //to destroy the ship, the function returns the ship's point value (including the
+        //corresponding player ID bits to indicate which player(s) is/are responsible),
+        //otherwise 0. This version of inflictDamage() is good enough for most enemies, but
+        //bosses and more complex EnemyShips should implement their own versions (which will
+        //allow them to implement periods of vulenrability/invulnerability)
+        virtual unsigned int inflictDamage(unsigned int _damage);
 
         static void moveBullets();
         static void drawBullets(QPainter *painter);

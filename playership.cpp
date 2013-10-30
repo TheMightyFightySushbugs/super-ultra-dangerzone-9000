@@ -6,9 +6,10 @@ extern QBrush peaGreen;
 
 std::list<Bullet*> PlayerShip::playerBullets;
 
-PlayerShip::PlayerShip(int _positionX, int _positionY, QBrush _color)
+PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, QBrush _color)
     : GameObject(_positionX, _positionY, _color)
 {
+    playerID = _playerID;
     score = 0;
     health = lives = 1;
     visible = true;
@@ -70,7 +71,8 @@ void PlayerShip::interpretInput()
     }
 
     if(shootTapped)
-        playerBullets.push_back(new LinearBullet(positionX+16, positionY, 8, 0, 3, peaGreen));
+        playerBullets.push_back(new LinearBullet(positionX + 16, positionY, 8, 0, 3,
+                                                 playerID, peaGreen));
     shootTapped = false;
 }
 

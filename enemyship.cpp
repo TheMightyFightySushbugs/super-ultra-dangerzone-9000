@@ -2,36 +2,42 @@
 
 std::list<Bullet*> EnemyShip::enemyBullets;
 
-EnemyShip::EnemyShip(int _positionX, int _positionY, int _health, int _pointValue, QBrush &_color)
+EnemyShip::EnemyShip(int _positionX, int _positionY, unsigned int _health,
+                     unsigned int _pointValue, QBrush &_color)
     : GameObject(_positionX, _positionY, _color)
 {
     health = _health;
     pointValue = _pointValue;
 }
 
-int EnemyShip::inflictDamage(int _damage)
+unsigned int EnemyShip::inflictDamage(unsigned int _damage)
 {
-    //[to-do: add hit flashes]
-
-    if((health -= _damage) > 0)
+    unsigned int damageDecrement = _damage & 0x0FFFFFFF;
+    if(health > damageDecrement)
+    {
+        health -= damageDecrement;
         return 0;
+    }
 
     QBrush expColor = QBrush(Qt::red); //This is a quick fix... I'll improve it later
     Explosion::addExplosion(positionX, positionY, width, 15, expColor);
-    return pointValue;
+
+    return pointValue | (_damage & 0xF0000000);
 }
 
-int EnemyShip::shot(GameObject & target)
+unsigned int EnemyShip::shot(GameObject & target)
 {
-    int _damage = 0;
+    unsigned int _damage = 0;
     std::list<Bullet*>::iterator currentBullet = enemyBullets.begin();
     while(currentBullet != enemyBullets.end())
     {
         if((*currentBullet)->collidesWith(target))
         {
-            _damage += (*currentBullet)->getDamage();
+            unsigned int damageIncrement = (*currentBullet)->getDamage();
             delete *currentBullet;
             currentBullet = enemyBullets.erase(currentBullet);
+            _damage = (_damage | (damageIncrement & 0xF0000000))
+                    + (damageIncrement & 0x0FFFFFFF);
         }
         else
             currentBullet++;

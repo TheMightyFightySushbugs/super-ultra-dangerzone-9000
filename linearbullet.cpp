@@ -2,8 +2,8 @@
 #include <QPainter>
 
 LinearBullet::LinearBullet(int _positionX, int _positionY, int _velocityX, int _velocityY,
-                           int _radius, QBrush &_color)
-    : Bullet(_positionX, _positionY, 1, _color)
+                           int _radius, unsigned int _playerID, QBrush &_color)
+    : Bullet(_positionX, _positionY, 1, _playerID, _color)
 {
     velocityX = _velocityX;
     velocityY = _velocityY;

@@ -5,7 +5,7 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-Game::Game() : player1(-111, 0, QBrush(QColor(225, 128, 162)))
+Game::Game() : player1(-111, 0, 0, QBrush(QColor(225, 128, 162)))
 {
     windowHeight = 120;
     windowWidth = 160;
@@ -38,13 +38,13 @@ void Game::gameLoop()
         damage = PlayerShip::shot(**currentEnemy);
 
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-        int pointsEarned;
-        if(damage > 0 && (pointsEarned = (*currentEnemy)->inflictDamage(damage)) > 0)
+        unsigned int pointsEarned;
+        if(damage && (pointsEarned = (*currentEnemy)->inflictDamage(damage)))
         {
             //...then go ahead and destroy the ship
             delete *currentEnemy;
             currentEnemy = enemies.erase(currentEnemy);
-            player1.incrementScore(pointsEarned);
+            player1.incrementScore(pointsEarned & 0x0FFFFFFF);
         }
         else //Otherwise, move onto the next one
             currentEnemy++;
