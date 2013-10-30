@@ -5,7 +5,7 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-Game::Game() : player1(-111, 0, 0, QBrush(QColor(225, 128, 162)))
+Game::Game() : player1(-111, 0, 3, QBrush(QColor(225, 128, 162)))
 {
     windowHeight = 120;
     windowWidth = 160;

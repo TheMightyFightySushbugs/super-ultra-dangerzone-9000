@@ -21,6 +21,7 @@ class PlayerShip : public GameObject
         PlayerShip(int _positionX, int _positionY, unsigned int _playerID, QBrush _color);
         void draw(QPainter *painter);
         void drawHUD(QPainter *painter);
+        void drawLives(QPainter *painter);
         void pressUp() {upPressed = true;}
         void pressDown() {downPressed = true;}
         void pressLeft() {leftPressed = true;}
