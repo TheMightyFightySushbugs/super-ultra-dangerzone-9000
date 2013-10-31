@@ -25,6 +25,8 @@ void Game::gameLoop()
         player1.interpretInput();
     PlayerShip::moveBullets();
 
+    //currentLevel.udpdate(enemies);
+
     //For every enemy ship...
     unsigned int damage;
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
