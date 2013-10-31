@@ -23,7 +23,7 @@ class Game
 
     private:
         QBrush background;
-        //Level currentLevel; <-- not working
+        Level *currentLevel;// <-- not working
         int windowHeight, windowWidth;
         PlayerShip player1; //<-- I'll eventually make this into an array of ships;
         std::list<EnemyShip*> enemies;

@@ -41,7 +41,7 @@ Level::Level(std::string &file)
 
 Level::Level()
 {
-    //create an empty list of events
+    eventList.push_back(new GameEvent());
 }
 
 //This function is called once every frame, populating the "enemies" list as necessary.

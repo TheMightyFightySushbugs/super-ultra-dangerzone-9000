@@ -16,6 +16,8 @@ Game::Game() : player1(-111, 0, 3, QBrush(QColor(225, 128, 162)))
         enemies.push_back(new DummyShip(200, -23*i+35));
     for(int i = 0; i < 5; i++)
         enemies.push_back(new DummyShip(220, -23*i+40));
+
+    currentLevel = new Level();
 }
 
 void Game::gameLoop()
