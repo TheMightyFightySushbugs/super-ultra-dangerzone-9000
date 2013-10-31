@@ -1,6 +1,6 @@
 #include "level.h"
-#include <iostream>
-#include <fstream>
+//#include <iostream>
+//#include <fstream>
 /*
 Level::Level(std::string &file)
 {
@@ -39,7 +39,7 @@ Level::Level(std::string &file)
       else std::cout << "Unable to open file";
 }
 */
-Level::Level()
+Level::Level(void)
 {
     eventList.push_back(new GameEvent());
 }
@@ -47,7 +47,7 @@ Level::Level()
 //This function is called once every frame, populating the "enemies" list as necessary.
 //The return value is 'true' when the end of the level has been reached (to let the game
 //know when it should go to the next level), and is 'false' otherwise.
-bool Level::update(std::list<EnemyShip *> &enemies)
+bool Level::update(std::list<EnemyShip*> &enemies)
 {
     GameEvent *nextEvent = eventList.front();
 
@@ -81,7 +81,7 @@ bool Level::update(std::list<EnemyShip *> &enemies)
     return false;
 }
 
-void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
+/*void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
 {
 
 }
@@ -91,5 +91,5 @@ void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
 void Level::defineLength(int length)
 {
 
-}
+}*/
 

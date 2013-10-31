@@ -11,10 +11,10 @@ class Level
         std::list<GameEvent*> eventList;
 
     public:
-        Level();
+        Level(void);
         //Level(std::string &file);
-        void addEvent(int sec, int numEnemy, EnemyShip &enemy);
-        void defineLength(int length);
+        //void addEvent(int sec, int numEnemy, EnemyShip &enemy);
+        //void defineLength(int length);
         bool update(std::list<EnemyShip *> &enemies);
 };
 
