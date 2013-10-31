@@ -64,31 +64,8 @@ bool Level::update(std::list<EnemyShip *> &enemies)
 
                 unsigned int damage;
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
-                while(currentEnemy != nextEvent->ships.end())
-                {
-                    enemies.add(currentEnemy);
-                    //Let the ship do whatever it has to do (move/shoot/etc)
-                    (*currentEnemy)->move();
-
-                    //[to-do: check when enemies go out of bounds. delete them when they do]
-
-                    //Check to see if any of the player's bullets hit the ship
-                    damage = PlayerShip::shot(**currentEnemy);
-
-                    //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-                    unsigned int pointsEarned;
-                    if(damage && (pointsEarned = (*currentEnemy)->inflictDamage(damage)))
-                    {
-                        //...then go ahead and destroy the ship
-                        delete *currentEnemy;
-                        currentEnemy = enemies.erase(currentEnemy);
-                        player1.incrementScore(pointsEarned & 0x0FFFFFFF);
-                    }
-                    else //Otherwise, move onto the next one
-                        currentEnemy++;
-                }
-                //We still have a pointer to the removed event (nextEvent)
-                //... now we must add the event to the game...
+                while(currentEnemy++ != nextEvent->ships.end())
+                    enemies.push_back(*currentEnemy);
             }
         case CLEAR_EVENT:
             if(enemies.size() == 0){
