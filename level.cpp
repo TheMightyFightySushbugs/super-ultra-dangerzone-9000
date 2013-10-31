@@ -60,22 +60,25 @@ bool Level::update(std::list<EnemyShip *> &enemies)
             if(nextEvent->timer-- <= 0) //decrements the timer
             {
                 //Remove the event from the eventList
-                delete eventList.pop_front();
+                eventList.pop_front();
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy++ != nextEvent->ships.end())
                     enemies.push_back(*currentEnemy);
+                delete nextEvent;
             }
         case CLEAR_EVENT:
             if(enemies.size() == 0){
-                delete eventList.pop_front();
+                eventList.pop_front();
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy++ != nextEvent->ships.end())
                     enemies.push_back(*currentEnemy);
+                delete nextEvent;
             }
             break;
     }
+    return false;
 }
 
 void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)
