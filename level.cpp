@@ -1,7 +1,7 @@
 #include "level.h"
 #include <iostream>
 #include <fstream>
-
+/*
 Level::Level(std::string &file)
 {
     std::ifstream myfile (file.c_str());
@@ -32,17 +32,17 @@ Level::Level(std::string &file)
           enemy_iss >> enType;
 
           level::addEvent(sec, qtEnemy, enType);
-        }*/
+        }
         myfile.close();
       }
 
       else std::cout << "Unable to open file";
 }
-
-/*Level::Level()
+*/
+Level::Level()
 {
     eventList.push_back(new GameEvent());
-}*/
+}
 
 //This function is called once every frame, populating the "enemies" list as necessary.
 //The return value is 'true' when the end of the level has been reached (to let the game
