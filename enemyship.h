@@ -12,6 +12,7 @@ class EnemyShip : public GameObject
         static std::list<Bullet*> enemyBullets;
     protected:
         unsigned int health, pointValue;
+        bool flash;
     public:
         EnemyShip(int _positionX, int _positionY, unsigned int _health,
                   unsigned int _pointValue, QBrush &_color);

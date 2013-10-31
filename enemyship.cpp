@@ -8,6 +8,7 @@ EnemyShip::EnemyShip(int _positionX, int _positionY, unsigned int _health,
 {
     health = _health;
     pointValue = _pointValue;
+    flash=false;
 }
 
 unsigned int EnemyShip::inflictDamage(unsigned int _damage)
@@ -16,6 +17,7 @@ unsigned int EnemyShip::inflictDamage(unsigned int _damage)
     if(health > damageDecrement)
     {
         health -= damageDecrement;
+        flash=true;
         return 0;
     }
 
