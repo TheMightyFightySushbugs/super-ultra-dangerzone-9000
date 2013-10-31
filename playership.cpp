@@ -81,15 +81,37 @@ void PlayerShip::interpretInput()
     shootTapped = false;
 }
 
-bool PlayerShip::inflictDamage(int damage)
+bool PlayerShip::inflictDamage(unsigned int damage)
 {
-    //[to-do: add hit flashes]
+    if(damage >= health)
+    {
+        kill();
+        return true;
+    }
 
     health -= damage;
-    if(health <= 0)
-        return true;
     return false;
 }
+
+void PlayerShip::kill()
+{
+    QBrush expColor = QBrush(Qt::red); //This is a quick fix... I'll improve it later
+    Explosion::addExplosion(positionX, positionY, 17, 15, expColor);
+
+    health = 1;
+    if(--lives == 0)
+    {
+        state = DEAD;
+        visible = false;
+    }
+    else
+    {
+        state = SPAWNING;
+        positionY = spawnY;
+        positionX = spawnX - 81;
+    }
+}
+
 int PlayerShip::shot(GameObject &target)
 {
     int damage = 0;

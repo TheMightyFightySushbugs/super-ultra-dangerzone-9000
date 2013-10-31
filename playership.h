@@ -10,8 +10,8 @@ enum PlayerShipState { SPAWNING, ALIVE, DEAD };
 class PlayerShip : public GameObject
 {
     private:
-        int health, spawnX, spawnY;
-        unsigned int lives, score, playerID;
+        int spawnX, spawnY;
+        unsigned int health, lives, score, playerID;
         bool visible;
         PlayerShipState state;
         static std::list<Bullet*> playerBullets;
@@ -33,12 +33,19 @@ class PlayerShip : public GameObject
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
         void incrementScore(int _increment) {score += _increment;}
+
+        //Interpret player's input and perform whatever actions must be performed for the
+        //current frame.
         void interpretInput();
-        bool inflictDamage(int damage);
-        void kill(); // <-- Not yet implemented... Will create an explosion at ship's current
-                     // position, decrement 'lives' by 1, and reset ship back to its starting
-                     // position.
-        int howMuchLivesLeft() {return lives;}
+
+        //Inflicts "damage" amount of damage upon the ship and returns true if that was enough
+        //to destroy it.
+        bool inflictDamage(unsigned int damage);
+
+        //Creates an explosion at ship's current position, decrement 'lives' by 1, and resets
+        //ship back to its starting position.
+        void kill();
+
         PlayerShipState getState() {return state;}
         static int shot(GameObject & target);
         static void moveBullets();

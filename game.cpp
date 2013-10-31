@@ -21,7 +21,8 @@ Game::Game() : player1(-111, 0, 3, QBrush(QColor(225, 128, 162)))
 void Game::gameLoop()
 {
     //Let player 1 do whatever it has to do (move/shoot/etc)
-    player1.interpretInput();
+    if(player1.getState() != DEAD)
+        player1.interpretInput();
     PlayerShip::moveBullets();
 
     //For every enemy ship...
@@ -57,12 +58,9 @@ void Game::gameLoop()
     //Check to see if any enemy bullets hit player 1
     damage = EnemyShip::shot(player1);
 
-    //If any bullets did hit, and they inflicted enough damage to destroy the ship...
-    if(damage && player1.inflictDamage(damage))
-    {
-        //[to-do: set up lives/respawning/etc]
-        std::cout << "Player 1 died!\n";
-    }
+    //If any bullets did hit, inflict damage onto player
+    if(damage)
+        player1.inflictDamage(damage);
 }
 
 void Game::render(QPainter *painter, QPaintEvent *event)
@@ -99,6 +97,11 @@ void Game::handleKeyPressEvent(int key)
             break;
         case Qt::Key_Space:
             player1.pressShoot();
+            break;
+        //Just to demonstrate that PlayerShip::kill() is working...
+        case Qt::Key_K:
+            if(player1.getState() == ALIVE)
+                player1.kill();
             break;
     }
 }
