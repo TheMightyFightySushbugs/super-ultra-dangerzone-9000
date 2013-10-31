@@ -25,7 +25,7 @@ class Game
         QBrush background;
         Level *currentLevel;// <-- not working
         int windowHeight, windowWidth;
-        PlayerShip player1; //<-- I'll eventually make this into an array of ships;
+        PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
         std::list<EnemyShip*> enemies;
 };
 
