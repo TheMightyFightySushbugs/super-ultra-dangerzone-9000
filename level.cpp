@@ -51,25 +51,28 @@ bool Level::update(std::list<EnemyShip *> &enemies)
 {
     GameEvent *nextEvent = eventList.front();
 
-    if(nextEvent->timer == 0)  //end of level reached;
+    if((eventList.size()==0)&&(enemies.size()==0))  //end of level reached;
         return true;
 
     switch(nextEvent->type)
     {
         case TIMED_EVENT:
-            if(nextEvent->timer <= 0)
+            if(nextEvent->timer-- <= 0) //decrements the timer
             {
                 //Remove the event from the eventList
-                eventList.pop_front();
+                delete eventList.pop_front();
 
-                unsigned int damage;
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy++ != nextEvent->ships.end())
                     enemies.push_back(*currentEnemy);
             }
         case CLEAR_EVENT:
             if(enemies.size() == 0){
-                eventList.pop_front();
+                delete eventList.pop_front();
+
+                std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
+                while(currentEnemy++ != nextEvent->ships.end())
+                    enemies.push_back(*currentEnemy);
             }
             break;
     }
