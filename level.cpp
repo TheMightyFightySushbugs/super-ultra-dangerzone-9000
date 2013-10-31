@@ -39,10 +39,10 @@ Level::Level(std::string &file)
       else std::cout << "Unable to open file";
 }
 
-Level::Level()
+/*Level::Level()
 {
     eventList.push_back(new GameEvent());
-}
+}*/
 
 //This function is called once every frame, populating the "enemies" list as necessary.
 //The return value is 'true' when the end of the level has been reached (to let the game
