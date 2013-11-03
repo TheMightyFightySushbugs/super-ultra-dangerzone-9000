@@ -13,6 +13,7 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
     windowHeight = 120;
     windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
+    state = PLAYING_LEVEL; //<-- MAIN_MENU isn't implemented yet
 
     //Populate the enemies list with some arbitrary enemies for testing purposes
     for(int i = 0; i < 4; i++)
@@ -25,18 +26,38 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
 
 void Game::gameLoop()
 {
-    //Let player 1 do whatever it has to do (move/shoot/etc)
+    int playersStillAlive = 4;
+
+    //Let the players do whatever they have to do (move/shoot/etc)
     if(player1.getState() != DEAD)
         player1.interpretInput();
+    else
+        playersStillAlive--;
     if(player2.getState() != DEAD)
         player2.interpretInput();
+    else
+        playersStillAlive--;
     if(player3.getState() != DEAD)
         player3.interpretInput();
+    else
+        playersStillAlive--;
     if(player4.getState() != DEAD)
         player4.interpretInput();
+    else
+        playersStillAlive--;
+
+    if(state == PLAYING_LEVEL && playersStillAlive <= 0)
+        state = GAME_OVER;
+
     PlayerShip::moveBullets();
 
-    //currentLevel.udpdate(enemies);
+    /*if(currentLevel.update(enemies) == true)
+    {
+        //figure out what file the next level is stored in...
+        //store that filename somewhere...
+        delete currentLevel;
+        state = ENDING_LEVEL;
+    }*/
 
     //For every enemy ship...
     unsigned int damage;
@@ -58,18 +79,24 @@ void Game::gameLoop()
             //...then go ahead and destroy the ship
             delete *currentEnemy;
             currentEnemy = enemies.erase(currentEnemy);
-            if(pointsEarned & 0x80000000)
-                player1.incrementScore(pointsEarned & 0x0FFFFFFF);
-            if(pointsEarned & 0x40000000)
-                player2.incrementScore(pointsEarned & 0x0FFFFFFF);
-            if(pointsEarned & 0x20000000)
-                player3.incrementScore(pointsEarned & 0x0FFFFFFF);
-            if(pointsEarned & 0x10000000)
-                player4.incrementScore(pointsEarned & 0x0FFFFFFF);
+            if(state != GAME_OVER)
+            {
+                if(pointsEarned & 0x80000000)
+                    player1.incrementScore(pointsEarned & 0x0FFFFFFF);
+                if(pointsEarned & 0x40000000)
+                    player2.incrementScore(pointsEarned & 0x0FFFFFFF);
+                if(pointsEarned & 0x20000000)
+                    player3.incrementScore(pointsEarned & 0x0FFFFFFF);
+                if(pointsEarned & 0x10000000)
+                    player4.incrementScore(pointsEarned & 0x0FFFFFFF);
+            }
         }
         else //Otherwise, move onto the next one
             currentEnemy++;
     }
+
+    if(state == GAME_OVER)
+        return;
 
     //Don't bother checking for collisions in player isn't currently alive
     if(player1.getState() == ALIVE)
@@ -120,6 +147,8 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     player2.drawHUD(painter);
     player3.drawHUD(painter);
     player4.drawHUD(painter);
+    if(state == GAME_OVER)
+        painter->fillRect(-80, -40, 160, 80, Qt::blue);
     painter->restore();
 }
 
