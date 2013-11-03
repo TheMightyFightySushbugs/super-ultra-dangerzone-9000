@@ -8,8 +8,8 @@ class Bullet : public GameObject
     private:
         int damage;
     public:
-        Bullet(int _positionX, int _positionY, int _damage, unsigned int _playerID,
-               QBrush &_color);
+        Bullet(int _positionX, int _positionY, unsigned int _radius, unsigned int _damage,
+               unsigned int _playerID, QBrush &_color);
         int getDamage() {return damage;}
         virtual bool move()=0;
         virtual ~Bullet() {};

@@ -3,8 +3,8 @@
 std::list<Bullet*> EnemyShip::enemyBullets;
 
 EnemyShip::EnemyShip(int _positionX, int _positionY, unsigned int _health,
-                     unsigned int _pointValue, QBrush &_color)
-    : GameObject(_positionX, _positionY, _color)
+                     int _width, int _height, unsigned int _pointValue, QBrush &_color)
+    : GameObject(_positionX, _positionY, _width, _height, _color)
 {
     health = _health;
     pointValue = _pointValue;

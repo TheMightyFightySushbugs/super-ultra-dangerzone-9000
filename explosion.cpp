@@ -4,10 +4,9 @@
 std::list<Explosion*> Explosion::explosions;
 
 Explosion::Explosion(int _positionX, int _positionY, int _radius, int _time, QBrush &_color)
-    : GameObject(_positionX, _positionY, _color)
+    : GameObject(_positionX, _positionY, _radius, _radius, _color)
 {
     timeRemaining = _time;
-    width = height = _radius;
 }
 
 void Explosion::draw(QPainter *painter)
