@@ -9,17 +9,12 @@ Explosion::Explosion(int _positionX, int _positionY, int _radius, int _time, QBr
     timeRemaining = _time;
 }
 
-void Explosion::draw(QPainter *painter)
-{
-    painter->fillRect(positionX-width, positionY-height, width*2, height*2, color);
-}
-
-void Explosion::drawAllExplosions(QPainter *painter)
+void Explosion::drawAllExplosions(QPainter *painter, const bool updateTimers)
 {
     std::list<Explosion*>::iterator currentExplosion = explosions.begin();
     while(currentExplosion != explosions.end())
     {
-        if(--((*currentExplosion)->timeRemaining) >= 0)
+        if(!updateTimers || --((*currentExplosion)->timeRemaining) >= 0)
             (*currentExplosion++)->draw(painter);
         else
         {

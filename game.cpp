@@ -26,6 +26,9 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
 
 void Game::gameLoop()
 {
+    if(state == PAUSED)
+        return;
+
     int playersStillAlive = 4;
 
     //Let the players do whatever they have to do (move/shoot/etc)
@@ -142,13 +145,15 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
         (*currentEnemy++)->draw(painter);
-    Explosion::drawAllExplosions(painter);
+    Explosion::drawAllExplosions(painter, state != PAUSED);
     player1.drawHUD(painter);
     player2.drawHUD(painter);
     player3.drawHUD(painter);
     player4.drawHUD(painter);
     if(state == GAME_OVER)
         painter->fillRect(-80, -40, 160, 80, Qt::blue);
+    if(state == PAUSED)
+        painter->fillRect(-80, -40, 160, 80, Qt::green);
     painter->restore();
 }
 
@@ -239,6 +244,12 @@ void Game::handleKeyReleaseEvent(int key)
             player2.releaseShoot();
             player3.releaseShoot();
             player4.releaseShoot();
+            break;
+        case Qt::Key_Escape:
+            if(state == PLAYING_LEVEL)
+                state = PAUSED;
+            else if(state == PAUSED)
+                state = PLAYING_LEVEL;
             break;
     }
 }
