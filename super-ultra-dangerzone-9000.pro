@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     dummyship.cpp \
     explosion.cpp \
     level.cpp \
-    gameevent.cpp
+    gameevent.cpp \
+    smartship.cpp
 
 
 HEADERS  += mainwindow.h \
