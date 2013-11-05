@@ -10,7 +10,7 @@ DummyShip::DummyShip(int _positionX, int _positionY)
 bool DummyShip::move()
 {
     positionX -= 2;
-    if(positionX < -180 || positionX > 180)
+    if(positionX < -180 )
         return true;
     return false;
 }

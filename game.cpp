@@ -67,8 +67,15 @@ void Game::gameLoop()
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
     {
+        //(*currentEnemy)->move();
+
         //Let the ship do whatever it has to do (move/shoot/etc)
-        (*currentEnemy)->move();
+        if((*currentEnemy)->move()==true)
+        {
+            delete *currentEnemy;
+            currentEnemy=enemies.erase(currentEnemy);
+            continue;
+        }
 
         //[to-do: check when enemies go out of bounds. delete them when they do]
 
