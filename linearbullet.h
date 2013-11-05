@@ -6,12 +6,13 @@
 class LinearBullet : public Bullet
 {
     private:
-        int velocityX, velocityY;
+        int velocityX, velocityY, radius;
     public:
         LinearBullet(int _positionX, int _positionY, int _velocityX, int _velocityY,
-                     unsigned int _playerID, QBrush &_color);
+                     int _radius, unsigned int _playerID, QBrush &_color);
         bool move();
-        ~LinearBullet() {}
+        void draw(QPainter *painter);
+        ~LinearBullet() {};
 };
 
 #endif // LINEARBULLET_H

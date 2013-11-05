@@ -14,7 +14,7 @@ class EnemyShip : public GameObject
         unsigned int health, pointValue;
         bool flash;
     public:
-        EnemyShip(int _positionX, int _positionY, unsigned int _health, int _width, int _height,
+        EnemyShip(int _positionX, int _positionY, unsigned int _health,
                   unsigned int _pointValue, QBrush &_color);
 
         //Checks to see if any enemy bullets are colliding with 'target' and computes the
