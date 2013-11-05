@@ -70,6 +70,7 @@ void Game::gameLoop()
         //(*currentEnemy)->move();
 
         //Let the ship do whatever it has to do (move/shoot/etc)
+        //checks for out of bounds
         if((*currentEnemy)->move()==true)
         {
             delete *currentEnemy;
@@ -77,10 +78,32 @@ void Game::gameLoop()
             continue;
         }
 
-        //[to-do: check when enemies go out of bounds. delete them when they do]
-
+        //if player exist
+        //if player is alive
+        //checking for collision
+        damage = 0;
+        if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)
+        {
+            player1.kill();
+            damage += 47;
+        }
+        if(player2.getState()==ALIVE && player2.collidesWith(**currentEnemy) == true)
+        {
+            player2.kill();
+            damage += 47;
+        }
+        if(player3.getState()==ALIVE && player3.collidesWith(**currentEnemy) == true)
+        {
+            player3.kill();
+            damage += 47;
+        }
+        if(player4.getState()==ALIVE && player4.collidesWith(**currentEnemy) == true)
+        {
+            player4.kill();
+            damage += 47;
+        }
         //Check to see if any of the player's bullets hit the ship
-        damage = PlayerShip::shot(**currentEnemy);
+        damage += PlayerShip::shot(**currentEnemy);
 
         //If any bullets did hit, and they inflicted enough damage to destroy the ship...
         unsigned int pointsEarned;
