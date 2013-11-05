@@ -1,18 +1,21 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include <QBrush>
-#include <iostream> //in case I need to hack together some quick & dirty print-statement debugging
+#include <QPainter>
+#include <iostream> //Just in case I ever need to hack together some quick & dirty
+                    //print-statement debugging
 
 class GameObject
 {
     protected:
-        int positionX, positionY, width, height;
+        int positionX, positionY;
+        unsigned short width, height;
         QBrush color;
     public:
-        virtual void draw(QPainter *painter)=0;
+        virtual void draw(QPainter *painter);
         bool collidesWith(GameObject &target);
-        GameObject(int _positionX, int _positionY, QBrush &_color);
+        GameObject(int _positionX, int _positionY, unsigned short _width,
+                   unsigned short _height, const QBrush &_color);
 };
 
 #endif // GAMEOBJECT_H
