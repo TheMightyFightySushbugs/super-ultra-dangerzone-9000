@@ -54,13 +54,13 @@ void Game::gameLoop()
 
     PlayerShip::moveBullets();
 
-    /*if(currentLevel.update(enemies) == true)
+    if(state == PLAYING_LEVEL && currentLevel->update(enemies) == true)
     {
         //figure out what file the next level is stored in...
         //store that filename somewhere...
         delete currentLevel;
         state = ENDING_LEVEL;
-    }*/
+    }
 
     //For every enemy ship...
     unsigned int damage;
