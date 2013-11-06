@@ -13,6 +13,7 @@ PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, Q
     score = 0;
     health = 1;
     lives = 3;
+    bomb = 5;
     visible = true;
     state = SPAWNING;
     spawnX = _positionX;
@@ -34,9 +35,13 @@ void PlayerShip::drawHUD(QPainter *painter)
     sprintf(score_str, "%i", score);
     char lives_str[10];
     sprintf(lives_str, "P%i x %i", playerID + 1, lives);
+    char bomb_str[13];
+    sprintf(bomb_str, "Bomb: %i", bomb);
     painter->drawText(-145 + 80*playerID, -105, score_str);
     painter->fillRect(-155 + 80*playerID, -100, 14, 9, color);
     painter->drawText(-135 + 80*playerID, -90, lives_str);
+    painter->fillRect(-155 + 80*playerID, -85, 12, 7, color);
+    painter->drawText(-135 + 80*playerID, -75, bomb_str);
 }
 
 void PlayerShip::interpretInput()
