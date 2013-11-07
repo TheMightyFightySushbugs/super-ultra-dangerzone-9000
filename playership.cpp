@@ -13,7 +13,7 @@ PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, Q
     score = 0;
     health = 1;
     lives = 3;
-    bomb = 5;
+    bombs = 3;
     visible = true;
     state = SPAWNING;
     spawnX = _positionX;
@@ -31,17 +31,17 @@ void PlayerShip::draw(QPainter *painter)
 
 void PlayerShip::drawHUD(QPainter *painter)
 {
-    char score_str[32];
-    sprintf(score_str, "%i", score);
-    char lives_str[10];
-    sprintf(lives_str, "P%i x %i", playerID + 1, lives);
-    char bomb_str[13];
-    sprintf(bomb_str, "Bomb: %i", bomb);
-    painter->drawText(-145 + 80*playerID, -105, score_str);
-    painter->fillRect(-155 + 80*playerID, -100, 14, 9, color);
-    painter->drawText(-135 + 80*playerID, -90, lives_str);
-    painter->fillRect(-155 + 80*playerID, -85, 12, 7, color);
-    painter->drawText(-135 + 80*playerID, -75, bomb_str);
+    char score_str[9];
+    sprintf(score_str, "%08i", score);
+    char lives_str[6];
+    sprintf(lives_str, "x%i", lives);
+    painter->setFont(QFont("Arial", 9));
+    painter->drawText(-155 + 80*playerID, -110, score_str);
+    painter->setFont(QFont("Arial", 7));
+    painter->fillRect(-155 + 80*playerID, -109, 9, 7, color);
+    painter->drawText(-145 + 80*playerID, -102, lives_str);
+    for(unsigned int i = 0; i < bombs; i++)
+        painter->fillRect(-130 + 80*playerID + 10*i, -109, 7, 7, color);
 }
 
 void PlayerShip::interpretInput()
@@ -73,7 +73,7 @@ void PlayerShip::interpretInput()
     {
         if(upPressed)
         {
-            if(positionY > -105)
+            if(positionY > -90)
                 positionY -= 3;
         }
         else if(positionY < 105)

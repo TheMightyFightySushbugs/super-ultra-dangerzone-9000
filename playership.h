@@ -11,7 +11,7 @@ class PlayerShip : public GameObject
 {
     private:
         int spawnX, spawnY;
-        unsigned int health, lives, score, playerID, bomb;
+        unsigned int health, lives, score, playerID, bombs;
         bool visible;
         PlayerShipState state;
         static std::list<Bullet*> playerBullets;
