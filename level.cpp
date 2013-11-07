@@ -53,7 +53,6 @@ Level::Level(void)
 //know when it should go to the next level), and is 'false' otherwise.
 bool Level::update(std::list<EnemyShip*> &enemies)
 {
-    std::cout << "is it working?" << std::endl;
     GameEvent *nextEvent = eventList.front();
 
     if(eventList.size()==0)
@@ -65,15 +64,11 @@ bool Level::update(std::list<EnemyShip*> &enemies)
     else switch(nextEvent->type)
     {
         case TIMED_EVENT:
-        std::cout << "next event is a timed event" << std::endl;
-        std::cout << "timer is " << nextEvent->timer << std::endl;
             if(nextEvent->timer-- <= 0) //decrements the timer
             {
                 //Remove the event from the eventList
-                std::cout << "popping from list" << std::endl;
                 eventList.pop_front();
 
-                std::cout << "adding enemies" << std::endl;
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy != nextEvent->ships.end())
                     enemies.push_back(*currentEnemy++);
