@@ -42,9 +42,40 @@ Level::Level(std::string &file)
 Level::Level(void)
 {
     GameEvent *asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(150, 0));
+    asdf->ships.push_back(new DummyShip(180, -20));
+    asdf->ships.push_back(new DummyShip(180, 0));
+    asdf->ships.push_back(new DummyShip(180, 20));
+    asdf->ships.push_back(new DummyShip(180, 40));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 7;
+    asdf->timer = 100;
+    eventList.push_back(asdf);
+    asdf = new GameEvent();
+    asdf->ships.push_back(new DummyShip(180, -30));
+    asdf->ships.push_back(new DummyShip(180, -15));
+    asdf->ships.push_back(new DummyShip(180, 0));
+    asdf->ships.push_back(new DummyShip(180, 15));
+    asdf->ships.push_back(new DummyShip(180, 30));
+    asdf->ships.push_back(new DummyShip(180, 45));
+    asdf->type = TIMED_EVENT;
+    asdf->timer = 80;
+    eventList.push_back(asdf);
+    asdf = new GameEvent();
+    asdf->ships.push_back(new DummyShip(180, -15));
+    asdf->ships.push_back(new DummyShip(180, 0));
+    asdf->ships.push_back(new DummyShip(180, 15));
+    asdf->ships.push_back(new DummyShip(180, 30));
+    asdf->type = TIMED_EVENT;
+    asdf->timer = 100;
+    eventList.push_back(asdf);
+    asdf = new GameEvent();
+    asdf->ships.push_back(new DummyShip(180, -30));
+    asdf->ships.push_back(new DummyShip(180, -15));
+    asdf->ships.push_back(new DummyShip(180, 0));
+    asdf->ships.push_back(new DummyShip(180, 15));
+    asdf->ships.push_back(new DummyShip(180, 30));
+    asdf->ships.push_back(new DummyShip(180, 45));
+    asdf->type = TIMED_EVENT;
+    asdf->timer = 20;
     eventList.push_back(asdf);
 }
 
