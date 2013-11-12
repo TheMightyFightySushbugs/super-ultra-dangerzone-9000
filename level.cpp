@@ -1,5 +1,5 @@
 #include "level.h"
-//#include <iostream>
+#include <iostream>
 //#include <fstream>
 /*
 Level::Level(std::string &file)
@@ -84,15 +84,17 @@ Level::Level(void)
 //know when it should go to the next level), and is 'false' otherwise.
 bool Level::update(std::list<EnemyShip*> &enemies)
 {
-    GameEvent *nextEvent = eventList.front();
-
     if(eventList.size()==0)
     {
+        std::cout << "end of level was reached" << std::endl;
         if(enemies.size()==0)  //end of level reached;
             return true;
+        else return false;
     }
 
-    else switch(nextEvent->type)
+    GameEvent *nextEvent = eventList.front();
+
+    switch(nextEvent->type)
     {
         case TIMED_EVENT:
             if(nextEvent->timer-- <= 0) //decrements the timer
@@ -102,9 +104,13 @@ bool Level::update(std::list<EnemyShip*> &enemies)
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy != nextEvent->ships.end())
+                {
+                    std::cout << "adding ship" << std::endl;
                     enemies.push_back(*currentEnemy++);
+                }
                 delete nextEvent;
             }
+            break;
         case CLEAR_EVENT:
             if(enemies.size() == 0){
                 eventList.pop_front();

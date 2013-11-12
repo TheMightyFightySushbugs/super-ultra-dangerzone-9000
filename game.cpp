@@ -15,12 +15,6 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
     background = QBrush(QColor(14, 32, 24));
     state = PLAYING_LEVEL; //<-- MAIN_MENU isn't implemented yet
 
-    //Populate the enemies list with some arbitrary enemies for testing purposes
-    for(int i = 0; i < 4; i++)
-        enemies.push_back(new DummyShip(200, -23*i+35));
-    for(int i = 0; i < 5; i++)
-        enemies.push_back(new DummyShip(220, -23*i+40));
-
     currentLevel = new Level();
 }
 
@@ -54,6 +48,7 @@ void Game::gameLoop()
 
     PlayerShip::moveBullets();
 
+    std::cout << state << std::endl;
     if(state == PLAYING_LEVEL && currentLevel->update(enemies) == true)
     {
         //figure out what file the next level is stored in...
@@ -62,17 +57,21 @@ void Game::gameLoop()
         state = ENDING_LEVEL;
     }
 
+    std::cout << "after update()" << std::endl;
+
     //For every enemy ship...
     unsigned int damage;
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
-    while(currentEnemy != enemies.end())
+    while(enemies.size() > 0 && currentEnemy != enemies.end())
     {
-        //(*currentEnemy)->move();
+
+        std::cout << "handling ship, enemies.size() == " << enemies.size() << std::endl;
 
         //Let the ship do whatever it has to do (move/shoot/etc)
         //checks for out of bounds
         if((*currentEnemy)->move()==true)
         {
+            std::cout << "destroying ship (ship left screen)" << std::endl;
             delete *currentEnemy;
             currentEnemy=enemies.erase(currentEnemy);
             continue;
@@ -109,6 +108,7 @@ void Game::gameLoop()
         unsigned int pointsEarned;
         if(damage && (pointsEarned = (*currentEnemy)->inflictDamage(damage)))
         {
+            std::cout << "destroying ship (shot)" << std::endl;
             //...then go ahead and destroy the ship
             delete *currentEnemy;
             currentEnemy = enemies.erase(currentEnemy);
