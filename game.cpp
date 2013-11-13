@@ -82,25 +82,16 @@ void Game::gameLoop()
             }
             //odd placement of break statement is intentional; this is a fall-through case
         case PLAYING_LEVEL:
-            if(currentLevel->update(enemies) == true)
+            if(currentLevel->update(enemies) == true && state == PLAYING_LEVEL)
             {
                 //Store filename of next level, then delete current level
                 if(levelFileName != NULL)
                     delete levelFileName;
                 levelFileName = currentLevel->getNextLevel();
                 delete currentLevel;
-                if(state == PLAYING_LEVEL)
-                {
-                    std::cout << "Moving onto next level..." << std::endl;
-                    state = ENDING_LEVEL;
-                    countdownTimer = 100;
-                }
-                else
-                {
-                    std::cout << "Game Over! (level ended)" << std::endl;
-                    cleanUpEverything();
-                    state = HIGH_SCORE_ENTER;
-                }
+                std::cout << "Moving onto next level..." << std::endl;
+                state = ENDING_LEVEL;
+                countdownTimer = 100;
             }
             break;
         case ENDING_LEVEL:
