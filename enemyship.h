@@ -43,6 +43,7 @@ class EnemyShip : public GameObject
 
         static void moveBullets();
         static void drawBullets(QPainter *painter);
+        static void cleanUpEnemyBullets();
         virtual ~EnemyShip() {}
 };
 
@@ -51,7 +52,7 @@ class DummyShip : public EnemyShip
     private:
         static QBrush dummyColor;
     public:
-        DummyShip(int _positionX, int _positionY);
+        DummyShip(int _positionY);
         bool move();
         void draw(QPainter *painter);
         ~DummyShip() {}

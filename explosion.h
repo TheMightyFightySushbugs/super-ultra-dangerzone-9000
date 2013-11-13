@@ -13,6 +13,7 @@ class Explosion : public GameObject
         static void drawAllExplosions(QPainter *painter, const bool updateTimers);
         static void addExplosion(int _positionX, int _positionY, int _radius,
                                  int _time, QBrush &_color);
+        static void cleanUpExplosions();
         virtual ~Explosion() {}
 };
 

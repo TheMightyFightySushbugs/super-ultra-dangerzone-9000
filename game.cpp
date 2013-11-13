@@ -14,8 +14,22 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
     windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
     state = PLAYING_LEVEL; //<-- MAIN_MENU isn't implemented yet
-
+    levelFileName = NULL;
     currentLevel = new Level();
+    countdownTimer = 60;
+}
+
+//Delete everything Game has ever allocated
+void Game::cleanUpEverything()
+{
+
+    std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
+    while(currentEnemy != enemies.end())
+        delete *currentEnemy++;
+    enemies.clear();
+    PlayerShip::cleanUpPlayerBullets();
+    EnemyShip::cleanUpEnemyBullets();
+    Explosion::cleanUpExplosions();
 }
 
 void Game::gameLoop()
@@ -44,34 +58,78 @@ void Game::gameLoop()
         playersStillAlive--;
 
     if(state == PLAYING_LEVEL && playersStillAlive <= 0)
+    {
         state = GAME_OVER;
+        countdownTimer = 100;
+        std::cout << "everyone is dead now..." << std::endl;
+    }
 
     PlayerShip::moveBullets();
 
-    std::cout << state << std::endl;
-    if(state == PLAYING_LEVEL && currentLevel->update(enemies) == true)
+    switch(state)
     {
-        //figure out what file the next level is stored in...
-        //store that filename somewhere...
-        delete currentLevel;
-        state = ENDING_LEVEL;
+        case STARTING_LEVEL:
+            if(--countdownTimer == 0)
+                state = PLAYING_LEVEL;
+            break;
+        case GAME_OVER:
+            if(--countdownTimer == 0)
+            {
+                std::cout << "Game Over! (countdownTimer timed out)" << std::endl;
+                cleanUpEverything();
+                state = HIGH_SCORE_ENTER;
+                break;
+            }
+            //odd placement of break statement is intentional; this is a fall-through case
+        case PLAYING_LEVEL:
+            if(currentLevel->update(enemies) == true)
+            {
+                //Store filename of next level, then delete current level
+                if(levelFileName != NULL)
+                    delete levelFileName;
+                levelFileName = currentLevel->getNextLevel();
+                delete currentLevel;
+                if(state == PLAYING_LEVEL)
+                {
+                    std::cout << "Moving onto next level..." << std::endl;
+                    state = ENDING_LEVEL;
+                    countdownTimer = 100;
+                }
+                else
+                {
+                    std::cout << "Game Over! (level ended)" << std::endl;
+                    cleanUpEverything();
+                    state = HIGH_SCORE_ENTER;
+                }
+            }
+            break;
+        case ENDING_LEVEL:
+            if(--countdownTimer == 0)
+            {
+                if(levelFileName == NULL)
+                {
+                    std::cout << "Game Complete! You Win!" << std::endl;
+                    cleanUpEverything();
+                    state = HIGH_SCORE_ENTER;
+                }
+                else
+                    currentLevel = new Level(levelFileName);
+            }
+            break;
+        default:
+            break;
     }
-
-    std::cout << "after update()" << std::endl;
 
     //For every enemy ship...
     unsigned int damage;
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
-    while(enemies.size() > 0 && currentEnemy != enemies.end())
+    while(currentEnemy != enemies.end())
     {
-
-        std::cout << "handling ship, enemies.size() == " << enemies.size() << std::endl;
 
         //Let the ship do whatever it has to do (move/shoot/etc)
         //checks for out of bounds
         if((*currentEnemy)->move()==true)
         {
-            std::cout << "destroying ship (ship left screen)" << std::endl;
             delete *currentEnemy;
             currentEnemy=enemies.erase(currentEnemy);
             continue;
@@ -108,7 +166,6 @@ void Game::gameLoop()
         unsigned int pointsEarned;
         if(damage && (pointsEarned = (*currentEnemy)->inflictDamage(damage)))
         {
-            std::cout << "destroying ship (shot)" << std::endl;
             //...then go ahead and destroy the ship
             delete *currentEnemy;
             currentEnemy = enemies.erase(currentEnemy);
@@ -166,24 +223,38 @@ void Game::render(QPainter *painter, QPaintEvent *event)
     painter->fillRect(event->rect(), background);
     painter->setWindow(-windowWidth, -windowHeight, windowWidth*2, windowHeight*2);
     painter->save();
-    painter->fillRect(-160, -120, 320, 240, Qt::yellow);
-    player1.draw(painter);
-    player2.draw(painter);
-    player3.draw(painter);
-    player4.draw(painter);
-    PlayerShip::drawBullets(painter);
-    std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
-    while(currentEnemy != enemies.end())
-        (*currentEnemy++)->draw(painter);
-    Explosion::drawAllExplosions(painter, state != PAUSED);
-    player1.drawHUD(painter);
-    player2.drawHUD(painter);
-    player3.drawHUD(painter);
-    player4.drawHUD(painter);
-    if(state == GAME_OVER)
-        painter->fillRect(-80, -40, 160, 80, Qt::blue);
-    if(state == PAUSED)
-        painter->fillRect(-80, -40, 160, 80, Qt::green);
+    switch(state)
+    {
+        case STARTING_LEVEL:
+        case PLAYING_LEVEL:
+        case PAUSED:
+        case ENDING_LEVEL:
+        case GAME_OVER:
+        {
+            painter->fillRect(-160, -120, 320, 240, Qt::yellow);
+            player1.draw(painter);
+            player2.draw(painter);
+            player3.draw(painter);
+            player4.draw(painter);
+            PlayerShip::drawBullets(painter);
+            std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
+            while(currentEnemy != enemies.end())
+                (*currentEnemy++)->draw(painter);
+            Explosion::drawAllExplosions(painter, state != PAUSED);
+            player1.drawHUD(painter);
+            player2.drawHUD(painter);
+            player3.drawHUD(painter);
+            player4.drawHUD(painter);
+            if(state == GAME_OVER)
+                painter->fillRect(-80, -40, 160, 80, Qt::blue);
+            if(state == PAUSED)
+                painter->fillRect(-80, -40, 160, 80, Qt::green);
+            break;
+        }
+        default:
+            painter->fillRect(-160, -120, 320, 240, Qt::magenta);
+            break;
+    }
     painter->restore();
 }
 

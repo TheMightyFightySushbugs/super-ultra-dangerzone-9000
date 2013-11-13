@@ -1,10 +1,12 @@
 #include "level.h"
 #include <iostream>
 //#include <fstream>
-/*
-Level::Level(std::string &file)
+
+
+Level::Level(std::string *file)
 {
-    std::ifstream myfile (file.c_str());
+    Level();
+    /*std::ifstream myfile (file.c_str());
       if (myfile.is_open())
       {
         /*** this currently doesn't compile correctly.
@@ -36,44 +38,46 @@ Level::Level(std::string &file)
         myfile.close();
       }
 
-      else std::cout << "Unable to open file";
+      else std::cout << "Unable to open file";*/
 }
-*/
 Level::Level(void)
 {
+    nextLevel_str = NULL;
+
+    //The rest of this function is just a hard-code sample level
     GameEvent *asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(180, -20));
-    asdf->ships.push_back(new DummyShip(180, 0));
-    asdf->ships.push_back(new DummyShip(180, 20));
-    asdf->ships.push_back(new DummyShip(180, 40));
+    asdf->ships.push_back(new DummyShip(-20));
+    asdf->ships.push_back(new DummyShip(0));
+    asdf->ships.push_back(new DummyShip(20));
+    asdf->ships.push_back(new DummyShip(40));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 100;
+    asdf->timer = 1;
     eventList.push_back(asdf);
     asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(180, -30));
-    asdf->ships.push_back(new DummyShip(180, -15));
-    asdf->ships.push_back(new DummyShip(180, 0));
-    asdf->ships.push_back(new DummyShip(180, 15));
-    asdf->ships.push_back(new DummyShip(180, 30));
-    asdf->ships.push_back(new DummyShip(180, 45));
+    asdf->ships.push_back(new DummyShip(-30));
+    asdf->ships.push_back(new DummyShip(-15));
+    asdf->ships.push_back(new DummyShip(0));
+    asdf->ships.push_back(new DummyShip(15));
+    asdf->ships.push_back(new DummyShip(30));
+    asdf->ships.push_back(new DummyShip(45));
     asdf->type = TIMED_EVENT;
     asdf->timer = 80;
     eventList.push_back(asdf);
     asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(180, -15));
-    asdf->ships.push_back(new DummyShip(180, 0));
-    asdf->ships.push_back(new DummyShip(180, 15));
-    asdf->ships.push_back(new DummyShip(180, 30));
+    asdf->ships.push_back(new DummyShip(-15));
+    asdf->ships.push_back(new DummyShip(0));
+    asdf->ships.push_back(new DummyShip(15));
+    asdf->ships.push_back(new DummyShip(30));
     asdf->type = TIMED_EVENT;
     asdf->timer = 100;
     eventList.push_back(asdf);
     asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(180, -30));
-    asdf->ships.push_back(new DummyShip(180, -15));
-    asdf->ships.push_back(new DummyShip(180, 0));
-    asdf->ships.push_back(new DummyShip(180, 15));
-    asdf->ships.push_back(new DummyShip(180, 30));
-    asdf->ships.push_back(new DummyShip(180, 45));
+    asdf->ships.push_back(new DummyShip(-30));
+    asdf->ships.push_back(new DummyShip(-15));
+    asdf->ships.push_back(new DummyShip(0));
+    asdf->ships.push_back(new DummyShip(15));
+    asdf->ships.push_back(new DummyShip(30));
+    asdf->ships.push_back(new DummyShip(45));
     asdf->type = TIMED_EVENT;
     asdf->timer = 20;
     eventList.push_back(asdf);
@@ -85,12 +89,7 @@ Level::Level(void)
 bool Level::update(std::list<EnemyShip*> &enemies)
 {
     if(eventList.size()==0)
-    {
-        std::cout << "end of level was reached" << std::endl;
-        if(enemies.size()==0)  //end of level reached;
-            return true;
-        else return false;
-    }
+        return (enemies.size() == 0);  //true if end of level reached
 
     GameEvent *nextEvent = eventList.front();
 
@@ -104,15 +103,13 @@ bool Level::update(std::list<EnemyShip*> &enemies)
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
                 while(currentEnemy != nextEvent->ships.end())
-                {
-                    std::cout << "adding ship" << std::endl;
                     enemies.push_back(*currentEnemy++);
-                }
                 delete nextEvent;
             }
             break;
         case CLEAR_EVENT:
-            if(enemies.size() == 0){
+            if(enemies.size() == 0)
+            {
                 eventList.pop_front();
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();

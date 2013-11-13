@@ -29,3 +29,11 @@ void Explosion::addExplosion(int _positionX, int _positionY, int _radius,
 {
     explosions.push_back(new Explosion(_positionX, _positionY, _radius, _time, _color));
 }
+
+void Explosion::cleanUpExplosions()
+{
+    std::list<Explosion*>::iterator currentExplosion = explosions.begin();
+    while(currentExplosion != explosions.end())
+        delete *currentExplosion++;
+    explosions.clear();
+}

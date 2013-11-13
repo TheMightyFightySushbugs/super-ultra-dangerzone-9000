@@ -50,6 +50,7 @@ class PlayerShip : public GameObject
         static int shot(GameObject & target);
         static void moveBullets();
         static void drawBullets(QPainter *painter);
+        static void cleanUpPlayerBullets();
 };
 
 #endif // PLAYERSHIP_H

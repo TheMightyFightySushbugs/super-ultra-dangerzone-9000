@@ -72,3 +72,11 @@ void EnemyShip::drawBullets(QPainter *painter)
         currentBullet++;
     }
 }
+
+void EnemyShip::cleanUpEnemyBullets()
+{
+    std::list<Bullet*>::iterator currentBullet = enemyBullets.begin();
+    while(currentBullet != enemyBullets.end())
+        delete *currentBullet++;
+    enemyBullets.clear();
+}

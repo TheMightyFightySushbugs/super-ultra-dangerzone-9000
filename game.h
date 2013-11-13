@@ -23,6 +23,7 @@ class Game
         void handleKeyPressEvent(int key);
         void handleKeyReleaseEvent(int key);
         void setAspectRatio(double newAspectRatio);
+        void cleanUpEverything();
 
     private:
         QBrush background;
@@ -31,6 +32,8 @@ class Game
         int windowHeight, windowWidth;
         PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
         std::list<EnemyShip*> enemies;
+        std::string *levelFileName;
+        unsigned int countdownTimer; //for animation & delays between levels
 };
 
 #endif // GAME_H

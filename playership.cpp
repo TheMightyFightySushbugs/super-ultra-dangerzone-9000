@@ -160,3 +160,11 @@ void PlayerShip::drawBullets(QPainter * painter)
         currentBullet++;
     }
 }
+
+void PlayerShip::cleanUpPlayerBullets()
+{
+    std::list<Bullet*>::iterator currentBullet = playerBullets.begin();
+    while(currentBullet != playerBullets.end())
+        delete *currentBullet++;
+    playerBullets.clear();
+}
