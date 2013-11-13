@@ -13,7 +13,7 @@ Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
     windowHeight = 120;
     windowWidth = 160;
     background = QBrush(QColor(14, 32, 24));
-    state = PLAYING_LEVEL; //<-- MAIN_MENU isn't implemented yet
+    state = STARTING_LEVEL; //<-- MAIN_MENU isn't implemented yet
     levelFileName = NULL;
     currentLevel = new Level();
     countdownTimer = 60;
