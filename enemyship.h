@@ -8,9 +8,8 @@
 
 class EnemyShip : public GameObject
 {
-    private:
-        static std::list<Bullet*> enemyBullets;
     protected:
+        static std::list<Bullet*> enemyBullets;
         unsigned int health, pointValue;
         bool flash;
     public:
@@ -56,6 +55,19 @@ class DummyShip : public EnemyShip
         bool move();
         void draw(QPainter *painter);
         ~DummyShip() {}
+};
+
+class ZigZagShip : public EnemyShip
+{
+    private:
+        static QBrush zigZagColor;
+        int timer;
+        bool movingUp;
+    public:
+        ZigZagShip(int _positionY);
+        bool move();
+        void draw(QPainter *painter);
+        ~ZigZagShip() {}
 };
 
 #endif // ENEMYSHIP_H

@@ -65,6 +65,7 @@ void Game::gameLoop()
     }
 
     PlayerShip::moveBullets();
+    EnemyShip::moveBullets();
 
     switch(state)
     {
@@ -228,6 +229,7 @@ void Game::render(QPainter *painter, QPaintEvent *event)
             player3.draw(painter);
             player4.draw(painter);
             PlayerShip::drawBullets(painter);
+            EnemyShip::drawBullets(painter);
             std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
             while(currentEnemy != enemies.end())
                 (*currentEnemy++)->draw(painter);
