@@ -5,6 +5,8 @@
 #include <QPaintEvent>
 #include <QTimer>
 
+std::list<EnemyShip*> Game::enemies;
+
 Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
                player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),

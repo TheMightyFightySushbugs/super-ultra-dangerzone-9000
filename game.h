@@ -14,6 +14,8 @@ enum GameState {MAIN_MENU, STARTING_LEVEL, PLAYING_LEVEL, PAUSED, ENDING_LEVEL, 
 
 class Game
 {
+    friend class SpawnerShip;
+
     public:
         Game();
 
@@ -31,9 +33,9 @@ class Game
         GameState state;
         int windowHeight, windowWidth;
         PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
-        std::list<EnemyShip*> enemies;
         std::string *levelFileName;
         unsigned int countdownTimer; //for animation & delays between levels
+        static std::list<EnemyShip*> enemies;
 };
 
 #endif // GAME_H

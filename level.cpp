@@ -81,6 +81,10 @@ Level::Level(void)
     asdf->ships.push_back(new ZigZagShip(45));
     asdf->type = TIMED_EVENT;
     asdf->timer = 40;
+    asdf = new GameEvent();
+    asdf->ships.push_back(new SpawnerShip(0));
+    asdf->type = TIMED_EVENT;
+    asdf->timer = 150;
     eventList.push_back(asdf);
 }
 
