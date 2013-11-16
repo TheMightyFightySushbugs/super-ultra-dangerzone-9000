@@ -62,7 +62,7 @@ Level::Level(void)
     asdf->ships.push_back(new ZigZagShip(30));
     asdf->ships.push_back(new DummyShip(45));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 80;
+    asdf->timer = 100;
     eventList.push_back(asdf);
     asdf = new GameEvent();
     asdf->ships.push_back(new DummyShip(-15));
@@ -70,7 +70,7 @@ Level::Level(void)
     asdf->ships.push_back(new ZigZagShip(15));
     asdf->ships.push_back(new DummyShip(30));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 100;
+    asdf->timer = 140;
     eventList.push_back(asdf);
     asdf = new GameEvent();
     asdf->ships.push_back(new DummyShip(-30));
@@ -80,7 +80,7 @@ Level::Level(void)
     asdf->ships.push_back(new DummyShip(30));
     asdf->ships.push_back(new ZigZagShip(45));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 20;
+    asdf->timer = 40;
     eventList.push_back(asdf);
 }
 

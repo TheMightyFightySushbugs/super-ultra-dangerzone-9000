@@ -5,13 +5,12 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
-               player2(-111, 0, 1, QBrush(QColor(34, 69, 111))),
-               player3(-111, 30, 2, QBrush(QColor(225, 54, 162))),
-               player4(-111, 60, 3, QBrush(QColor(70, 128, 162)))
+Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
+               player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
+               player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
+               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
 {
-    windowHeight = 120;
-    windowWidth = 160;
+    windowWidth = GAME_WIDTH;
     background = QBrush(QColor(14, 32, 24));
     state = STARTING_LEVEL; //<-- MAIN_MENU isn't implemented yet
     levelFileName = NULL;
@@ -210,10 +209,9 @@ void Game::gameLoop()
     }
 }
 
-void Game::render(QPainter *painter, QPaintEvent *event)
+void Game::render(QPainter *painter)
 {
-    painter->fillRect(event->rect(), background);
-    painter->setWindow(-windowWidth, -windowHeight, windowWidth*2, windowHeight*2);
+    painter->setWindow(-windowWidth, -GAME_HEIGHT, windowWidth*2, GAME_HEIGHT*2);
     painter->save();
     switch(state)
     {
@@ -223,7 +221,7 @@ void Game::render(QPainter *painter, QPaintEvent *event)
         case ENDING_LEVEL:
         case GAME_OVER:
         {
-            painter->fillRect(-160, -120, 320, 240, Qt::yellow);
+            painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::black);
             player1.draw(painter);
             player2.draw(painter);
             player3.draw(painter);
@@ -239,13 +237,13 @@ void Game::render(QPainter *painter, QPaintEvent *event)
             player3.drawHUD(painter);
             player4.drawHUD(painter);
             if(state == GAME_OVER)
-                painter->fillRect(-80, -40, 160, 80, Qt::blue);
+                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::blue);
             if(state == PAUSED)
-                painter->fillRect(-80, -40, 160, 80, Qt::green);
+                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
             break;
         }
         default:
-            painter->fillRect(-160, -120, 320, 240, Qt::magenta);
+            painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::magenta);
             break;
     }
     painter->restore();
@@ -350,5 +348,5 @@ void Game::handleKeyReleaseEvent(int key)
 
 void Game::setAspectRatio(double newAspectRatio)
 {
-    windowWidth = (int)(windowHeight*newAspectRatio);
+    windowWidth = (int)(GAME_HEIGHT * newAspectRatio);
 }

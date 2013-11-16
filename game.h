@@ -19,7 +19,7 @@ class Game
 
     public:
         void gameLoop();
-        void render(QPainter *painter, QPaintEvent *event);
+        void render(QPainter *painter);
         void handleKeyPressEvent(int key);
         void handleKeyReleaseEvent(int key);
         void setAspectRatio(double newAspectRatio);

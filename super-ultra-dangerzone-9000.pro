@@ -24,7 +24,7 @@ SOURCES += main.cpp\
     explosion.cpp \
     level.cpp \
     gameevent.cpp \
-    sineship.cpp
+    zigzagship.cpp
 
 
 HEADERS  += mainwindow.h \

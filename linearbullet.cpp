@@ -12,10 +12,10 @@ LinearBullet::LinearBullet(int _positionX, int _positionY, int _velocityX, int _
 bool LinearBullet::move()
 {
     positionX += velocityX;
-    if(positionX < -160 - width || positionX > 160 + width)
+    if(positionX < -GAME_WIDTH - width || positionX > GAME_WIDTH + width)
         return true;
     positionY += velocityY;
-    if(positionY < -120 - height || positionY > 120 + height)
+    if(positionY < -GAME_HEIGHT - height || positionY > GAME_HEIGHT + height)
         return true;
     return false;
 }
