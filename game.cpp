@@ -18,6 +18,25 @@ Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
     levelFileName = NULL;
     currentLevel = new Level();
     countdownTimer = 60;
+    readHighscoreFile();
+}
+
+void Game::readHighscoreFile()
+{
+    for(int i = 0; i < 10; i++)
+        highscores[i] = 0;
+
+    //[to-do] initialize highscore array with values from highscore file
+}
+
+void Game::updateHighscores()
+{
+    //[to-do] update highscore array if any player has beaten a highscore
+}
+
+void Game::displayHighscores(QPainter *painter)
+{
+    //[to-do] display highscores
 }
 
 //Delete everything Game has ever allocated
@@ -80,6 +99,7 @@ void Game::gameLoop()
                 std::cout << "Game Over! (countdownTimer timed out)" << std::endl;
                 cleanUpEverything();
                 state = HIGH_SCORE_ENTER;
+                updateHighscores();
                 break;
             }
             //odd placement of break statement is intentional; this is a fall-through case
@@ -104,6 +124,7 @@ void Game::gameLoop()
                     std::cout << "Game Complete! You Win!" << std::endl;
                     cleanUpEverything();
                     state = HIGH_SCORE_ENTER;
+                    updateHighscores();
                 }
                 else
                     currentLevel = new Level(levelFileName);
@@ -246,6 +267,7 @@ void Game::render(QPainter *painter)
         }
         default:
             painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::magenta);
+            displayHighscores(painter);
             break;
     }
     painter->restore();

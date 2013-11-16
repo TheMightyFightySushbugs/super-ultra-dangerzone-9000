@@ -21,7 +21,10 @@ class Game
 
     public:
         void gameLoop();
+        void readHighscoreFile();
+        void updateHighscores();
         void render(QPainter *painter);
+        void displayHighscores(QPainter *painter);
         void handleKeyPressEvent(int key);
         void handleKeyReleaseEvent(int key);
         void setAspectRatio(double newAspectRatio);
@@ -35,6 +38,7 @@ class Game
         PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
         std::string *levelFileName;
         unsigned int countdownTimer; //for animation & delays between levels
+        unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
 };
 
