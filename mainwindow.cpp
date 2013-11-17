@@ -47,8 +47,15 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event)
     gameInstance->handleKeyReleaseEvent(event->key());
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() != Qt::LeftButton)
+        return;
+    gameInstance->handleMouseClick(event->x(), event->y());
+}
+
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QSize windowSize = event->size();
-    gameInstance->setAspectRatio((double)windowSize.width()/windowSize.height());
+    gameInstance->setAspectRatio(windowSize.width(), windowSize.height());
 }

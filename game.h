@@ -27,17 +27,17 @@ class Game
         void displayHighscores(QPainter *painter);
         void handleKeyPressEvent(int key);
         void handleKeyReleaseEvent(int key);
-        void setAspectRatio(double newAspectRatio);
+        void handleMouseClick(int xPos, int yPos);
+        void setAspectRatio(unsigned int width, unsigned int height);
         void cleanUpEverything();
 
     private:
-        QBrush background;
         Level *currentLevel;
         GameState state;
-        int windowHeight, windowWidth;
+        unsigned int windowHeight, windowWidth, windowXScale;
         PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
         std::string *levelFileName;
-        unsigned int countdownTimer; //for animation & delays between levels
+        unsigned int countdownTimer, playerCount;
         unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
 };

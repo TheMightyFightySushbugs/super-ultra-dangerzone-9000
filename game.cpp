@@ -12,12 +12,7 @@ Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
                player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
 {
-    windowWidth = GAME_WIDTH;
-    background = QBrush(QColor(14, 32, 24));
-    state = STARTING_LEVEL; //<-- MAIN_MENU isn't implemented yet
-    levelFileName = NULL;
-    currentLevel = new Level();
-    countdownTimer = 60;
+    state = MAIN_MENU;
     readHighscoreFile();
 }
 
@@ -54,10 +49,10 @@ void Game::cleanUpEverything()
 
 void Game::gameLoop()
 {
-    if(state == PAUSED)
+    if(state == PAUSED || state == MAIN_MENU)
         return;
 
-    int playersStillAlive = 4;
+    int playersStillAlive = playerCount;
 
     //Let the players do whatever they have to do (move/shoot/etc)
     if(player1.getState() != DEAD)
@@ -156,22 +151,22 @@ void Game::gameLoop()
         if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)
         {
             player1.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player2.getState()==ALIVE && player2.collidesWith(**currentEnemy) == true)
         {
             player2.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player3.getState()==ALIVE && player3.collidesWith(**currentEnemy) == true)
         {
             player3.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player4.getState()==ALIVE && player4.collidesWith(**currentEnemy) == true)
         {
             player4.kill();
-            damage += 47;
+            damage += 4;
         }
         //Check to see if any of the player's bullets hit the ship
         damage += PlayerShip::shot(**currentEnemy);
@@ -234,17 +229,21 @@ void Game::gameLoop()
 
 void Game::render(QPainter *painter)
 {
-    painter->setWindow(-windowWidth, -GAME_HEIGHT, windowWidth*2, GAME_HEIGHT*2);
+    painter->setWindow(-windowXScale, -GAME_HEIGHT, windowXScale*2, GAME_HEIGHT*2);
     painter->save();
+    painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::black);
     switch(state)
     {
+        case MAIN_MENU:
+            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/4, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
+            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/2, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
+            break;
         case STARTING_LEVEL:
         case PLAYING_LEVEL:
         case PAUSED:
         case ENDING_LEVEL:
         case GAME_OVER:
         {
-            painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::black);
             player1.draw(painter);
             player2.draw(painter);
             player3.draw(painter);
@@ -265,7 +264,8 @@ void Game::render(QPainter *painter)
                 painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
             break;
         }
-        default:
+        case HIGH_SCORE_ENTER:
+        case HIGH_SCORE_DISPLAY:
             painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::magenta);
             displayHighscores(painter);
             break;
@@ -275,6 +275,9 @@ void Game::render(QPainter *painter)
 
 void Game::handleKeyPressEvent(int key)
 {
+    if(state == MAIN_MENU)
+        return;
+
     switch(key)
     {
         case Qt::Key_Up:
@@ -370,7 +373,34 @@ void Game::handleKeyReleaseEvent(int key)
     }
 }
 
-void Game::setAspectRatio(double newAspectRatio)
+void Game::handleMouseClick(int xPos, int yPos)
 {
-    windowWidth = (int)(GAME_HEIGHT * newAspectRatio);
+    if(state != MAIN_MENU)
+        return;
+
+    //translate absolute mouse coordinates into game-relative coordinates
+    int gameXPos = (int)((2.0 * xPos / windowWidth - 1) * windowXScale);
+    if(gameXPos < GAME_WIDTH/4 || gameXPos > 3*GAME_WIDTH/4)
+        return;
+    int gameYPos = (int)((2.0 * yPos / windowHeight - 1) * GAME_HEIGHT);
+    if(gameYPos < GAME_HEIGHT/4 || gameYPos > 2*GAME_HEIGHT/3)
+        return;
+
+    if(gameYPos <= 5*GAME_HEIGHT/12)
+    {
+        currentLevel = new Level();
+        levelFileName = NULL;
+        state = STARTING_LEVEL;
+        countdownTimer = 100;
+        playerCount = 4;
+    }
+    else if(gameYPos >= GAME_HEIGHT/2)
+        std::cout << "This button doesn't do anything yet..." << std::endl;
+}
+
+void Game::setAspectRatio(unsigned int width, unsigned int height)
+{
+    windowXScale = (int)(GAME_HEIGHT * (double)width / height);
+    windowWidth = width;
+    windowHeight = height;
 }
