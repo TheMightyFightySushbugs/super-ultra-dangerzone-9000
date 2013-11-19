@@ -70,17 +70,17 @@ void Game::updateHighscores()
 
 void Game::displayHighscores(QPainter *painter)
 {
-    painter->drawText(-20, -GAME_HEIGHT/2, "Highest Scores");
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Arial", 20));
+    painter->drawText(-90, -GAME_HEIGHT/2 - 45, "Highest Scores");
     for(int i = 0; i < 10; i++)
     {
         char high_score_str[9];
         sprintf(high_score_str, "%08u", highscores[i]);
-
-        painter->setPen(Qt::white);
-        painter->setFont(QFont("Arial", 9));
-        painter->drawText(-20, -GAME_HEIGHT/3 + 10*i, high_score_str);
+        painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
 
     }
+
     //[to-do] display highscores
 }
 
@@ -317,7 +317,6 @@ void Game::render(QPainter *painter)
         }
         case HIGH_SCORE_ENTER:
         case HIGH_SCORE_DISPLAY:
-            painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::magenta);
             displayHighscores(painter);
             break;
     }
