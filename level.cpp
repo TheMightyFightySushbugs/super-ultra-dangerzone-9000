@@ -30,18 +30,19 @@ Level::Level(std::string *file)
         if(typeEvent.size() == 0)
             continue; //go back to start of the loop
 
-        getline(myfile, seconds, ' ');
-        sec = atoi(quantity.c_str());
+        GameEvent *event = new GameEvent();
+
+        if(typeEvent.compare("TIMED_EVENT") == 0){
+            event->type = TIMED_EVENT;
+            getline(myfile, seconds, ' ');
+            sec = atoi(quantity.c_str());
+            event->timer = sec;
+        }
+        else
+            event->type = CLEAR_EVENT;
 
         getline(myfile, seconds, '\n');
         qty = atoi(quantity.c_str());
-
-        GameEvent *event = new GameEvent();
-        event->timer = sec;
-        if(typeEvent.compare("TIMED_EVENT") == 0)
-            event->type = TIMED_EVENT;
-        else
-            event->type = CLEAR_EVENT;
 
         getline(myfile,typeEnemy, ' ');
 
