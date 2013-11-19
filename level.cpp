@@ -1,45 +1,70 @@
 #include "level.h"
 #include <iostream>
-//#include <fstream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
-
+using namespace std;
 Level::Level(std::string *file)
 {
-    Level();
-    /*std::ifstream myfile (file.c_str());
-      if (myfile.is_open())
-      {
-        /*** this currently doesn't compile correctly.
-         *** EnemyShip doesn't have an operator_>>() function yet.
-        while ( std::getline (myfile,line) )  //parsing lines
-        {
-          cout << line << endl;
+    string typeEvent;
+    string positionY;
+    string seconds;
+    string typeEnemy;
+    string quantity;
+    int posY;
+    int sec;
+    int qty;
+    int i;
 
-          istringstream tokenizer(line);
-          string token;
+    ifstream myfile (file->c_str());
+    if (myfile.fail())
+    {
+        cout << "Unable to open file" << endl;
+        return;
+    }
 
-          getline(tokenizer, token, ' ');
-          istringstream int_iss(token);
-          int sec;
-          int_iss >> sec;
 
-          getline(tokenizer, token, ' ');
-          istringstream int_iss(token);
-          int qtEnemy;
-          int_iss >> qtEnemy;
+    while(myfile.eof()==0){
+        getline(myfile, typeEvent, ' ');
+        if(typeEvent.size() == 0)
+            continue; //go back to start of the loop
 
-          getline(tokenizer, token, ' ');
-          istringstream enemy_iss(token);
-          EnemyShip enType;
-          enemy_iss >> enType;
+        getline(myfile, seconds, ' ');
+        sec = atoi(quantity.c_str());
 
-          level::addEvent(sec, qtEnemy, enType);
+        getline(myfile, seconds, '\n');
+        qty = atoi(quantity.c_str());
+
+        GameEvent *event = new GameEvent();
+        event->timer = sec;
+        if(typeEvent.compare("TIMED_EVENT") == 0)
+            event->type = TIMED_EVENT;
+        else
+            event->type = CLEAR_EVENT;
+
+        getline(myfile,typeEnemy, ' ');
+
+        for(i=0;i<qty;i++){
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+
+            getline(myfile,positionY, '\n');
+            posY = atoi(positionY.c_str());
+            if(typeEnemy.compare("DummyShip")==0)
+                event->ships.push_back(new DummyShip(posY));
+            else if (typeEnemy.compare("ZigZagShip")==0)
+                event->ships.push_back(new ZigZagShip(posY));
+            else if (typeEnemy.compare("SpawnerShip")==0)
+                event->ships.push_back(new SpawnerShip(posY));
         }
-        myfile.close();
-      }
-
-      else std::cout << "Unable to open file";*/
+        eventList.push_back(event);
+   }
+    myfile.close();
 }
+
 Level::Level(void)
 {
     nextLevel_str = NULL;
