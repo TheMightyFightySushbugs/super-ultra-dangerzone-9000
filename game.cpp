@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
+#include <fstream>
 
 std::list<EnemyShip*> Game::enemies;
 
@@ -21,18 +22,68 @@ void Game::readHighscoreFile()
     for(int i = 0; i < 10; i++)
         highscores[i] = 0;
 
+    std::fstream high_score_file;
+
+    high_score_file.open("highscores.txt");
+
+    if(high_score_file.good())
+    {
+        unsigned int value;
+        for(int i = 0; i < 10; i++)
+        {
+            high_score_file >> value;
+            highscores[i] = value;
+        }
+    }
+
+    high_score_file.close();
     //[to-do] initialize highscore array with values from highscore file
 }
 
 void Game::updateHighscores()
 {
+    unsigned int new_score = player1.getScore();
+    for(int i = 0; i < 10; i++)
+    {
+        if(highscores[i] < new_score)
+        {
+            unsigned int temp = highscores[i];
+            highscores[i] = new_score;
+            new_score = temp;
+        }
+
+        if(highscores[i] == new_score)
+            i = 10;
+    }
+
+    std::ofstream outStream;
+
+    outStream.open("highscores.txt");
+    for(int i = 0; i < 10; i++)
+    {
+        outStream << highscores[i] << std::endl;
+    }
+
+    outStream.close();
     //[to-do] update highscore array if any player has beaten a highscore
 }
 
 void Game::displayHighscores(QPainter *painter)
 {
+    painter->drawText(-20, -GAME_HEIGHT/2, "Highest Scores");
+    for(int i = 0; i < 10; i++)
+    {
+        char high_score_str[9];
+        sprintf(high_score_str, "%08u", highscores[i]);
+
+        painter->setPen(Qt::white);
+        painter->setFont(QFont("Arial", 9));
+        painter->drawText(-20, -GAME_HEIGHT/3 + 10*i, high_score_str);
+
+    }
     //[to-do] display highscores
 }
+
 
 //Delete everything Game has ever allocated
 void Game::cleanUpEverything()
