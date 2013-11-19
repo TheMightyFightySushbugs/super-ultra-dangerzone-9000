@@ -5,7 +5,7 @@
 #include <sstream>
 
 using namespace std;
-Level::Level(std::string *file)
+Level::Level(const char *file)
 {
     string typeEvent;
     string positionY;
@@ -17,7 +17,7 @@ Level::Level(std::string *file)
     int qty;
     int i;
 
-    ifstream myfile (file->c_str());
+    ifstream myfile (file);
     if (myfile.fail())
     {
         cout << "Unable to open file" << endl;
@@ -28,25 +28,34 @@ Level::Level(std::string *file)
     while(myfile.eof()==0){
         getline(myfile, typeEvent, ' ');
         if(typeEvent.size() == 0)
+        {
+            std::cout << "blank line" << std::endl;
             continue; //go back to start of the loop
+        }
 
+        std::cout << "allocating new event" << std::endl;
         GameEvent *event = new GameEvent();
 
+        std::cout << "\"" << typeEvent << "\"" << std::endl;
         if(typeEvent.compare("TIMED_EVENT") == 0){
+            std::cout << "type: TIMED_EVENT" << std::endl;
             event->type = TIMED_EVENT;
             getline(myfile, seconds, ' ');
-            sec = atoi(quantity.c_str());
+            sec = atoi(seconds.c_str());
+            std::cout << "time: " << sec << std::endl;
             event->timer = sec;
         }
         else
             event->type = CLEAR_EVENT;
 
-        getline(myfile, seconds, '\n');
+        getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());
+        std::cout << "quantity " << qty << endl;
 
-        getline(myfile,typeEnemy, ' ');
+
 
         for(i=0;i<qty;i++){
+            getline(myfile,typeEnemy, ' ');
             getline(myfile,typeEnemy, ' ');
             getline(myfile,typeEnemy, ' ');
             getline(myfile,typeEnemy, ' ');
@@ -55,15 +64,25 @@ Level::Level(std::string *file)
             getline(myfile,positionY, '\n');
             posY = atoi(positionY.c_str());
             if(typeEnemy.compare("DummyShip")==0)
+            {
                 event->ships.push_back(new DummyShip(posY));
-            else if (typeEnemy.compare("ZigZagShip")==0)
+                std::cout << "creating dummyship at posititon: " << posY << std::endl;
+            }
+            else if (typeEnemy.compare("ZigZagShip")==0){
                 event->ships.push_back(new ZigZagShip(posY));
-            else if (typeEnemy.compare("SpawnerShip")==0)
+                std::cout << "creating ZigZagShip at posititon: " << posY << std::endl;
+            }
+            else if (typeEnemy.compare("SpawnerShip")==0){
                 event->ships.push_back(new SpawnerShip(posY));
+                std::cout << "creating SpawnerShip at posititon: " << posY << std::endl;
+            }
         }
+        getline(myfile,typeEnemy, '\n');
+        std::cout << "calling push back event" << std::endl;
         eventList.push_back(event);
    }
     myfile.close();
+    nextLevel_str = NULL;
 }
 
 Level::Level(void)

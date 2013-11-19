@@ -13,7 +13,7 @@ class Level
                                     //    (null if this is last level)
     public:
         Level(void);
-        Level(std::string *file);
+        Level(const char *file);
         //void addEvent(int sec, int numEnemy, EnemyShip &enemy);
         //void defineLength(int length);
         bool update(std::list<EnemyShip *> &enemies);

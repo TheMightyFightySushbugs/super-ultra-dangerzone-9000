@@ -173,7 +173,7 @@ void Game::gameLoop()
                     updateHighscores();
                 }
                 else
-                    currentLevel = new Level(levelFileName);
+                    currentLevel = new Level(levelFileName->c_str());
             }
             break;
         default:
@@ -439,7 +439,7 @@ void Game::handleMouseClick(int xPos, int yPos)
 
     if(gameYPos <= 5*GAME_HEIGHT/12)
     {
-        currentLevel = new Level();
+        currentLevel = new Level("level1.txt");
         levelFileName = NULL;
         state = STARTING_LEVEL;
         countdownTimer = 100;
