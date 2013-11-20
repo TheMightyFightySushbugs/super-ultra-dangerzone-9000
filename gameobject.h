@@ -18,7 +18,4 @@ class GameObject
                    unsigned short _height, const QBrush &_color);
 };
 
-const int GAME_WIDTH = 200;
-const int GAME_HEIGHT = 150;
-
 #endif // GAMEOBJECT_H

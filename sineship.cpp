@@ -4,16 +4,16 @@
 QBrush ZigZagShip::zigZagColor = QBrush(QColor(0, 255, 0));
 
 ZigZagShip::ZigZagShip(int _positionY)
-    : EnemyShip(GAME_WIDTH + 7, _positionY, 2, 7, 6, 10, zigZagColor)
+    : EnemyShip(180, _positionY, 3, 7, 6, 10, zigZagColor)
 {
-    timer = 45;
+    timer = 30;
     movingUp = false;
 }
 
 bool ZigZagShip::move()
 {
     positionX--;
-    if(positionX < -GAME_WIDTH - 7)
+    if(positionX < -180 )
         return true;
 
     if(movingUp)
@@ -24,7 +24,7 @@ bool ZigZagShip::move()
     if(--timer < 0)
     {
         enemyBullets.push_back(new LinearBullet(positionX-6, positionY, -3, 0, 0, zigZagColor));
-        timer = 45;
+        timer = 30;
         movingUp = !movingUp;
     }
     return false;
