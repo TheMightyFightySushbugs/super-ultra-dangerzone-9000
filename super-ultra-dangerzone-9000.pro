@@ -24,7 +24,13 @@ SOURCES += main.cpp\
     explosion.cpp \
     level.cpp \
     gameevent.cpp \
-    sineship.cpp
+    zigzagship.cpp \
+<<<<<<< HEAD
+    spawnership.cpp \
+    bomb.cpp
+=======
+    spawnership.cpp
+>>>>>>> 36e6411470d22acbe6bcc6d4a368afe29581e513
 
 
 HEADERS  += mainwindow.h \
@@ -36,6 +42,7 @@ HEADERS  += mainwindow.h \
     linearbullet.h \
     explosion.h \
     level.h \
-    gameevent.h
+    gameevent.h \
+    bomb.h
 
 FORMS    +=

@@ -70,4 +70,17 @@ class ZigZagShip : public EnemyShip
         ~ZigZagShip() {}
 };
 
+class SpawnerShip : public EnemyShip
+{
+    private:
+        static QBrush spawnerColor;
+        int timer, velocityY;
+        bool movingUp;
+    public:
+        SpawnerShip(int _positionY);
+        bool move();
+        void draw(QPainter *painter);
+        ~SpawnerShip() {}
+};
+
 #endif // ENEMYSHIP_H

@@ -4,6 +4,7 @@
 #include <list>
 #include "enemyship.h"
 #include "linearbullet.h"
+#include "bomb.h"
 
 enum PlayerShipState { SPAWNING, ALIVE, DEAD };
 
@@ -17,6 +18,7 @@ class PlayerShip : public GameObject
         static std::list<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
         bool shootPressed, shootTapped;
+        bool bombPressed, bombTapped;
     public:
         PlayerShip(int _positionX, int _positionY, unsigned int _playerID, QBrush _color);
         void draw(QPainter *painter);
@@ -27,12 +29,15 @@ class PlayerShip : public GameObject
         void pressLeft() {leftPressed = true;}
         void pressRight() {rightPressed = true;}
         void pressShoot() {if(!shootPressed) shootTapped = true; shootPressed = true;}
+        void pressBomb() {if (!bombPressed) bombTapped = true; bombPressed = true;}
         void releaseUp() {upPressed = false;}
         void releaseDown() {downPressed = false;}
         void releaseLeft() {leftPressed = false;}
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
+        void releaseBomb() {bombPressed = false;}
         void incrementScore(int _increment) {score += _increment;}
+        unsigned int getScore() {return score;}
 
         //Interpret player's input and perform whatever actions must be performed for the
         //current frame.
