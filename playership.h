@@ -33,6 +33,7 @@ class PlayerShip : public GameObject
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
         void incrementScore(int _increment) {score += _increment;}
+        unsigned int getScore() {return score;}
 
         //Interpret player's input and perform whatever actions must be performed for the
         //current frame.

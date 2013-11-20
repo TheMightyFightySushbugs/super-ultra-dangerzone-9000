@@ -35,13 +35,15 @@ void PlayerShip::drawHUD(QPainter *painter)
     sprintf(score_str, "%08i", score);
     char lives_str[6];
     sprintf(lives_str, "x%i", lives);
+    painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 9));
-    painter->drawText(-155 + 80*playerID, -110, score_str);
+    painter->drawText(10 - GAME_WIDTH + (GAME_WIDTH/2)*playerID, -GAME_HEIGHT + 10, score_str);
     painter->setFont(QFont("Arial", 7));
-    painter->fillRect(-155 + 80*playerID, -109, 9, 7, color);
-    painter->drawText(-145 + 80*playerID, -102, lives_str);
+    painter->drawText(20 - GAME_WIDTH + (GAME_WIDTH/2)*playerID, 18 - GAME_HEIGHT, lives_str);
+    painter->fillRect(10 - GAME_WIDTH + (GAME_WIDTH/2)*playerID, 11 - GAME_HEIGHT, 9, 7, color);
     for(unsigned int i = 0; i < bombs; i++)
-        painter->fillRect(-130 + 80*playerID + 10*i, -109, 7, 7, color);
+        painter->fillRect(35 - GAME_WIDTH + (GAME_WIDTH/2)*playerID + 10*i, 11-GAME_HEIGHT, 7,
+                          7, color);
 }
 
 void PlayerShip::interpretInput()
@@ -62,10 +64,10 @@ void PlayerShip::interpretInput()
     {
         if(leftPressed)
         {
-            if(positionX > -140)
+            if(positionX > -GAME_WIDTH + 20)
                 positionX -= 3;
         }
-        else if(positionX < 140)
+        else if(positionX < GAME_WIDTH - 20)
             positionX += 3;
     }
     //Vertical movement
@@ -73,10 +75,10 @@ void PlayerShip::interpretInput()
     {
         if(upPressed)
         {
-            if(positionY > -90)
+            if(positionY > -GAME_HEIGHT + 30)
                 positionY -= 3;
         }
-        else if(positionY < 105)
+        else if(positionY < GAME_HEIGHT - 15)
             positionY += 3;
     }
 

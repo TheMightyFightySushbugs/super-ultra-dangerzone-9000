@@ -29,7 +29,7 @@ void MainWindow::paintEvent(QPaintEvent* event)
     QPainter painter;
     painter.begin(this);
     //painter.setRenderHint(QPainter::Antialiasing);
-    gameInstance->render(&painter, event);
+    gameInstance->render(&painter);
     painter.end();
 }
 
@@ -47,8 +47,15 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event)
     gameInstance->handleKeyReleaseEvent(event->key());
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() != Qt::LeftButton)
+        return;
+    gameInstance->handleMouseClick(event->x(), event->y());
+}
+
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
-    QSize temp = event->size();
-    gameInstance->setAspectRatio((double)temp.width()/temp.height());
+    QSize windowSize = event->size();
+    gameInstance->setAspectRatio(windowSize.width(), windowSize.height());
 }

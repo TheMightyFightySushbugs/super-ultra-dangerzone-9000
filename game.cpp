@@ -4,20 +4,86 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
+#include <fstream>
 
-Game::Game() : player1(-111, -30, 0, QBrush(QColor(225, 128, 162))),
-               player2(-111, 0, 1, QBrush(QColor(34, 69, 111))),
-               player3(-111, 30, 2, QBrush(QColor(225, 54, 162))),
-               player4(-111, 60, 3, QBrush(QColor(70, 128, 162)))
+std::list<EnemyShip*> Game::enemies;
+
+Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
+               player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
+               player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
+               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
 {
-    windowHeight = 120;
-    windowWidth = 160;
-    background = QBrush(QColor(14, 32, 24));
-    state = STARTING_LEVEL; //<-- MAIN_MENU isn't implemented yet
-    levelFileName = NULL;
-    currentLevel = new Level();
-    countdownTimer = 60;
+    state = MAIN_MENU;
+    readHighscoreFile();
 }
+
+void Game::readHighscoreFile()
+{
+    for(int i = 0; i < 10; i++)
+        highscores[i] = 0;
+
+    std::fstream high_score_file;
+
+    high_score_file.open("highscores.txt");
+
+    if(high_score_file.good())
+    {
+        unsigned int value;
+        for(int i = 0; i < 10; i++)
+        {
+            high_score_file >> value;
+            highscores[i] = value;
+        }
+    }
+
+    high_score_file.close();
+    //[to-do] initialize highscore array with values from highscore file
+}
+
+void Game::updateHighscores()
+{
+    unsigned int new_score = player1.getScore();
+    for(int i = 0; i < 10; i++)
+    {
+        if(highscores[i] < new_score)
+        {
+            unsigned int temp = highscores[i];
+            highscores[i] = new_score;
+            new_score = temp;
+        }
+
+        if(highscores[i] == new_score)
+            i = 10;
+    }
+
+    std::ofstream outStream;
+
+    outStream.open("highscores.txt");
+    for(int i = 0; i < 10; i++)
+    {
+        outStream << highscores[i] << std::endl;
+    }
+
+    outStream.close();
+    //[to-do] update highscore array if any player has beaten a highscore
+}
+
+void Game::displayHighscores(QPainter *painter)
+{
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Arial", 20));
+    painter->drawText(-90, -GAME_HEIGHT/2 - 45, "Highest Scores");
+    for(int i = 0; i < 10; i++)
+    {
+        char high_score_str[9];
+        sprintf(high_score_str, "%08u", highscores[i]);
+        painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
+
+    }
+
+    //[to-do] display highscores
+}
+
 
 //Delete everything Game has ever allocated
 void Game::cleanUpEverything()
@@ -34,10 +100,10 @@ void Game::cleanUpEverything()
 
 void Game::gameLoop()
 {
-    if(state == PAUSED)
+    if(state == PAUSED || state == MAIN_MENU)
         return;
 
-    int playersStillAlive = 4;
+    int playersStillAlive = playerCount;
 
     //Let the players do whatever they have to do (move/shoot/etc)
     if(player1.getState() != DEAD)
@@ -79,6 +145,7 @@ void Game::gameLoop()
                 std::cout << "Game Over! (countdownTimer timed out)" << std::endl;
                 cleanUpEverything();
                 state = HIGH_SCORE_ENTER;
+                updateHighscores();
                 break;
             }
             //odd placement of break statement is intentional; this is a fall-through case
@@ -103,9 +170,10 @@ void Game::gameLoop()
                     std::cout << "Game Complete! You Win!" << std::endl;
                     cleanUpEverything();
                     state = HIGH_SCORE_ENTER;
+                    updateHighscores();
                 }
                 else
-                    currentLevel = new Level(levelFileName);
+                    currentLevel = new Level(levelFileName->c_str());
             }
             break;
         default:
@@ -134,22 +202,22 @@ void Game::gameLoop()
         if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)
         {
             player1.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player2.getState()==ALIVE && player2.collidesWith(**currentEnemy) == true)
         {
             player2.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player3.getState()==ALIVE && player3.collidesWith(**currentEnemy) == true)
         {
             player3.kill();
-            damage += 47;
+            damage += 4;
         }
         if(player4.getState()==ALIVE && player4.collidesWith(**currentEnemy) == true)
         {
             player4.kill();
-            damage += 47;
+            damage += 4;
         }
         //Check to see if any of the player's bullets hit the ship
         damage += PlayerShip::shot(**currentEnemy);
@@ -210,20 +278,23 @@ void Game::gameLoop()
     }
 }
 
-void Game::render(QPainter *painter, QPaintEvent *event)
+void Game::render(QPainter *painter)
 {
-    painter->fillRect(event->rect(), background);
-    painter->setWindow(-windowWidth, -windowHeight, windowWidth*2, windowHeight*2);
+    painter->setWindow(-windowXScale, -GAME_HEIGHT, windowXScale*2, GAME_HEIGHT*2);
     painter->save();
+    painter->fillRect(-GAME_WIDTH, -GAME_HEIGHT, GAME_WIDTH*2, GAME_HEIGHT*2, Qt::black);
     switch(state)
     {
+        case MAIN_MENU:
+            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/4, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
+            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/2, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
+            break;
         case STARTING_LEVEL:
         case PLAYING_LEVEL:
         case PAUSED:
         case ENDING_LEVEL:
         case GAME_OVER:
         {
-            painter->fillRect(-160, -120, 320, 240, Qt::yellow);
             player1.draw(painter);
             player2.draw(painter);
             player3.draw(painter);
@@ -239,13 +310,14 @@ void Game::render(QPainter *painter, QPaintEvent *event)
             player3.drawHUD(painter);
             player4.drawHUD(painter);
             if(state == GAME_OVER)
-                painter->fillRect(-80, -40, 160, 80, Qt::blue);
+                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::blue);
             if(state == PAUSED)
-                painter->fillRect(-80, -40, 160, 80, Qt::green);
+                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
             break;
         }
-        default:
-            painter->fillRect(-160, -120, 320, 240, Qt::magenta);
+        case HIGH_SCORE_ENTER:
+        case HIGH_SCORE_DISPLAY:
+            displayHighscores(painter);
             break;
     }
     painter->restore();
@@ -253,6 +325,9 @@ void Game::render(QPainter *painter, QPaintEvent *event)
 
 void Game::handleKeyPressEvent(int key)
 {
+    if(state == MAIN_MENU)
+        return;
+
     switch(key)
     {
         case Qt::Key_Up:
@@ -348,7 +423,34 @@ void Game::handleKeyReleaseEvent(int key)
     }
 }
 
-void Game::setAspectRatio(double newAspectRatio)
+void Game::handleMouseClick(int xPos, int yPos)
 {
-    windowWidth = (int)(windowHeight*newAspectRatio);
+    if(state != MAIN_MENU)
+        return;
+
+    //translate absolute mouse coordinates into game-relative coordinates
+    int gameXPos = (int)((2.0 * xPos / windowWidth - 1) * windowXScale);
+    if(gameXPos < GAME_WIDTH/4 || gameXPos > 3*GAME_WIDTH/4)
+        return;
+    int gameYPos = (int)((2.0 * yPos / windowHeight - 1) * GAME_HEIGHT);
+    if(gameYPos < GAME_HEIGHT/4 || gameYPos > 2*GAME_HEIGHT/3)
+        return;
+
+    if(gameYPos <= 5*GAME_HEIGHT/12)
+    {
+        currentLevel = new Level("level1.txt");
+        levelFileName = NULL;
+        state = STARTING_LEVEL;
+        countdownTimer = 100;
+        playerCount = 4;
+    }
+    else if(gameYPos >= GAME_HEIGHT/2)
+        std::cout << "This button doesn't do anything yet..." << std::endl;
+}
+
+void Game::setAspectRatio(unsigned int width, unsigned int height)
+{
+    windowXScale = (int)(GAME_HEIGHT * (double)width / height);
+    windowWidth = width;
+    windowHeight = height;
 }

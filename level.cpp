@@ -1,45 +1,90 @@
 #include "level.h"
 #include <iostream>
-//#include <fstream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
-
-Level::Level(std::string *file)
+using namespace std;
+Level::Level(const char *file)
 {
-    Level();
-    /*std::ifstream myfile (file.c_str());
-      if (myfile.is_open())
-      {
-        /*** this currently doesn't compile correctly.
-         *** EnemyShip doesn't have an operator_>>() function yet.
-        while ( std::getline (myfile,line) )  //parsing lines
+    string typeEvent;
+    string positionY;
+    string seconds;
+    string typeEnemy;
+    string quantity;
+    int posY;
+    int sec;
+    int qty;
+    int i;
+
+    ifstream myfile (file);
+    if (myfile.fail())
+    {
+        cout << "Unable to open file" << endl;
+        return;
+    }
+
+
+    while(myfile.eof()==0){
+        getline(myfile, typeEvent, ' ');
+        if(typeEvent.size() == 0)
         {
-          cout << line << endl;
-
-          istringstream tokenizer(line);
-          string token;
-
-          getline(tokenizer, token, ' ');
-          istringstream int_iss(token);
-          int sec;
-          int_iss >> sec;
-
-          getline(tokenizer, token, ' ');
-          istringstream int_iss(token);
-          int qtEnemy;
-          int_iss >> qtEnemy;
-
-          getline(tokenizer, token, ' ');
-          istringstream enemy_iss(token);
-          EnemyShip enType;
-          enemy_iss >> enType;
-
-          level::addEvent(sec, qtEnemy, enType);
+            std::cout << "blank line" << std::endl;
+            continue; //go back to start of the loop
         }
-        myfile.close();
-      }
 
-      else std::cout << "Unable to open file";*/
+        std::cout << "allocating new event" << std::endl;
+        GameEvent *event = new GameEvent();
+
+        std::cout << "\"" << typeEvent << "\"" << std::endl;
+        if(typeEvent.compare("TIMED_EVENT") == 0){
+            std::cout << "type: TIMED_EVENT" << std::endl;
+            event->type = TIMED_EVENT;
+            getline(myfile, seconds, ' ');
+            sec = atoi(seconds.c_str());
+            std::cout << "time: " << sec << std::endl;
+            event->timer = sec;
+        }
+        else
+            event->type = CLEAR_EVENT;
+
+        getline(myfile, quantity, '\n');
+        qty = atoi(quantity.c_str());
+        std::cout << "quantity " << qty << endl;
+
+
+
+        for(i=0;i<qty;i++){
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+            getline(myfile,typeEnemy, ' ');
+
+            getline(myfile,positionY, '\n');
+            posY = atoi(positionY.c_str());
+            if(typeEnemy.compare("DummyShip")==0)
+            {
+                event->ships.push_back(new DummyShip(posY));
+                std::cout << "creating dummyship at posititon: " << posY << std::endl;
+            }
+            else if (typeEnemy.compare("ZigZagShip")==0){
+                event->ships.push_back(new ZigZagShip(posY));
+                std::cout << "creating ZigZagShip at posititon: " << posY << std::endl;
+            }
+            else if (typeEnemy.compare("SpawnerShip")==0){
+                event->ships.push_back(new SpawnerShip(posY));
+                std::cout << "creating SpawnerShip at posititon: " << posY << std::endl;
+            }
+        }
+        getline(myfile,typeEnemy, '\n');
+        std::cout << "calling push back event" << std::endl;
+        eventList.push_back(event);
+   }
+    myfile.close();
+    nextLevel_str = NULL;
 }
+
 Level::Level(void)
 {
     nextLevel_str = NULL;
@@ -62,7 +107,7 @@ Level::Level(void)
     asdf->ships.push_back(new ZigZagShip(30));
     asdf->ships.push_back(new DummyShip(45));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 80;
+    asdf->timer = 100;
     eventList.push_back(asdf);
     asdf = new GameEvent();
     asdf->ships.push_back(new DummyShip(-15));
@@ -70,7 +115,7 @@ Level::Level(void)
     asdf->ships.push_back(new ZigZagShip(15));
     asdf->ships.push_back(new DummyShip(30));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 100;
+    asdf->timer = 140;
     eventList.push_back(asdf);
     asdf = new GameEvent();
     asdf->ships.push_back(new DummyShip(-30));
@@ -80,7 +125,11 @@ Level::Level(void)
     asdf->ships.push_back(new DummyShip(30));
     asdf->ships.push_back(new ZigZagShip(45));
     asdf->type = TIMED_EVENT;
-    asdf->timer = 20;
+    asdf->timer = 40;
+    asdf = new GameEvent();
+    asdf->ships.push_back(new SpawnerShip(0));
+    asdf->type = TIMED_EVENT;
+    asdf->timer = 150;
     eventList.push_back(asdf);
 }
 
