@@ -16,7 +16,8 @@ class PlayerShip : public GameObject
         PlayerShipState state;
         static std::list<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
-        bool shootPressed, shootTapped;
+        bool shootPressed, shootTapped, bombPressed, bombTapped;
+        static QBrush bombBlastColor;
     public:
         PlayerShip(int _positionX, int _positionY, unsigned int _playerID, QBrush _color);
         void draw(QPainter *painter);
@@ -27,11 +28,14 @@ class PlayerShip : public GameObject
         void pressLeft() {leftPressed = true;}
         void pressRight() {rightPressed = true;}
         void pressShoot() {if(!shootPressed) shootTapped = true; shootPressed = true;}
+        void pressBomb();
         void releaseUp() {upPressed = false;}
         void releaseDown() {downPressed = false;}
         void releaseLeft() {leftPressed = false;}
         void releaseRight() {rightPressed = false;}
         void releaseShoot() {shootPressed = false;}
+        void releaseBomb() {bombPressed = false;}
+        bool isBombing() {return bombTapped;}
         void incrementScore(int _increment) {score += _increment;}
         unsigned int getScore() {return score;}
 

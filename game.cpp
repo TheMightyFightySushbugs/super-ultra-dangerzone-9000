@@ -187,7 +187,7 @@ void Game::gameLoop()
     {
 
         //Let the ship do whatever it has to do (move/shoot/etc)
-        //checks for out of bounds
+        //Delete it if it goes out of bounds
         if((*currentEnemy)->move()==true)
         {
             delete *currentEnemy;
@@ -195,10 +195,18 @@ void Game::gameLoop()
             continue;
         }
 
-        //if player exist
-        //if player is alive
-        //checking for collision
         damage = 0;
+        //Check to see if any player is currently bombing
+        if(player1.isBombing())
+            damage = (damage | (1 << 31)) + 16;
+        if(player2.isBombing())
+            damage = (damage | (1 << 30)) + 16;
+        if(player3.isBombing())
+            damage = (damage | (1 << 29)) + 16;
+        if(player4.isBombing())
+            damage = (damage | (1 << 28)) + 16;
+
+        //Check to see if any players are colliding with the current enemy
         if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)
         {
             player1.kill();
@@ -360,6 +368,12 @@ void Game::handleKeyPressEvent(int key)
             player3.pressShoot();
             player4.pressShoot();
             break;
+        case Qt::Key_B:
+            player1.pressBomb();
+            player2.pressBomb();
+            player3.pressBomb();
+            player4.pressBomb();
+            break;
         //Just to demonstrate that PlayerShip::kill() is working...
         case Qt::Key_1:
             if(player1.getState() == ALIVE)
@@ -413,6 +427,12 @@ void Game::handleKeyReleaseEvent(int key)
             player2.releaseShoot();
             player3.releaseShoot();
             player4.releaseShoot();
+            break;
+        case Qt::Key_B:
+            player1.releaseBomb();
+            player2.releaseBomb();
+            player3.releaseBomb();
+            player4.releaseBomb();
             break;
         case Qt::Key_Escape:
             if(state == PLAYING_LEVEL)

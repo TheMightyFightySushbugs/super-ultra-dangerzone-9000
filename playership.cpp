@@ -1,4 +1,5 @@
 #include "playership.h"
+#include "explosion.h"
 #include <QPainter>
 #include <stdio.h>
 
@@ -20,13 +21,14 @@ PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, Q
     positionY = spawnY = _positionY;
     positionX = spawnX - 81;
     upPressed = downPressed = leftPressed = rightPressed = false;
-    shootPressed = shootTapped = false;
+    shootPressed = shootTapped = bombPressed = bombTapped = false;
 }
 
 void PlayerShip::draw(QPainter *painter)
 {
     if(visible)
         painter->fillRect(positionX-16, positionY-8, 32, 16, color);
+    bombTapped = false;
 }
 
 void PlayerShip::drawHUD(QPainter *painter)
@@ -169,4 +171,16 @@ void PlayerShip::cleanUpPlayerBullets()
     while(currentBullet != playerBullets.end())
         delete *currentBullet++;
     playerBullets.clear();
+}
+
+QBrush PlayerShip::bombBlastColor = QBrush(Qt::white);
+
+void PlayerShip::pressBomb()
+{
+    if(bombPressed || bombs == 0)
+        return;
+    bombs--;
+    bombPressed = true;
+    bombTapped = true;
+    Explosion::addExplosion(0, 0, GAME_WIDTH, 3, bombBlastColor);
 }
