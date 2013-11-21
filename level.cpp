@@ -163,8 +163,8 @@ bool Level::update(std::list<EnemyShip*> &enemies)
                 eventList.pop_front();
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
-                while(currentEnemy++ != nextEvent->ships.end())
-                    enemies.push_back(*currentEnemy);
+                while(currentEnemy != nextEvent->ships.end())
+                    enemies.push_back(*currentEnemy++);
                 delete nextEvent;
             }
             break;
