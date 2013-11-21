@@ -10,7 +10,7 @@
 #include "level.h"
 
 enum GameState {MAIN_MENU, STARTING_LEVEL, PLAYING_LEVEL, PAUSED, ENDING_LEVEL, GAME_OVER,
-                HIGH_SCORE_DISPLAY, HIGH_SCORE_ENTER};
+                HIGH_SCORE_DISPLAY};
 
 class Game
 {

@@ -96,11 +96,16 @@ void Game::cleanUpEverything()
     PlayerShip::cleanUpPlayerBullets();
     EnemyShip::cleanUpEnemyBullets();
     Explosion::cleanUpExplosions();
+    if(currentLevel != NULL)
+    {
+        currentLevel->cleanUpResources();
+        delete currentLevel;
+    }
 }
 
 void Game::gameLoop()
 {
-    if(state == PAUSED || state == MAIN_MENU)
+    if(state == PAUSED || state == MAIN_MENU || state == HIGH_SCORE_DISPLAY)
         return;
 
     int playersStillAlive = playerCount;
@@ -144,7 +149,8 @@ void Game::gameLoop()
             {
                 std::cout << "Game Over! (countdownTimer timed out)" << std::endl;
                 cleanUpEverything();
-                state = HIGH_SCORE_ENTER;
+                state = HIGH_SCORE_DISPLAY;
+                countdownTimer = 120;
                 updateHighscores();
                 break;
             }
@@ -169,13 +175,13 @@ void Game::gameLoop()
                 {
                     std::cout << "Game Complete! You Win!" << std::endl;
                     cleanUpEverything();
-                    state = HIGH_SCORE_ENTER;
+                    state = HIGH_SCORE_DISPLAY;
+                    countdownTimer = 120;
                     updateHighscores();
                 }
                 else
                     currentLevel = new Level(levelFileName->c_str());
             }
-            break;
         default:
             break;
     }
@@ -323,9 +329,10 @@ void Game::render(QPainter *painter)
                 painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
             break;
         }
-        case HIGH_SCORE_ENTER:
         case HIGH_SCORE_DISPLAY:
             displayHighscores(painter);
+            if(--countdownTimer == 0)
+                state = MAIN_MENU;
             break;
     }
     painter->restore();
@@ -463,6 +470,10 @@ void Game::handleMouseClick(int xPos, int yPos)
         state = STARTING_LEVEL;
         countdownTimer = 100;
         playerCount = 4;
+        player1.reset();
+        player2.reset();
+        player3.reset();
+        player4.reset();
     }
     else if(gameYPos >= GAME_HEIGHT/2)
         std::cout << "This button doesn't do anything yet..." << std::endl;

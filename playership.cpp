@@ -11,14 +11,18 @@ PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, Q
     : GameObject(_positionX, _positionY, 16, 8, _color)
 {
     playerID = _playerID;
+    spawnX = _positionX;
+    positionY = spawnY = _positionY;
+}
+
+void PlayerShip::reset()
+{
     score = 0;
     health = 1;
     lives = 3;
     bombs = 3;
     visible = true;
     state = SPAWNING;
-    spawnX = _positionX;
-    positionY = spawnY = _positionY;
     positionX = spawnX - 81;
     upPressed = downPressed = leftPressed = rightPressed = false;
     shootPressed = shootTapped = bombPressed = bombTapped = false;

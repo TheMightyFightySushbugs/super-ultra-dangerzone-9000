@@ -85,7 +85,7 @@ Level::Level(const char *file)
     nextLevel_str = NULL;
 }
 
-Level::Level(void)
+Level::Level()
 {
     nextLevel_str = NULL;
 
@@ -170,6 +170,16 @@ bool Level::update(std::list<EnemyShip*> &enemies)
             break;
     }
     return false;
+}
+
+void Level::cleanUpResources()
+{
+    std::list<GameEvent*>::iterator currentEvent = eventList.begin();
+    while(currentEvent != eventList.end())
+    {
+        (*currentEvent)->cleanUpResources();
+        delete *currentEvent++;
+    }
 }
 
 /*void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)

@@ -51,6 +51,9 @@ class PlayerShip : public GameObject
         //ship back to its starting position.
         void kill();
 
+        //Reset player ship back to its initial state (used when starting a new game)
+        void reset();
+
         PlayerShipState getState() {return state;}
         static int shot(GameObject & target);
         static void moveBullets();
