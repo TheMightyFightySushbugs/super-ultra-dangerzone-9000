@@ -174,6 +174,7 @@ void Game::gameLoop()
                     delete levelFileName;
                 levelFileName = currentLevel->getNextLevel();
                 delete currentLevel;
+                currentLevel = NULL;
                 std::cout << "Moving onto next level..." << std::endl;
                 state = ENDING_LEVEL;
                 countdownTimer = 100;
@@ -191,7 +192,11 @@ void Game::gameLoop()
                     updateHighscores();
                 }
                 else
+                {
                     currentLevel = new Level(levelFileName->c_str());
+                    state = STARTING_LEVEL;
+                    countdownTimer = 100;
+                }
             }
         default:
             break;

@@ -10,7 +10,8 @@ that are currently on the screen get killed. (Note that when
 this type of event is found, 'seconds' is not read)
 
 The last line tells the name of the file of the next level to 
-be executed.
+be executed. If this last line is excluded (e.g. if no next
+level is specified), then this will be the final level.
 
 
 

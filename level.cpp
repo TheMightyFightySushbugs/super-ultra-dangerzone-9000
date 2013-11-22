@@ -17,14 +17,15 @@ Level::Level(const char *file)
     int qty;
     int i;
 
+    cout << "Opening \"" << file << "\"" << endl;
     ifstream myfile (file);
     if (myfile.fail())
     {
-        cout << "Unable to open file" << endl;
+        cout << "Unable to open \"" << file << "\"" << endl;
         return;
     }
 
-
+    nextLevel_str = NULL;
     while(myfile.eof()==0){
         getline(myfile, typeEvent, ' ');
         if(typeEvent.size() == 0)
@@ -48,7 +49,7 @@ Level::Level(const char *file)
         else if (typeEvent.compare("CLEAR_EVENT") == 0)
             event->type = CLEAR_EVENT;
         else
-            nextLevel_str = &typeEvent;
+            nextLevel_str = new string(typeEvent);
 
         getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());
@@ -84,7 +85,6 @@ Level::Level(const char *file)
         eventList.push_back(event);
    }
     myfile.close();
-    //nextLevel_str = NULL;
 }
 
 Level::Level()
