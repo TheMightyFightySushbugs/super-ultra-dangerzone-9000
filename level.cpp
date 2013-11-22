@@ -45,8 +45,10 @@ Level::Level(const char *file)
             std::cout << "time: " << sec << std::endl;
             event->timer = sec;
         }
-        else
+        else if (typeEvent.compare("CLEAR_EVENT") == 0)
             event->type = CLEAR_EVENT;
+        else
+            nextLevel_str = &typeEvent;
 
         getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());
@@ -82,7 +84,7 @@ Level::Level(const char *file)
         eventList.push_back(event);
    }
     myfile.close();
-    nextLevel_str = NULL;
+    //nextLevel_str = NULL;
 }
 
 Level::Level()
