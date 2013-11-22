@@ -25,14 +25,14 @@ void PlayerShip::reset()
     state = SPAWNING;
     positionX = spawnX - 81;
     upPressed = downPressed = leftPressed = rightPressed = false;
-    shootPressed = shootTapped = bombPressed = bombTapped = false;
+    shootPressed = bombPressed = false;
 }
 
 void PlayerShip::draw(QPainter *painter)
 {
     if(visible)
         painter->fillRect(positionX-16, positionY-8, 32, 16, color);
-    bombTapped = false;
+    bombPressed = false;
 }
 
 void PlayerShip::drawHUD(QPainter *painter)
@@ -88,10 +88,10 @@ void PlayerShip::interpretInput()
             positionY += 3;
     }
 
-    if(shootTapped)
+    if(shootPressed)
         playerBullets.push_back(new LinearBullet(positionX + 16, positionY, 8, 0,
                                                  playerID, peaGreen));
-    shootTapped = false;
+    shootPressed = false;
 }
 
 bool PlayerShip::inflictDamage(unsigned int damage)
@@ -112,6 +112,7 @@ void PlayerShip::kill()
     Explosion::addExplosion(positionX, positionY, 17, 15, expColor);
 
     health = 1;
+    bombs = 3;
     if(--lives == 0)
     {
         state = DEAD;
@@ -181,10 +182,9 @@ QBrush PlayerShip::bombBlastColor = QBrush(Qt::white);
 
 void PlayerShip::pressBomb()
 {
-    if(bombPressed || bombs == 0)
+    if(bombs == 0)
         return;
     bombs--;
     bombPressed = true;
-    bombTapped = true;
     Explosion::addExplosion(0, 0, GAME_WIDTH, 3, bombBlastColor);
 }

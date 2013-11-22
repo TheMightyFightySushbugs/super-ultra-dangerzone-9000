@@ -27,15 +27,13 @@ class PlayerShip : public GameObject
         void pressDown() {downPressed = true;}
         void pressLeft() {leftPressed = true;}
         void pressRight() {rightPressed = true;}
-        void pressShoot() {if(!shootPressed) shootTapped = true; shootPressed = true;}
+        void pressShoot() {shootPressed = true;}
         void pressBomb();
         void releaseUp() {upPressed = false;}
         void releaseDown() {downPressed = false;}
         void releaseLeft() {leftPressed = false;}
         void releaseRight() {rightPressed = false;}
-        void releaseShoot() {shootPressed = false;}
-        void releaseBomb() {bombPressed = false;}
-        bool isBombing() {return bombTapped;}
+        bool isBombing() {return bombPressed;}
         void incrementScore(int _increment) {score += _increment;}
         unsigned int getScore() {return score;}
 

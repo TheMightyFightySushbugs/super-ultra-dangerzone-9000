@@ -14,6 +14,7 @@ Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
 {
     state = MAIN_MENU;
+    playerCount = 4;
     readHighscoreFile();
 }
 
@@ -444,18 +445,6 @@ void Game::handleKeyReleaseEvent(int key)
             player2.releaseRight();
             player3.releaseRight();
             player4.releaseRight();
-            break;
-        case Qt::Key_Space:
-            player1.releaseShoot();
-            player2.releaseShoot();
-            player3.releaseShoot();
-            player4.releaseShoot();
-            break;
-        case Qt::Key_B:
-            player1.releaseBomb();
-            player2.releaseBomb();
-            player3.releaseBomb();
-            player4.releaseBomb();
             break;
         case Qt::Key_Escape:
             if(state == PLAYING_LEVEL)
