@@ -9,6 +9,9 @@ There are two types of event:
 that are currently on the screen get killed. (Note that when
 this type of event is found, 'seconds' is not read)
 
+The last line tells the name of the file of the next level to 
+be executed.
+
 
 
 TIMED_EVENT 30 2
@@ -22,3 +25,5 @@ CLEAR_EVENT 3
 
 CLEAR_EVENT 1
     SpawnerShip 100
+
+level2.lvl
