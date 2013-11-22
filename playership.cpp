@@ -182,7 +182,7 @@ QBrush PlayerShip::bombBlastColor = QBrush(Qt::white);
 
 void PlayerShip::pressBomb()
 {
-    if(bombs == 0)
+    if(state != ALIVE || bombs == 0)
         return;
     bombs--;
     bombPressed = true;
