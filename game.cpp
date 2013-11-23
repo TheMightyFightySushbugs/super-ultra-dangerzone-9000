@@ -11,7 +11,8 @@ std::list<EnemyShip*> Game::enemies;
 Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
                player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
-               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
+               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162))),
+               logo(":/logo.png")
 {
     state = MAIN_MENU;
     playerCount = 4;
@@ -330,6 +331,7 @@ void Game::render(QPainter *painter)
     {
         case MAIN_MENU:
         {
+            painter->drawPixmap(-GAME_WIDTH/2, -3*GAME_HEIGHT/4, GAME_WIDTH, GAME_WIDTH/2, logo);
             painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/4, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
             painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/2, GAME_WIDTH/6, GAME_HEIGHT/6,
                               (playerCount > 1) ? Qt::blue : Qt::gray);

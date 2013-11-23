@@ -4,6 +4,7 @@
 #include <QBrush>
 #include <QFont>
 #include <QPen>
+#include <QPixmap>
 #include <QWidget>
 #include "playership.h"
 #include "enemyship.h"
@@ -40,6 +41,7 @@ class Game
         unsigned int countdownTimer, playerCount;
         unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
+        QPixmap logo;
 };
 
 #endif // GAME_H
