@@ -44,19 +44,93 @@ void Game::readHighscoreFile()
 
 void Game::updateHighscores()
 {
-    unsigned int new_score = player1.getScore();
+    unsigned int player_1_new_score,
+                 player_2_new_score,
+                 player_3_new_score,
+                 player_4_new_score;
+
+    player_1_new_score = player1.getScore();
+
+    if(playerCount >= 2)
+    {
+        player_2_new_score = player2.getScore();
+    }
+
+    if(playerCount >= 3)
+    {
+        player_3_new_score = player3.getScore();
+    }
+
+    if(playerCount == 4)
+    {
+        player_4_new_score = player4.getScore();
+    }
+
+// update player1 scores
     for(int i = 0; i < 10; i++)
     {
-        if(highscores[i] < new_score)
+        if(highscores[i] < player_1_new_score)
         {
             unsigned int temp = highscores[i];
-            highscores[i] = new_score;
-            new_score = temp;
+            highscores[i] = player_1_new_score;
+            player_1_new_score = temp;
         }
 
-        if(highscores[i] == new_score)
+        if(highscores[i] == player_1_new_score)
             i = 10;
     }
+
+// update player2 scores
+    if(playerCount >= 2)
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            if(highscores[i] < player_2_new_score)
+            {
+                unsigned int temp = highscores[i];
+                highscores[i] = player_2_new_score;
+                player_2_new_score = temp;
+            }
+
+            if(highscores[i] == player_2_new_score)
+                i = 10;
+        }
+    }
+
+// update player3 scores
+    if(playerCount >= 3)
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            if(highscores[i] < player_3_new_score)
+            {
+                unsigned int temp = highscores[i];
+                highscores[i] = player_3_new_score;
+                player_3_new_score = temp;
+            }
+
+            if(highscores[i] == player_3_new_score)
+                i = 10;
+        }
+    }
+
+// update player4 scores
+    if(playerCount == 4)
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            if(highscores[i] < player_4_new_score)
+            {
+                unsigned int temp = highscores[i];
+                highscores[i] = player_4_new_score;
+                player_4_new_score = temp;
+            }
+
+            if(highscores[i] == player_4_new_score)
+                i = 10;
+        }
+    }
+
 
     std::ofstream outStream;
 
@@ -72,7 +146,28 @@ void Game::updateHighscores()
 
 void Game::displayHighscores(QPainter *painter)
 {
-    unsigned int new_score = player1.getScore();
+    unsigned int player_1_new_score,
+                 player_2_new_score,
+                 player_3_new_score,
+                 player_4_new_score;
+
+    player_1_new_score = player1.getScore();
+
+    if(playerCount >= 2)
+    {
+        player_2_new_score = player2.getScore();
+    }
+
+    if(playerCount >= 3)
+    {
+        player_3_new_score = player3.getScore();
+    }
+
+    if(playerCount == 4)
+    {
+        player_4_new_score = player4.getScore();
+    }
+
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 20));
     painter->drawText(-90, -GAME_HEIGHT/2 - 45, "Highest Scores");
@@ -81,9 +176,27 @@ void Game::displayHighscores(QPainter *painter)
         painter->setPen(Qt::white);
         char high_score_str[9];
 
-        if(highscores[i] == new_score)
+        if(highscores[i] == player_1_new_score)
+        {
+            painter->setPen(Qt::gray);
+            sprintf(high_score_str, "%08u", highscores[i]);
+            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
+        }
+        else if(playerCount >= 2 && highscores[i] == player_2_new_score)
         {
             painter->setPen(Qt::blue);
+            sprintf(high_score_str, "%08u", highscores[i]);
+            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
+        }
+        else if(playerCount >= 3 && highscores[i] == player_3_new_score)
+        {
+            painter->setPen(Qt::red);
+            sprintf(high_score_str, "%08u", highscores[i]);
+            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
+        }
+        else if(playerCount >= 4 && highscores[i] == player_4_new_score)
+        {
+            painter->setPen(Qt::green);
             sprintf(high_score_str, "%08u", highscores[i]);
             painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
         }
