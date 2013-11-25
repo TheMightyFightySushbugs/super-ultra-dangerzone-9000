@@ -15,7 +15,7 @@ class GameEvent
         EventType type;
         int timer;
     public:
-        GameEvent();
+        void cleanUpResources();
 };
 
 #endif // GAMEEVENT_H
