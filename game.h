@@ -4,14 +4,13 @@
 #include <QBrush>
 #include <QFont>
 #include <QPen>
-#include <QPixmap>
 #include <QWidget>
 #include "playership.h"
 #include "enemyship.h"
 #include "level.h"
 
 enum GameState {MAIN_MENU, STARTING_LEVEL, PLAYING_LEVEL, PAUSED, ENDING_LEVEL, GAME_OVER,
-                HIGH_SCORE_DISPLAY};
+                HIGH_SCORE_DISPLAY, HIGH_SCORE_ENTER};
 
 class Game
 {
@@ -41,7 +40,6 @@ class Game
         unsigned int countdownTimer, playerCount;
         unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
-        QPixmap logo;
 };
 
 #endif // GAME_H

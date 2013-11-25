@@ -17,15 +17,14 @@ Level::Level(const char *file)
     int qty;
     int i;
 
-    cout << "Opening \"" << file << "\"" << endl;
     ifstream myfile (file);
     if (myfile.fail())
     {
-        cout << "Unable to open \"" << file << "\"" << endl;
+        cout << "Unable to open file" << endl;
         return;
     }
 
-    nextLevel_str = NULL;
+
     while(myfile.eof()==0){
         getline(myfile, typeEvent, ' ');
         if(typeEvent.size() == 0)
@@ -46,10 +45,8 @@ Level::Level(const char *file)
             std::cout << "time: " << sec << std::endl;
             event->timer = sec;
         }
-        else if (typeEvent.compare("CLEAR_EVENT") == 0)
-            event->type = CLEAR_EVENT;
         else
-            nextLevel_str = new string(typeEvent);
+            event->type = CLEAR_EVENT;
 
         getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());
@@ -85,9 +82,10 @@ Level::Level(const char *file)
         eventList.push_back(event);
    }
     myfile.close();
+    nextLevel_str = NULL;
 }
 
-Level::Level()
+Level::Level(void)
 {
     nextLevel_str = NULL;
 
@@ -165,23 +163,13 @@ bool Level::update(std::list<EnemyShip*> &enemies)
                 eventList.pop_front();
 
                 std::list<EnemyShip*>::iterator currentEnemy = nextEvent->ships.begin();
-                while(currentEnemy != nextEvent->ships.end())
-                    enemies.push_back(*currentEnemy++);
+                while(currentEnemy++ != nextEvent->ships.end())
+                    enemies.push_back(*currentEnemy);
                 delete nextEvent;
             }
             break;
     }
     return false;
-}
-
-void Level::cleanUpResources()
-{
-    std::list<GameEvent*>::iterator currentEvent = eventList.begin();
-    while(currentEvent != eventList.end())
-    {
-        (*currentEvent)->cleanUpResources();
-        delete *currentEvent++;
-    }
 }
 
 /*void Level::addEvent(int sec, int numEnemy, EnemyShip &enemy)

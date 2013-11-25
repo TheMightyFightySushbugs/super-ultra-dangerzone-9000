@@ -11,11 +11,9 @@ std::list<EnemyShip*> Game::enemies;
 Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
                player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
-               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162))),
-               logo(":/logo.png")
+               player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162)))
 {
     state = MAIN_MENU;
-    playerCount = 4;
     readHighscoreFile();
 }
 
@@ -44,93 +42,19 @@ void Game::readHighscoreFile()
 
 void Game::updateHighscores()
 {
-    unsigned int player_1_new_score,
-                 player_2_new_score,
-                 player_3_new_score,
-                 player_4_new_score;
-
-    player_1_new_score = player1.getScore();
-
-    if(playerCount >= 2)
-    {
-        player_2_new_score = player2.getScore();
-    }
-
-    if(playerCount >= 3)
-    {
-        player_3_new_score = player3.getScore();
-    }
-
-    if(playerCount == 4)
-    {
-        player_4_new_score = player4.getScore();
-    }
-
-// update player1 scores
+    unsigned int new_score = player1.getScore();
     for(int i = 0; i < 10; i++)
     {
-        if(highscores[i] < player_1_new_score)
+        if(highscores[i] < new_score)
         {
             unsigned int temp = highscores[i];
-            highscores[i] = player_1_new_score;
-            player_1_new_score = temp;
+            highscores[i] = new_score;
+            new_score = temp;
         }
 
-        if(highscores[i] == player_1_new_score)
+        if(highscores[i] == new_score)
             i = 10;
     }
-
-// update player2 scores
-    if(playerCount >= 2)
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            if(highscores[i] < player_2_new_score)
-            {
-                unsigned int temp = highscores[i];
-                highscores[i] = player_2_new_score;
-                player_2_new_score = temp;
-            }
-
-            if(highscores[i] == player_2_new_score)
-                i = 10;
-        }
-    }
-
-// update player3 scores
-    if(playerCount >= 3)
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            if(highscores[i] < player_3_new_score)
-            {
-                unsigned int temp = highscores[i];
-                highscores[i] = player_3_new_score;
-                player_3_new_score = temp;
-            }
-
-            if(highscores[i] == player_3_new_score)
-                i = 10;
-        }
-    }
-
-// update player4 scores
-    if(playerCount == 4)
-    {
-        for(int i = 0; i < 10; i++)
-        {
-            if(highscores[i] < player_4_new_score)
-            {
-                unsigned int temp = highscores[i];
-                highscores[i] = player_4_new_score;
-                player_4_new_score = temp;
-            }
-
-            if(highscores[i] == player_4_new_score)
-                i = 10;
-        }
-    }
-
 
     std::ofstream outStream;
 
@@ -146,65 +70,15 @@ void Game::updateHighscores()
 
 void Game::displayHighscores(QPainter *painter)
 {
-    unsigned int player_1_new_score,
-                 player_2_new_score,
-                 player_3_new_score,
-                 player_4_new_score;
-
-    player_1_new_score = player1.getScore();
-
-    if(playerCount >= 2)
-    {
-        player_2_new_score = player2.getScore();
-    }
-
-    if(playerCount >= 3)
-    {
-        player_3_new_score = player3.getScore();
-    }
-
-    if(playerCount == 4)
-    {
-        player_4_new_score = player4.getScore();
-    }
-
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 20));
     painter->drawText(-90, -GAME_HEIGHT/2 - 45, "Highest Scores");
     for(int i = 0; i < 10; i++)
     {
-        painter->setPen(Qt::white);
         char high_score_str[9];
+        sprintf(high_score_str, "%08u", highscores[i]);
+        painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
 
-        if(highscores[i] == player_1_new_score)
-        {
-            painter->setPen(Qt::gray);
-            sprintf(high_score_str, "%08u", highscores[i]);
-            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
-        }
-        else if(playerCount >= 2 && highscores[i] == player_2_new_score)
-        {
-            painter->setPen(Qt::blue);
-            sprintf(high_score_str, "%08u", highscores[i]);
-            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
-        }
-        else if(playerCount >= 3 && highscores[i] == player_3_new_score)
-        {
-            painter->setPen(Qt::red);
-            sprintf(high_score_str, "%08u", highscores[i]);
-            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
-        }
-        else if(playerCount >= 4 && highscores[i] == player_4_new_score)
-        {
-            painter->setPen(Qt::green);
-            sprintf(high_score_str, "%08u", highscores[i]);
-            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
-        }
-        else
-        {
-            sprintf(high_score_str, "%08u", highscores[i]);
-            painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
-        }
     }
 
     //[to-do] display highscores
@@ -222,16 +96,11 @@ void Game::cleanUpEverything()
     PlayerShip::cleanUpPlayerBullets();
     EnemyShip::cleanUpEnemyBullets();
     Explosion::cleanUpExplosions();
-    if(currentLevel != NULL)
-    {
-        currentLevel->cleanUpResources();
-        delete currentLevel;
-    }
 }
 
 void Game::gameLoop()
 {
-    if(state == PAUSED || state == MAIN_MENU || state == HIGH_SCORE_DISPLAY)
+    if(state == PAUSED || state == MAIN_MENU)
         return;
 
     int playersStillAlive = playerCount;
@@ -241,27 +110,18 @@ void Game::gameLoop()
         player1.interpretInput();
     else
         playersStillAlive--;
-    if(playerCount >= 2)
-    {
-        if(player2.getState() != DEAD)
-            player2.interpretInput();
-        else
-            playersStillAlive--;
-    }
-    if(playerCount >= 3)
-    {
-        if(player3.getState() != DEAD)
-            player3.interpretInput();
-        else
-            playersStillAlive--;
-    }
-    if(playerCount == 4)
-    {
-        if(player4.getState() != DEAD)
-            player4.interpretInput();
-        else
-            playersStillAlive--;
-    }
+    if(player2.getState() != DEAD)
+        player2.interpretInput();
+    else
+        playersStillAlive--;
+    if(player3.getState() != DEAD)
+        player3.interpretInput();
+    else
+        playersStillAlive--;
+    if(player4.getState() != DEAD)
+        player4.interpretInput();
+    else
+        playersStillAlive--;
 
     if(state == PLAYING_LEVEL && playersStillAlive <= 0)
     {
@@ -284,8 +144,7 @@ void Game::gameLoop()
             {
                 std::cout << "Game Over! (countdownTimer timed out)" << std::endl;
                 cleanUpEverything();
-                state = HIGH_SCORE_DISPLAY;
-                countdownTimer = 120;
+                state = HIGH_SCORE_ENTER;
                 updateHighscores();
                 break;
             }
@@ -298,7 +157,6 @@ void Game::gameLoop()
                     delete levelFileName;
                 levelFileName = currentLevel->getNextLevel();
                 delete currentLevel;
-                currentLevel = NULL;
                 std::cout << "Moving onto next level..." << std::endl;
                 state = ENDING_LEVEL;
                 countdownTimer = 100;
@@ -311,17 +169,13 @@ void Game::gameLoop()
                 {
                     std::cout << "Game Complete! You Win!" << std::endl;
                     cleanUpEverything();
-                    state = HIGH_SCORE_DISPLAY;
-                    countdownTimer = 120;
+                    state = HIGH_SCORE_ENTER;
                     updateHighscores();
                 }
                 else
-                {
                     currentLevel = new Level(levelFileName->c_str());
-                    state = STARTING_LEVEL;
-                    countdownTimer = 100;
-                }
             }
+            break;
         default:
             break;
     }
@@ -333,7 +187,7 @@ void Game::gameLoop()
     {
 
         //Let the ship do whatever it has to do (move/shoot/etc)
-        //Delete it if it goes out of bounds
+        //checks for out of bounds
         if((*currentEnemy)->move()==true)
         {
             delete *currentEnemy;
@@ -341,37 +195,26 @@ void Game::gameLoop()
             continue;
         }
 
+        //if player exist
+        //if player is alive
+        //checking for collision
         damage = 0;
-        //Check to see if any player is currently bombing
-        if(player1.isBombing())
-            damage = (damage | (1 << 31)) + 16;
-        if(player2.isBombing())
-            damage = (damage | (1 << 30)) + 16;
-        if(player3.isBombing())
-            damage = (damage | (1 << 29)) + 16;
-        if(player4.isBombing())
-            damage = (damage | (1 << 28)) + 16;
-
-        //Check to see if any players are colliding with the current enemy
         if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)
         {
             player1.kill();
             damage += 4;
         }
-        if(playerCount >= 2 && player2.getState() == ALIVE
-           && player2.collidesWith(**currentEnemy) == true)
+        if(player2.getState()==ALIVE && player2.collidesWith(**currentEnemy) == true)
         {
             player2.kill();
             damage += 4;
         }
-        if(playerCount >= 3 && player3.getState() == ALIVE
-           && player3.collidesWith(**currentEnemy) == true)
+        if(player3.getState()==ALIVE && player3.collidesWith(**currentEnemy) == true)
         {
             player3.kill();
             damage += 4;
         }
-        if(playerCount == 4 && player4.getState() == ALIVE
-           && player4.collidesWith(**currentEnemy) == true)
+        if(player4.getState()==ALIVE && player4.collidesWith(**currentEnemy) == true)
         {
             player4.kill();
             damage += 4;
@@ -415,19 +258,19 @@ void Game::gameLoop()
         if(damage)
             player1.inflictDamage(damage);
     }
-    if(playerCount >= 2 && player2.getState() == ALIVE)
+    if(player2.getState() == ALIVE)
     {
         damage = EnemyShip::shot(player2);
         if(damage)
             player2.inflictDamage(damage);
     }
-    if(playerCount >= 3 && player3.getState() == ALIVE)
+    if(player3.getState() == ALIVE)
     {
         damage = EnemyShip::shot(player3);
         if(damage)
             player3.inflictDamage(damage);
     }
-    if(playerCount == 4 && player4.getState() == ALIVE)
+    if(player4.getState() == ALIVE)
     {
         damage = EnemyShip::shot(player4);
         if(damage)
@@ -443,27 +286,9 @@ void Game::render(QPainter *painter)
     switch(state)
     {
         case MAIN_MENU:
-        {
-            painter->drawPixmap(-GAME_WIDTH/2, -3*GAME_HEIGHT/4, GAME_WIDTH, GAME_WIDTH/2, logo);
             painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/4, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
-            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/2, GAME_WIDTH/6, GAME_HEIGHT/6,
-                              (playerCount > 1) ? Qt::blue : Qt::gray);
-            painter->fillRect(7*GAME_WIDTH/12, GAME_HEIGHT/2, GAME_WIDTH/6, GAME_HEIGHT/6,
-                              (playerCount < 4) ? Qt::blue : Qt::gray);
-            painter->setPen(Qt::white);
-            painter->setFont(QFont("Arial", 20));
-            char *playerCount_str;
-            switch(playerCount)
-            {
-                case 1: playerCount_str = "1"; break;
-                case 2: playerCount_str = "2"; break;
-                case 3: playerCount_str = "3"; break;
-                case 4: playerCount_str = "4"; break;
-                default: playerCount_str = NULL;
-            }
-            painter->drawText(15*GAME_WIDTH/32, 21*GAME_HEIGHT/32, playerCount_str);
+            painter->fillRect(GAME_WIDTH/4, GAME_HEIGHT/2, GAME_WIDTH/2, GAME_HEIGHT/6, Qt::blue);
             break;
-        }
         case STARTING_LEVEL:
         case PLAYING_LEVEL:
         case PAUSED:
@@ -471,9 +296,9 @@ void Game::render(QPainter *painter)
         case GAME_OVER:
         {
             player1.draw(painter);
-            if(playerCount >= 2) player2.draw(painter);
-            if(playerCount >= 3) player3.draw(painter);
-            if(playerCount == 4) player4.draw(painter);
+            player2.draw(painter);
+            player3.draw(painter);
+            player4.draw(painter);
             PlayerShip::drawBullets(painter);
             EnemyShip::drawBullets(painter);
             std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
@@ -481,19 +306,18 @@ void Game::render(QPainter *painter)
                 (*currentEnemy++)->draw(painter);
             Explosion::drawAllExplosions(painter, state != PAUSED);
             player1.drawHUD(painter);
-            if(playerCount >= 2) player2.drawHUD(painter);
-            if(playerCount >= 3) player3.drawHUD(painter);
-            if(playerCount == 4) player4.drawHUD(painter);
+            player2.drawHUD(painter);
+            player3.drawHUD(painter);
+            player4.drawHUD(painter);
             if(state == GAME_OVER)
                 painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::blue);
             if(state == PAUSED)
                 painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
             break;
         }
+        case HIGH_SCORE_ENTER:
         case HIGH_SCORE_DISPLAY:
             displayHighscores(painter);
-            if(--countdownTimer == 0)
-                state = MAIN_MENU;
             break;
     }
     painter->restore();
@@ -535,12 +359,6 @@ void Game::handleKeyPressEvent(int key)
             player2.pressShoot();
             player3.pressShoot();
             player4.pressShoot();
-            break;
-        case Qt::Key_B:
-            player1.pressBomb();
-            player2.pressBomb();
-            player3.pressBomb();
-            player4.pressBomb();
             break;
         //Just to demonstrate that PlayerShip::kill() is working...
         case Qt::Key_1:
@@ -590,6 +408,12 @@ void Game::handleKeyReleaseEvent(int key)
             player3.releaseRight();
             player4.releaseRight();
             break;
+        case Qt::Key_Space:
+            player1.releaseShoot();
+            player2.releaseShoot();
+            player3.releaseShoot();
+            player4.releaseShoot();
+            break;
         case Qt::Key_Escape:
             if(state == PLAYING_LEVEL)
                 state = PAUSED;
@@ -618,18 +442,10 @@ void Game::handleMouseClick(int xPos, int yPos)
         levelFileName = NULL;
         state = STARTING_LEVEL;
         countdownTimer = 100;
-        player1.reset();
-        player2.reset();
-        player3.reset();
-        player4.reset();
+        playerCount = 4;
     }
     else if(gameYPos >= GAME_HEIGHT/2)
-    {
-        if(gameXPos <= 5*GAME_WIDTH/12 && playerCount > 1)
-            playerCount--;
-        if(gameXPos >= 7*GAME_WIDTH/12 && playerCount < 4)
-            playerCount++;
-    }
+        std::cout << "This button doesn't do anything yet..." << std::endl;
 }
 
 void Game::setAspectRatio(unsigned int width, unsigned int height)

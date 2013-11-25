@@ -40,6 +40,3 @@ HEADERS  += mainwindow.h \
     gameevent.h
 
 FORMS    +=
-
-RESOURCES += \
-    images.qrc

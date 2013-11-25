@@ -1,8 +1,5 @@
 #include "gameevent.h"
 
-void GameEvent::cleanUpResources()
+GameEvent::GameEvent()
 {
-    std::list<EnemyShip*>::iterator currentShip = ships.begin();
-    while(currentShip != ships.end())
-        delete *currentShip++;
 }
