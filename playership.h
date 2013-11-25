@@ -16,7 +16,8 @@ class PlayerShip : public GameObject
         PlayerShipState state;
         static std::list<Bullet*> playerBullets;
         bool upPressed, downPressed, leftPressed, rightPressed;
-        bool shootPressed, shootTapped;
+        bool shootPressed, shootTapped, bombPressed, bombTapped;
+        static QBrush bombBlastColor;
     public:
         PlayerShip(int _positionX, int _positionY, unsigned int _playerID, QBrush _color);
         void draw(QPainter *painter);
@@ -26,12 +27,13 @@ class PlayerShip : public GameObject
         void pressDown() {downPressed = true;}
         void pressLeft() {leftPressed = true;}
         void pressRight() {rightPressed = true;}
-        void pressShoot() {if(!shootPressed) shootTapped = true; shootPressed = true;}
+        void pressShoot() {shootPressed = true;}
+        void pressBomb();
         void releaseUp() {upPressed = false;}
         void releaseDown() {downPressed = false;}
         void releaseLeft() {leftPressed = false;}
         void releaseRight() {rightPressed = false;}
-        void releaseShoot() {shootPressed = false;}
+        bool isBombing() {return bombPressed;}
         void incrementScore(int _increment) {score += _increment;}
         unsigned int getScore() {return score;}
 
@@ -46,6 +48,9 @@ class PlayerShip : public GameObject
         //Creates an explosion at ship's current position, decrement 'lives' by 1, and resets
         //ship back to its starting position.
         void kill();
+
+        //Reset player ship back to its initial state (used when starting a new game)
+        void reset();
 
         PlayerShipState getState() {return state;}
         static int shot(GameObject & target);

@@ -1,4 +1,5 @@
 #include "playership.h"
+#include "explosion.h"
 #include <QPainter>
 #include <stdio.h>
 
@@ -10,23 +11,28 @@ PlayerShip::PlayerShip(int _positionX, int _positionY, unsigned int _playerID, Q
     : GameObject(_positionX, _positionY, 16, 8, _color)
 {
     playerID = _playerID;
+    spawnX = _positionX;
+    positionY = spawnY = _positionY;
+}
+
+void PlayerShip::reset()
+{
     score = 0;
     health = 1;
     lives = 3;
     bombs = 3;
     visible = true;
     state = SPAWNING;
-    spawnX = _positionX;
-    positionY = spawnY = _positionY;
     positionX = spawnX - 81;
     upPressed = downPressed = leftPressed = rightPressed = false;
-    shootPressed = shootTapped = false;
+    shootPressed = bombPressed = false;
 }
 
 void PlayerShip::draw(QPainter *painter)
 {
     if(visible)
         painter->fillRect(positionX-16, positionY-8, 32, 16, color);
+    bombPressed = false;
 }
 
 void PlayerShip::drawHUD(QPainter *painter)
@@ -82,10 +88,10 @@ void PlayerShip::interpretInput()
             positionY += 3;
     }
 
-    if(shootTapped)
+    if(shootPressed)
         playerBullets.push_back(new LinearBullet(positionX + 16, positionY, 8, 0,
                                                  playerID, peaGreen));
-    shootTapped = false;
+    shootPressed = false;
 }
 
 bool PlayerShip::inflictDamage(unsigned int damage)
@@ -106,6 +112,7 @@ void PlayerShip::kill()
     Explosion::addExplosion(positionX, positionY, 17, 15, expColor);
 
     health = 1;
+    bombs = 3;
     if(--lives == 0)
     {
         state = DEAD;
@@ -169,4 +176,15 @@ void PlayerShip::cleanUpPlayerBullets()
     while(currentBullet != playerBullets.end())
         delete *currentBullet++;
     playerBullets.clear();
+}
+
+QBrush PlayerShip::bombBlastColor = QBrush(Qt::white);
+
+void PlayerShip::pressBomb()
+{
+    if(state != ALIVE || bombs == 0)
+        return;
+    bombs--;
+    bombPressed = true;
+    Explosion::addExplosion(0, 0, GAME_WIDTH, 3, bombBlastColor);
 }
