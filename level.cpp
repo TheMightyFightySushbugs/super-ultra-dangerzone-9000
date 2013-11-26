@@ -47,7 +47,10 @@ Level::Level(const char *file)
             event->timer = sec;
         }
         else if (typeEvent.compare("CLEAR_EVENT") == 0)
+        {
+            std::cout << "type: CLEAR_EVENT" << std::endl;
             event->type = CLEAR_EVENT;
+        }
         else
             nextLevel_str = new string(typeEvent);
 
