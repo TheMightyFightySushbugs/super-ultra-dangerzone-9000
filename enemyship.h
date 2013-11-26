@@ -83,4 +83,17 @@ class SpawnerShip : public EnemyShip
         ~SpawnerShip() {}
 };
 
+class StraightShip : public EnemyShip
+{
+    private:
+        static QBrush StraightShipColor;
+        int timer, velocityY;
+        bool movingUp;
+    public:
+        StraightShip(int _positionY);
+        bool move();
+        void draw(QPainter *painter);
+        ~StraightShip() {}
+};
+
 #endif // ENEMYSHIP_H
