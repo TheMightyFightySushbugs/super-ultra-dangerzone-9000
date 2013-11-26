@@ -178,25 +178,25 @@ void Game::displayHighscores(QPainter *painter)
 
         if(highscores[i] == player_1_new_score)
         {
-            painter->setPen(Qt::gray);
+            painter->setPen(QColor(225, 128, 162));
             sprintf(high_score_str, "%08u", highscores[i]);
             painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
         }
         else if(playerCount >= 2 && highscores[i] == player_2_new_score)
         {
-            painter->setPen(Qt::blue);
+            painter->setPen(QColor(34, 69, 111));
             sprintf(high_score_str, "%08u", highscores[i]);
             painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
         }
         else if(playerCount >= 3 && highscores[i] == player_3_new_score)
         {
-            painter->setPen(Qt::red);
+            painter->setPen(QColor(225, 54, 162));
             sprintf(high_score_str, "%08u", highscores[i]);
             painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
         }
         else if(playerCount >= 4 && highscores[i] == player_4_new_score)
         {
-            painter->setPen(Qt::green);
+            painter->setPen(QColor(70, 128, 162));
             sprintf(high_score_str, "%08u", highscores[i]);
             painter->drawText(-63, -GAME_HEIGHT/3 + 20*i - 10, high_score_str);
         }
