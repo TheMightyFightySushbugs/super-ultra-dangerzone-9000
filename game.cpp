@@ -451,6 +451,11 @@ void Game::render(QPainter *painter)
             painter->fillRect(7*GAME_WIDTH/12, GAME_HEIGHT/2, GAME_WIDTH/6, GAME_HEIGHT/6,
                               (playerCount < 4) ? Qt::blue : Qt::gray);
             painter->setPen(Qt::white);
+            painter->setFont(QFont("Arial", 12));
+            painter->drawText(5*GAME_WIDTH/16, 3*GAME_HEIGHT/8, "New Game");
+            painter->drawText(5*GAME_WIDTH/16, 5*GAME_HEIGHT/8, "<");
+            painter->drawText(41*GAME_WIDTH/64, 5*GAME_HEIGHT/8, ">");
+            painter->setPen(Qt::white);
             painter->setFont(QFont("Arial", 20));
             char *playerCount_str;
             switch(playerCount)
@@ -506,42 +511,42 @@ void Game::handleKeyPressEvent(int key)
 
     switch(key)
     {
-        case Qt::Key_Up:
-            player1.pressUp();
-            player2.pressUp();
-            player3.pressUp();
-            player4.pressUp();
-            break;
-        case Qt::Key_Down:
-            player1.pressDown();
-            player2.pressDown();
-            player3.pressDown();
-            player4.pressDown();
-            break;
-        case Qt::Key_Left:
-            player1.pressLeft();
-            player2.pressLeft();
-            player3.pressLeft();
-            player4.pressLeft();
-            break;
-        case Qt::Key_Right:
-            player1.pressRight();
-            player2.pressRight();
-            player3.pressRight();
-            player4.pressRight();
-            break;
-        case Qt::Key_Space:
-            player1.pressShoot();
-            player2.pressShoot();
-            player3.pressShoot();
-            player4.pressShoot();
-            break;
-        case Qt::Key_B:
-            player1.pressBomb();
-            player2.pressBomb();
-            player3.pressBomb();
-            player4.pressBomb();
-            break;
+        //Up button
+        case Qt::Key_Up: player1.pressUp(); break;
+        case Qt::Key_W:  player2.pressUp(); break;
+        case Qt::Key_T:  player3.pressUp(); break;
+        case Qt::Key_I:  player4.pressUp(); break;
+
+        //Down button
+        case Qt::Key_Down: player1.pressDown(); break;
+        case Qt::Key_S:    player2.pressDown(); break;
+        case Qt::Key_G:    player3.pressDown(); break;
+        case Qt::Key_K:    player4.pressDown(); break;
+
+        //Left button
+        case Qt::Key_Left: player1.pressLeft(); break;
+        case Qt::Key_A:    player2.pressLeft(); break;
+        case Qt::Key_F:    player3.pressLeft(); break;
+        case Qt::Key_J:    player4.pressLeft(); break;
+
+        //Right buton
+        case Qt::Key_Right: player1.pressRight(); break;
+        case Qt::Key_D:     player2.pressRight(); break;
+        case Qt::Key_H:     player3.pressRight(); break;
+        case Qt::Key_L:     player4.pressRight(); break;
+
+        //Shoot button
+        case Qt::Key_Return: player1.pressShoot(); break;
+        case Qt::Key_Space: player2.pressShoot(); break;
+        case Qt::Key_M:     player3.pressShoot(); break;
+        case Qt::Key_Slash: player4.pressShoot(); break;
+
+        //Bomb button
+        case Qt::Key_Backslash: player1.pressBomb(); break;
+        case Qt::Key_C:         player2.pressBomb(); break;
+        case Qt::Key_N:         player3.pressBomb(); break;
+        case Qt::Key_Period:    player4.pressBomb(); break;
+
         //Just to demonstrate that PlayerShip::kill() is working...
         case Qt::Key_1:
             if(player1.getState() == ALIVE)
@@ -559,6 +564,14 @@ void Game::handleKeyPressEvent(int key)
             if(player4.getState() == ALIVE)
                 player4.kill();
             break;
+
+        //Escape button
+        case Qt::Key_Escape:
+            if(state == PLAYING_LEVEL)
+                state = PAUSED;
+            else if(state == PAUSED)
+                state = PLAYING_LEVEL;
+            break;
     }
 }
 
@@ -566,36 +579,29 @@ void Game::handleKeyReleaseEvent(int key)
 {
     switch(key)
     {
-        case Qt::Key_Up:
-            player1.releaseUp();
-            player2.releaseUp();
-            player3.releaseUp();
-            player4.releaseUp();
-            break;
-        case Qt::Key_Down:
-            player1.releaseDown();
-            player2.releaseDown();
-            player3.releaseDown();
-            player4.releaseDown();
-            break;
-        case Qt::Key_Left:
-            player1.releaseLeft();
-            player2.releaseLeft();
-            player3.releaseLeft();
-            player4.releaseLeft();
-            break;
-        case Qt::Key_Right:
-            player1.releaseRight();
-            player2.releaseRight();
-            player3.releaseRight();
-            player4.releaseRight();
-            break;
-        case Qt::Key_Escape:
-            if(state == PLAYING_LEVEL)
-                state = PAUSED;
-            else if(state == PAUSED)
-                state = PLAYING_LEVEL;
-            break;
+        //Up button
+        case Qt::Key_Up: player1.releaseUp(); break;
+        case Qt::Key_W:  player2.releaseUp(); break;
+        case Qt::Key_T:  player3.releaseUp(); break;
+        case Qt::Key_I:  player4.releaseUp(); break;
+
+        //Down button
+        case Qt::Key_Down: player1.releaseDown(); break;
+        case Qt::Key_S:    player2.releaseDown(); break;
+        case Qt::Key_G:    player3.releaseDown(); break;
+        case Qt::Key_K:    player4.releaseDown(); break;
+
+        //Left button
+        case Qt::Key_Left: player1.releaseLeft(); break;
+        case Qt::Key_A:    player2.releaseLeft(); break;
+        case Qt::Key_F:    player3.releaseLeft(); break;
+        case Qt::Key_J:    player4.releaseLeft(); break;
+
+        //Right buton
+        case Qt::Key_Right: player1.releaseRight(); break;
+        case Qt::Key_D:     player2.releaseRight(); break;
+        case Qt::Key_H:     player3.releaseRight(); break;
+        case Qt::Key_L:     player4.releaseRight(); break;
     }
 }
 
