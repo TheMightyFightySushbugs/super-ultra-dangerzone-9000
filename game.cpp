@@ -344,13 +344,25 @@ void Game::gameLoop()
         damage = 0;
         //Check to see if any player is currently bombing
         if(player1.isBombing())
+        {
             damage = (damage | (1 << 31)) + 16;
+            EnemyShip::cleanUpEnemyBullets();
+        }
         if(player2.isBombing())
+        {
             damage = (damage | (1 << 30)) + 16;
+            EnemyShip::cleanUpEnemyBullets();
+        }
         if(player3.isBombing())
+        {
             damage = (damage | (1 << 29)) + 16;
+            EnemyShip::cleanUpEnemyBullets();
+        }
         if(player4.isBombing())
+        {
             damage = (damage | (1 << 28)) + 16;
+            EnemyShip::cleanUpEnemyBullets();
+        }
 
         //Check to see if any players are colliding with the current enemy
         if(player1.getState()==ALIVE && player1.collidesWith(**currentEnemy) == true)

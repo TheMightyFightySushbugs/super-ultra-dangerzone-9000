@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     gameevent.cpp \
     zigzagship.cpp \
     spawnership.cpp \
-    straightship.cpp
+    straightship.cpp \
+    divership.cpp
 
 
 HEADERS  += mainwindow.h \

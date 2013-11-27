@@ -86,6 +86,10 @@ Level::Level(const char *file)
                 event->ships.push_back(new StraightShip(posY));
                 std::cout << "creating StraightShip at posititon: " << posY << std::endl;
             }
+            else if (typeEnemy.compare("DiverShip")==0){
+                event->ships.push_back(new DiverShip(posY));
+                std::cout << "creating DiverShip at posititon: " << posY << std::endl;
+            }
         }
         getline(myfile,typeEnemy, '\n');
         std::cout << "calling push back event" << std::endl;
