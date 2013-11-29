@@ -52,7 +52,7 @@ Level::Level(const char *file)
             event->type = CLEAR_EVENT;
         }
         else
-            nextLevel_str = new string(typeEvent);
+            nextLevel_str = new string(typeEvent.substr(0, typeEvent.find('\n')));
 
         getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());

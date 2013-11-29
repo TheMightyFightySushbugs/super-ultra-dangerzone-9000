@@ -30,6 +30,7 @@ class Game
         void handleKeyReleaseEvent(int key);
         void handleMouseClick(int xPos, int yPos);
         void setAspectRatio(unsigned int width, unsigned int height);
+        static void cleanUpEnemies();
         void cleanUpEverything();
 
     private:

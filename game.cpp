@@ -211,14 +211,19 @@ void Game::displayHighscores(QPainter *painter)
 }
 
 
-//Delete everything Game has ever allocated
-void Game::cleanUpEverything()
+void Game::cleanUpEnemies()
 {
-
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
     while(currentEnemy != enemies.end())
         delete *currentEnemy++;
     enemies.clear();
+}
+
+//Delete everything Game has ever allocated
+void Game::cleanUpEverything()
+{
+
+    cleanUpEnemies();
     PlayerShip::cleanUpPlayerBullets();
     EnemyShip::cleanUpEnemyBullets();
     Explosion::cleanUpExplosions();
@@ -328,8 +333,9 @@ void Game::gameLoop()
 
     //For every enemy ship...
     unsigned int damage;
+    unsigned int numberOfEnemies = enemies.size();
     std::list<EnemyShip*>::iterator currentEnemy = enemies.begin();
-    while(currentEnemy != enemies.end())
+    while(numberOfEnemies != 0 && currentEnemy != enemies.end())
     {
 
         //Let the ship do whatever it has to do (move/shoot/etc)
@@ -396,8 +402,12 @@ void Game::gameLoop()
         if(damage && (pointsEarned = (*currentEnemy)->inflictDamage(damage)))
         {
             //...then go ahead and destroy the ship
-            delete *currentEnemy;
-            currentEnemy = enemies.erase(currentEnemy);
+            if((numberOfEnemies = enemies.size()) != 0)
+            {
+                delete *currentEnemy;
+                currentEnemy = enemies.erase(currentEnemy);
+            }
+
             if(state != GAME_OVER)
             {
                 if(pointsEarned & 0x80000000)
@@ -469,7 +479,7 @@ void Game::render(QPainter *painter)
             painter->drawText(41*GAME_WIDTH/64, 5*GAME_HEIGHT/8, ">");
             painter->setPen(Qt::white);
             painter->setFont(QFont("Arial", 20));
-            char *playerCount_str;
+            const char *playerCount_str;
             switch(playerCount)
             {
                 case 1: playerCount_str = "1"; break;

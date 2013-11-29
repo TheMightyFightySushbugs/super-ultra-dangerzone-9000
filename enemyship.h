@@ -74,12 +74,13 @@ class SpawnerShip : public EnemyShip
 {
     private:
         static QBrush spawnerColor;
-        int timer, velocityY;
-        bool movingUp;
+        int timerX, timerY, velocityX, velocityY;
+        bool movingUp, movingLeft;
     public:
         SpawnerShip(int _positionY);
         bool move();
         void draw(QPainter *painter);
+        unsigned int inflictDamage(unsigned int _damage);
         ~SpawnerShip() {}
 };
 
