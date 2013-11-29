@@ -12,7 +12,6 @@ class Level
         std::string *nextLevel_str; //<-- contains filename of next level
                                     //    (null if this is last level)
     public:
-        Level();
         Level(const char *file);
         //void addEvent(int sec, int numEnemy, EnemyShip &enemy);
         //void defineLength(int length);

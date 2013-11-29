@@ -5,7 +5,7 @@
 QBrush SpawnerShip::spawnerColor = QBrush(QColor(0, 128, 128));
 
 SpawnerShip::SpawnerShip(int _positionY)
-    : EnemyShip(GAME_WIDTH + 15, _positionY, 40, 15, 20, 1000, spawnerColor)
+    : EnemyShip(GAME_WIDTH + 15, _positionY, 36, 15, 20, 1000, spawnerColor)
 {
     timerX = 119;
     timerY = 26;
@@ -41,7 +41,7 @@ bool SpawnerShip::move()
 
     if(timerY % 15 == 1)
         enemyBullets.push_back(new LinearBullet(positionX-15, positionY, -3, 0, 0, spawnerColor));
-    if(timerY % 35 == 1)
+    if(timerY % 36 == 1)
         Game::enemies.push_back(new DummyShip(positionY));
 
     if(--timerY < 0)

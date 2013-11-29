@@ -90,60 +90,16 @@ Level::Level(const char *file)
                 event->ships.push_back(new DiverShip(posY));
                 std::cout << "creating DiverShip at posititon: " << posY << std::endl;
             }
+            else if (typeEnemy.compare("SideShotShip")==0){
+                event->ships.push_back(new SideShotShip(posY));
+                std::cout << "creating SideShotShip at posititon: " << posY << std::endl;
+            }
         }
         getline(myfile,typeEnemy, '\n');
         std::cout << "calling push back event" << std::endl;
         eventList.push_back(event);
    }
     myfile.close();
-}
-
-Level::Level()
-{
-    nextLevel_str = NULL;
-
-    //The rest of this function is just a hard-code sample level
-    GameEvent *asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(-20));
-    asdf->ships.push_back(new ZigZagShip(0));
-    asdf->ships.push_back(new DummyShip(20));
-    asdf->ships.push_back(new DummyShip(40));
-    asdf->type = TIMED_EVENT;
-    asdf->timer = 1;
-    eventList.push_back(asdf);
-    asdf = new GameEvent();
-    asdf->ships.push_back(new ZigZagShip
-                          (-30));
-    asdf->ships.push_back(new DummyShip(-15));
-    asdf->ships.push_back(new DummyShip(0));
-    asdf->ships.push_back(new DummyShip(15));
-    asdf->ships.push_back(new ZigZagShip(30));
-    asdf->ships.push_back(new DummyShip(45));
-    asdf->type = TIMED_EVENT;
-    asdf->timer = 100;
-    eventList.push_back(asdf);
-    asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(-15));
-    asdf->ships.push_back(new DummyShip(0));
-    asdf->ships.push_back(new ZigZagShip(15));
-    asdf->ships.push_back(new DummyShip(30));
-    asdf->type = TIMED_EVENT;
-    asdf->timer = 140;
-    eventList.push_back(asdf);
-    asdf = new GameEvent();
-    asdf->ships.push_back(new DummyShip(-30));
-    asdf->ships.push_back(new ZigZagShip(-15));
-    asdf->ships.push_back(new DummyShip(0));
-    asdf->ships.push_back(new DummyShip(15));
-    asdf->ships.push_back(new DummyShip(30));
-    asdf->ships.push_back(new ZigZagShip(45));
-    asdf->type = TIMED_EVENT;
-    asdf->timer = 40;
-    asdf = new GameEvent();
-    asdf->ships.push_back(new SpawnerShip(0));
-    asdf->type = TIMED_EVENT;
-    asdf->timer = 150;
-    eventList.push_back(asdf);
 }
 
 //This function is called once every frame, populating the "enemies" list as necessary.

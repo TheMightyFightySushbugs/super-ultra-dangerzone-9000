@@ -106,4 +106,17 @@ class DiverShip : public EnemyShip
         ~DiverShip() {}
 };
 
+class SideShotShip : public EnemyShip
+{
+    private:
+        static QBrush sideShotColor;
+        bool shooting;
+        int timer;
+    public:
+        SideShotShip(int _positionY);
+        bool move();
+        void draw(QPainter *painter);
+        ~SideShotShip() {}
+};
+
 #endif // ENEMYSHIP_H
