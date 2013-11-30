@@ -1,0 +1,33 @@
+TIMED_EVENT 1 4
+    DiverShip 40
+    DiverShip 45
+    DiverShip 20
+    DiverShip 10
+
+TIMED_EVENT 5 1
+    straightShip 50
+
+TIMED_EVENT 2 2
+    zigZagShip 40
+    zigZagShip 60
+
+TIMED_EVENT 2 2
+    straightShip 30
+    straightShip 70
+
+TIMED_EVENT 2 2
+    DiverShip 20
+    DiverShip 80
+
+TIMED_EVENT 2 2
+    DiverShip 10
+    DiverShip 90
+
+TIMED_EVENT 3 1 	
+    SpawnerShip 50
+
+CLEAR_EVENT 2
+    SpawnerShip 10
+    SpawnerShip 90
+
+level4.txt

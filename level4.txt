@@ -1,0 +1,55 @@
+TIMED_EVENT 1 1
+    DiverShip 50
+
+TIMED_EVENT 2 2
+    SideShotShip 40
+    SideShotShip 60
+
+TIMED_EVENT 2 3
+    DiverShip 30
+    SideShotShip 50
+    DiverShip 70
+
+TIMED_EVENT 2 4
+    SideShotShip 20
+    DiverShip 40
+    SideShotShip 60
+    DiverShip 80
+
+TIMED_EVENT 2 5
+    DiverShip 10
+    DiverShip 30
+    SideShotShip 50
+    DiverShip 70
+    DiverShip 90
+
+CLEAR_EVENT 2
+    SpawnerShip 10
+    SpawnerShip 90
+
+TIMED_EVENT 2 5
+    DiverShip 10
+    DiverShip 30
+    SideShotShip 50
+    DiverShip 70
+    DiverShip 90
+
+TIMED_EVENT 2 4
+    SideShotShip 20
+    DiverShip 40
+    SideShotShip 60
+    DiverShip 80
+
+TIMED_EVENT 2 3
+    DiverShip 30
+    SideShotShip 50
+    DiverShip 70 
+
+TIMED_EVENT 2 2
+    SideShotShip 40
+    SideShotShip 60 
+
+TIMED_EVENT 3 1
+    SpawnerShip 50 
+
+level5.txt

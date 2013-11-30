@@ -1,0 +1,34 @@
+TIMED_EVENT 1 1
+    sideshotShip 50
+
+TIMED_EVENT 3 2
+    sideshotShip 20
+    sideshotShip 60
+
+TIMED_EVENT 5 1
+    DummyShip 50
+
+TIMED_EVENT 2 2
+    zigZagShip 40
+    zigZagShip 60
+
+TIMED_EVENT 2 2
+    sideShotShip 30
+    sideshotShip 70
+
+CLEAR_EVENT 9
+    DummyShip 10
+    DummyShip 20
+    DummyShip 30
+    zigZagShip 40
+    DiverShip 50
+    zigZagShip 60
+    DummyShip 70
+    DummyShip 80
+    DummyShip 90
+    
+
+CLEAR_EVENT 1 	
+    SpawnerShip 50
+
+level3.txt
