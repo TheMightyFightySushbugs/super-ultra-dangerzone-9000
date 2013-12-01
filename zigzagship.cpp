@@ -23,7 +23,7 @@ bool ZigZagShip::move()
 
     if(--timer < 0)
     {
-        enemyBullets.push_back(new LinearBullet(positionX-6, positionY, -3, 0, 0, zigZagColor));
+        enemyBullets.push_back(new LinearBullet(positionX-6, positionY, -2, 0, 0, zigZagColor));
         timer = 45;
         movingUp = !movingUp;
     }
