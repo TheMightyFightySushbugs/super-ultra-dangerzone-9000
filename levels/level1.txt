@@ -1,28 +1,93 @@
-TIMED_EVENT 1 4
-    DummyShip 40
-    DummyShip 45
-    DummyShip 20
-    DummyShip 10
+TIMED_EVENT 1 3
+    DummyShip 30
+    DummyShip 55
+    DummyShip 80
 
-TIMED_EVENT 3 5
+TIMED_EVENT 100 3
+    DummyShip -75
+    DummyShip -50
+    DummyShip -25
+
+TIMED_EVENT 100 5
+    DummyShip 5
+    DummyShip 30
+    DummyShip 55
+    DummyShip 80
+    DummyShip 105
+
+TIMED_EVENT 100 6
+    DummyShip -90
+    DummyShip -50
+    DummyShip -10
+    DummyShip 30
+    DummyShip 70
+    DummyShip 110
+
+TIMED_EVENT 100 5
+    DummyShip -100
+    DummyShip -75
+    DummyShip -50
+    DummyShip -25
+    DummyShip 0
+
+TIMED_EVENT 100 4
+    ZigZagShip -10
+    DummyShip 20
+    DummyShip 45
+    ZigZagShip 75
+
+TIMED_EVENT 100 4
+    ZigZagShip -85
+    DummyShip -55
+    DummyShip -30
+    ZigZagShip 0
+
+TIMED_EVENT 100 5
     ZigZagShip 30
     DummyShip 40
     DummyShip 50
     DummyShip 60
     ZigZagShip 70
 
-TIMED_EVENT 5 1
-    straightShip 50
+TIMED_EVENT 100 6
+    DummyShip -90
+    ZigZagShip -50
+    DummyShip -10
+    DummyShip 30
+    ZigZagShip 70
+    DummyShip 110
 
-TIMED_EVENT 2 2
-    zigZagShip 40
-    zigZagShip 60
+TIMED_EVENT 100 5
+    DummyShip -60
+    DummyShip -20
+    ZigZagShip 10
+    DummyShip 40
+    DummyShip 70
 
-TIMED_EVENT 2 2
-    straightShip 30
-    straightShip 70
+TIMED_EVENT 100 4
+    DummyShip -80
+    DummyShip -50
+    DummyShip 70
+    DummyShip 100
 
-TIMED_EVENT 3 1 	
-    SpawnerShip 50
+TIMED_EVENT 100 4
+    ZigZagShip -70
+    ZigZagShip -30
+    ZigZagShip 20
+    ZigZagShip 70
+
+TIMED_EVENT 100 6
+    DummyShip -90
+    DummyShip -50
+    DummyShip -10
+    DummyShip 30
+    DummyShip 70
+    DummyShip 110
+
+TIMED_EVENT 100 1 	
+    DummyShip -10
+
+TIMED_EVENT 100 1 	
+    SpawnerShip 0
 
 level2.txt
