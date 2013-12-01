@@ -39,7 +39,7 @@ class Game
         unsigned int windowHeight, windowWidth, windowXScale;
         PlayerShip player1, player2, player3, player4; //<-- I'll eventually make this into an array of ships;
         std::string *levelFileName;
-        unsigned int countdownTimer, playerCount;
+        unsigned int countdownTimer, playerCount, levelCount;
         unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
         QPixmap logo, game_over, paused;

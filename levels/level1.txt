@@ -43,11 +43,11 @@ TIMED_EVENT 100 4
     ZigZagShip 0
 
 TIMED_EVENT 100 5
-    ZigZagShip 30
-    DummyShip 40
-    DummyShip 50
+    ZigZagShip 10
+    DummyShip 30
+    DummyShip 45
     DummyShip 60
-    ZigZagShip 70
+    ZigZagShip 80
 
 TIMED_EVENT 100 6
     DummyShip -90

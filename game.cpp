@@ -326,6 +326,7 @@ void Game::gameLoop()
                 {
                     currentLevel = new Level(levelFileName->c_str());
                     state = STARTING_LEVEL;
+                    levelCount++;
                     countdownTimer = 100;
                 }
             }
@@ -513,9 +514,28 @@ void Game::render(QPainter *painter)
             if(playerCount >= 2) player2.drawHUD(painter);
             if(playerCount >= 3) player3.drawHUD(painter);
             if(playerCount == 4) player4.drawHUD(painter);
-            if(state == GAME_OVER)
+            if(state == STARTING_LEVEL)
+            {
+                char levelIntro_str[10];
+                sprintf(levelIntro_str, "Level %u", levelCount);
+                painter->setPen(Qt::white);
+                painter->setFont(QFont("Arial", 20));
+                painter->drawText(-7*GAME_WIDTH/32, -GAME_HEIGHT/6, levelIntro_str);
+                if(countdownTimer > 40)
+                    painter->drawText(-GAME_WIDTH/4, 0, "READY...");
+                else
+                    painter->drawText(-GAME_WIDTH/8, 0, "GO!");
+
+            }
+            else if(state == ENDING_LEVEL)
+            {
+                painter->setPen(Qt::white);
+                painter->setFont(QFont("Arial", 20));
+                painter->drawText(-7*GAME_WIDTH/16, -GAME_HEIGHT/8, "Level Complete");
+            }
+            else if(state == GAME_OVER)
                 painter->drawPixmap(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, game_over);
-            if(state == PAUSED)
+            else if(state == PAUSED)
                 painter->drawPixmap(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, paused);
             break;
         }
@@ -646,6 +666,7 @@ void Game::handleMouseClick(int xPos, int yPos)
     {
         currentLevel = new Level("level1.txt");
         levelFileName = NULL;
+        levelCount = 1;
         state = STARTING_LEVEL;
         countdownTimer = 100;
         player1.reset();
