@@ -12,7 +12,9 @@ Game::Game() : player1(-GAME_WIDTH + 49, -30, 0, QBrush(QColor(225, 128, 162))),
                player2(-GAME_WIDTH + 49, 0, 1, QBrush(QColor(34, 69, 111))),
                player3(-GAME_WIDTH + 49, 30, 2, QBrush(QColor(225, 54, 162))),
                player4(-GAME_WIDTH + 49, 60, 3, QBrush(QColor(70, 128, 162))),
-               logo(":/logo.png")
+               logo(":/logo.png"),
+               game_over(":/game_over.png"),
+               paused(":/paused.png")
 {
     state = MAIN_MENU;
     playerCount = 4;
@@ -512,9 +514,9 @@ void Game::render(QPainter *painter)
             if(playerCount >= 3) player3.drawHUD(painter);
             if(playerCount == 4) player4.drawHUD(painter);
             if(state == GAME_OVER)
-                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::blue);
+                painter->drawPixmap(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, game_over);
             if(state == PAUSED)
-                painter->fillRect(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, Qt::green);
+                painter->drawPixmap(-GAME_WIDTH/2, -GAME_HEIGHT/3, GAME_WIDTH, GAME_WIDTH/2, paused);
             break;
         }
         case HIGH_SCORE_DISPLAY:

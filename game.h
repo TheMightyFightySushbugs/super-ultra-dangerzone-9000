@@ -42,7 +42,7 @@ class Game
         unsigned int countdownTimer, playerCount;
         unsigned int highscores[10];
         static std::list<EnemyShip*> enemies;
-        QPixmap logo;
+        QPixmap logo, game_over, paused;
 };
 
 #endif // GAME_H
