@@ -78,4 +78,3 @@ CLEAR_EVENT 1
     SpawnerShip 0
 
 level3.txt
-
