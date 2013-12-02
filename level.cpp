@@ -51,8 +51,12 @@ Level::Level(const char *file)
             std::cout << "type: CLEAR_EVENT" << std::endl;
             event->type = CLEAR_EVENT;
         }
-        else
+        else{
             nextLevel_str = new string(typeEvent.substr(0, typeEvent.find('\n')));
+            std::cout << "next level: " << *nextLevel_str << std::endl;
+            return;
+        }
+
 
         getline(myfile, quantity, '\n');
         qty = atoi(quantity.c_str());
