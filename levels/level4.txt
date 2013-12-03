@@ -1,55 +1,84 @@
-TIMED_EVENT 1 1
-    DiverShip 50
+TIMED_EVENT 1 2
+    ZigZagShip -25
+    ZigZagShip 25
 
-TIMED_EVENT 2 2
-    SideShotShip 40
-    SideShotShip 60
+CLEAR_EVENT 1
+    DummyShip 0
 
-TIMED_EVENT 2 3
-    DiverShip 30
-    SideShotShip 50
-    DiverShip 70
+TIMED_EVENT 20 2
+    DummyShip -25
+    DUmmyShip 25
 
-TIMED_EVENT 2 4
-    SideShotShip 20
-    DiverShip 40
-    SideShotShip 60
-    DiverShip 80
+TIMED_EVENT 20 3
+    DummyShip -50
+    DummyShip 0
+    DummyShip 50
 
-TIMED_EVENT 2 5
-    DiverShip 10
-    DiverShip 30
-    SideShotShip 50
-    DiverShip 70
-    DiverShip 90
+TIMED_EVENT 20 4
+    DummyShip -75
+    DummyShip -25
+    DummyShip 25
+    DummyShip 75
 
-CLEAR_EVENT 2
-    SpawnerShip 10
-    SpawnerShip 90
+TIMED_EVENT 100 3
+    ZigZagShip -50
+    ZigZagShip 0
+    ZigZagShip 50
 
-TIMED_EVENT 2 5
-    DiverShip 10
-    DiverShip 30
-    SideShotShip 50
-    DiverShip 70
-    DiverShip 90
+TIMED_EVENT 100 3
+    ZigZagShip -75
+    ZigZagShip 0
+    ZigZagShip 75
 
-TIMED_EVENT 2 4
-    SideShotShip 20
-    DiverShip 40
-    SideShotShip 60
-    DiverShip 80
+TIMED_EVENT 100 3
+    ZigZagShip -50
+    ZigZagShip 0
+    ZigZagShip 50
 
-TIMED_EVENT 2 3
-    DiverShip 30
-    SideShotShip 50
-    DiverShip 70 
+TIMED_EVENT 100 4
+    RiserShip -150
+    RiserShip -125
+    RiserShip -100
+    RiserShip -75
 
-TIMED_EVENT 2 2
-    SideShotShip 40
-    SideShotShip 60 
+TIMED_EVENT 100 3
+    ZigZagShip -75
+    ZigZagShip 0
+    ZigZagShip 75
 
-TIMED_EVENT 3 1
-    SpawnerShip 50 
+TIMED_EVENT 20 3
+    SideShotShip -100
+    SideShotShip 0
+    SideShotShip 100
+
+CLEAR_EVENT 1
+    StraightShip 0
+
+TIMED_EVENT 50 2
+    StraightShip -25
+    StraightShip 25
+
+TIMED_EVENT 50 3
+    DummyShip -50
+    ZigZagShip 0
+    DummyShip 50
+
+TIMED_EVENT 50 6
+    SideShotShip -100
+    StraightShip -75
+    ZigZagShip -25
+    ZigZagShip 25
+    StraightShip 75
+    SideShotShip 100
+
+TIMED_EVENT 50 5
+    SideShotShip -100
+    ZigZagShip -50
+    ZigZagShip 0
+    ZigZagShip 50
+    SideShotShip 100
+
+CLEAR_EVENT 1
+    SpawnerShip 0
 
 level5.txt
