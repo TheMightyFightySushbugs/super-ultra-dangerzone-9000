@@ -27,7 +27,69 @@ TIMED_EVENT 100 5
     SideShotShip 80
     SideShotShip 100
 
+TIMED_EVENT 100 2
+    RiserShip -125
+    RiserShip -100
+
+TIMED_EVENT 100 5
+    ZigZagShip -75
+    DummyShip -25
+    ZigZagShip 0
+    DummyShip 25
+    ZigZagShip 75
+
+TIMED_EVENT 100 2
+    RiserShip -125
+    RiserShip -100
+
+CLEAR_EVENT 2
+    StraightShip -100
+    StraightShip 100
+
+TIMED_EVENT 30 5
+    StraightShip -100
+    ZigZagShip -75
+    ZigZagShip 0
+    ZigZagShip 75
+    StraightShip 100
+
+TIMED_EVENT 30 5
+    SideShotShip -100
+    ZigZagShip -50
+    ZigZagShip 0
+    ZigZagShip 50
+    SideShotShip 100
+
+TIMED_EVENT 100 4
+    RiserShip -150
+    RiserShip -125
+    RiserShip -100
+    RiserShip -75
+
+TIMED_EVENT 100 3
+    ZigZagShip -100
+    ZigZagShip -75
+    ZigZagShip -50
+
+TIMED_EVENT 50 3
+    ZigZagShip 0
+    ZigZagShip 25
+    ZigZagShip 50
+
+TIMED_EVENT 50 3
+    StraightShip -75
+    StraightShip 0
+    StraightShip 75
+
+TIMED_EVENT 50 3
+    SideShotShip -100
+    SideShotShip 0
+    SideShotShip 100
+
 CLEAR_EVENT 1
+    SpawnerShip 0
+
+CLEAR_EVENT 100 1
     SpawnerShip 0
 
 level6.txt
