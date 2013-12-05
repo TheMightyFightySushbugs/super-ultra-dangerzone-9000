@@ -10,7 +10,7 @@ RiserShip::RiserShip(int _positionY)
 bool RiserShip::move()
 {
     positionX -= 4;
-    positionY += 2;
+    positionY -= 2;
     if(positionX < -GAME_WIDTH - 7)
         return true;
     return false;

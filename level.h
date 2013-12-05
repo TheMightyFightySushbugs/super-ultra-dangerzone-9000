@@ -5,6 +5,8 @@
 #include "enemyship.h"
 #include "gameevent.h"
 
+/*! \brief A class that stores the order/structure/design of a level
+ */
 class Level
 {
     private:
